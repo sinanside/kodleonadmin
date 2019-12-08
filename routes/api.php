@@ -61,6 +61,7 @@ Route::apiResources([
     'icerikler3' => 'API\carusellerController',
     'icerikler4' => 'API\bloglarController',
     'resimler' => 'API\galeryController',
+    'comments' => 'API\commentsController'
 
 ]);
 Route::get('findUser', 'API\UserController@search');
@@ -247,3 +248,12 @@ Route::post('resimler_image', 'API\galeryController@storeimage');
 Route::post('resimler_image1', 'API\galeryController@storeimage1');
 Route::post('resimlerup', 'API\galeryController@up');
 Route::post('resimlerdown', 'API\galeryController@down');
+
+//Resimler
+Route::get('findComments', 'API\commentsController@search');
+Route::get('commentsbylang/{id}', 'API\commentsController@listbylang');
+Route::put('comments', 'API\commentsController@update');
+Route::post('comments_image', 'API\commentsController@storeimage');
+Route::post('comments_image1', 'API\commentsController@storeimage1');
+Route::post('commentsup', 'API\commentsController@up');
+Route::post('commentsdown', 'API\commentsController@down');

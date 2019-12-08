@@ -174,6 +174,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </ul>
 
                         </li>
+
+                        <li class="nav-item">
+                            <router-link to="/commentolustur" class="nav-link">
+                                <i class="nav-icon fas fa-comments blue"></i>
+                                <p>
+                                    Yorumlar
+                                </p>
+                            </router-link>
+                        </li>
                         <li class="nav-item">
                             <router-link to="/galeryolustur" class="nav-link">
                                 <i class="nav-icon fas fa-images brown"></i>

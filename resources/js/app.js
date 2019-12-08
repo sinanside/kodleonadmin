@@ -102,6 +102,7 @@ let routes = [
     { path: '/blogolustur', component: require('./components/bloglar/icerikolustur.vue').default },
     { path: '/caruselolustur', component: require('./components/carousel/icerikolustur.vue').default },
     { path: '/galeryolustur', component: require('./components/galery/icerikolustur.vue').default },
+    { path: '/commentolustur', component: require('./components/comments/icerikolustur.vue').default },
 
 
     // Hizmetlerimiz / SAÇ EKİMİ
