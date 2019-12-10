@@ -15,9 +15,7 @@ class Hizmetturs extends Model implements Sortable
         'title', 'short_description', 'photo',  'photo_alt','queue', 'language', 'active'
     ];
 
-    public function Hizmetturs(){
-        return $this->hasMany(hizmettur::class);
-    }
+
     public  function localization(){
         return $this->belongsTo(Localizations::class,'language');
     }

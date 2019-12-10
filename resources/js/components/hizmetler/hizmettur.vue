@@ -222,7 +222,7 @@
 
             uprecords(id) {
                 axios({
-                    url: "/api/hizmetturup/",
+                    url: "/api/hizmetturup",
                     method: "POST",
                     data: {
                         id:id
@@ -244,7 +244,7 @@
             },
             downrecords(id) {
                 axios({
-                    url: "/api/hizmetturdown/",
+                    url: "/api/hizmetturdown",
                     method: "POST",
                     data: {
                         id:id

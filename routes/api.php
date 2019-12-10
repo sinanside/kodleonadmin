@@ -64,6 +64,11 @@ Route::apiResources([
     'comments' => 'API\commentsController'
 
 ]);
+Route::put('regs', 'API\regApplicationsController@update');
+Route::get('findregs', 'API\regApplicationsController@search');
+Route::get('findregs2', 'API\regApplicationsController@search2');
+Route::get('regsread', 'API\regApplicationsController@regsread');
+Route::get('regs2', 'API\dashboardController@lastusers');
 Route::get('findUser', 'API\UserController@search');
 Route::get('profile', 'API\UserController@profile');
 Route::put('profile', 'API\UserController@updateProfile');
@@ -178,8 +183,8 @@ Route::get('althizmettursbylang/{id}', 'API\althizmetturController@listbylang');
 Route::get('Allalthizmettur/{id}', 'API\althizmetturController@all');
 Route::put('Althizmettur', 'API\althizmetturController@update');
 Route::post('Althizmettur_image', 'API\althizmetturController@storeimage');
-Route::post('Althizmetturup', 'API\althizmetturController@up');
-Route::post('Althizmetturdown', 'API\althizmetturController@down');
+Route::post('althizmetturup', 'API\althizmetturController@up');
+Route::post('althizmetturdown', 'API\althizmetturController@down');
 
 //Hizmetler
 Route::get('findIcerikler', 'API\hizmetlerController@search');
