@@ -432,7 +432,7 @@
     import vueDropzone from "vue2-dropzone";
     import { VueEditor, Quill } from "vue2-editor";
     import { ImageDrop } from "quill-image-drop-module";
-    import ImageResize from "quill-image-resize-module";
+    import ImageResize from "quill-image-resize-module-withfix";
     import axios from "axios";
 
     Quill.register("modules/imageDrop", ImageDrop);
@@ -573,7 +573,7 @@
             },
             uprecords(id) {
                 axios({
-                    url: "/api/topcategoryup/",
+                    url: "/api/topcategoryup",
                     method: "POST",
                     data: {
                         id:id
@@ -595,7 +595,7 @@
             },
             downrecords(id) {
                 axios({
-                    url: "/api/topcategorydown/",
+                    url: "/api/topcategorydown",
                     method: "POST",
                     data: {
                         id:id

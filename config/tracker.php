@@ -5,12 +5,12 @@ return [
     /*
      * Enable it?
      */
-    'enabled' => TRUE,
+    'enabled' => true,
 
     /*
      * Enable cache?
      */
-    'cache_enabled' => true,
+    'cache_enabled' => false,
 
     /*
      * Deffer booting for middleware use
@@ -98,7 +98,7 @@ return [
      * point it to the same database (or not) and forbid logging of this connection in
      * do_not_log_sql_queries_connections.
      */
-    'connection' => 'tracker',
+    'connection' => 'mysql',
 
     /*
      * Forbid logging of SQL queries for some connections.

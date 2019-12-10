@@ -157,7 +157,7 @@
             },
             uprecords(id) {
                 axios({
-                    url: "/api/pagesup/",
+                    url: "/api/pagesup",
                     method: "POST",
                     data: {
                         id:id
@@ -179,7 +179,7 @@
             },
             downrecords(id) {
                 axios({
-                    url: "/api/pagesdown/",
+                    url: "/api/pagesdown",
                     method: "POST",
                     data: {
                         id:id

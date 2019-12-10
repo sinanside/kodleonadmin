@@ -289,7 +289,7 @@
                     .then(() => {
                         toast.fire(
                             'Updated!',
-                            'Post order updated',
+                            'Althizmettur order updated',
                             'success'
                         )
                         Fire.$emit('AfterCreate');

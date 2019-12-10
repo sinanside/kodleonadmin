@@ -7,12 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Snowplow\\RefererParser' => array($vendorDir . '/snowplow/referer-parser/php/src'),
-    'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
-    'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src'),
     'Parsedown' => array($vendorDir . '/erusev/parsedown'),
     'Mockery' => array($vendorDir . '/mockery/mockery/library'),
     'JShrink' => array($vendorDir . '/tedivm/jshrink/src'),
-    'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
     'Detection' => array($vendorDir . '/mobiledetect/mobiledetectlib/namespaced'),
     'Bllim\\Datatables' => array($vendorDir . '/pragmarx/datatables/src'),
 );

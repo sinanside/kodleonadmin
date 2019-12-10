@@ -9,6 +9,6 @@ class Datatables extends Facade {
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'datatables'; }
+    protected static function getFacadeAccessor() { return 'bllim.datatables'; }
 
 }

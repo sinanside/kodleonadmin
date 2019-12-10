@@ -948,7 +948,7 @@ class Datatables
         // if its a normal query ( no union ) replace the select with static text to improve performance
         $countQuery = clone $query;
         if (!preg_match('/UNION/i', $countQuery->toSql())) {
-            $countQuery->select(DB::raw("'1' as row"));
+            $countQuery->select(DB::raw("'1' as `row`"));
 
             // if query has "having" clause add select columns
             if ($countQuery->havings) {

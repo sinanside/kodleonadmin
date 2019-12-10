@@ -9,7 +9,7 @@ use Images;
 use File;
 
 
-class iceriklerController extends Controller
+class PagecreatorController extends Controller
 {
 
     public function __construct()

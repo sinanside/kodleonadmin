@@ -482,7 +482,7 @@
             },
             uprecords(id) {
                 axios({
-                    url: "/api/carouselaltup/",
+                    url: "/api/carouselaltup",
                     method: "POST",
                     data: {
                         id:id

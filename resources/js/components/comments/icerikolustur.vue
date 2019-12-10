@@ -258,7 +258,7 @@
             },
             uprecords(id) {
                 axios({
-                    url: "/api/commentsup/",
+                    url: "/api/commentsup",
                     method: "POST",
                     data: {
                         id:id
@@ -280,7 +280,7 @@
             },
             downrecords(id) {
                 axios({
-                    url: "/api/commentsdown/",
+                    url: "/api/commentsdown",
                     method: "POST",
                     data: {
                         id:id

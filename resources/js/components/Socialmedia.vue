@@ -95,7 +95,7 @@
                             <div class="form-group">
                                 <strong>{{ $trans[lang+'.socialmedia']['uploadicon'] }}:</strong><br>
                                 <vue-dropzone  ref="myVueDropzone" id="upload" :options="imguploadconfig" @vdropzone-complete="iconcomplete"></vue-dropzone>
-                                <input v-model="form.icon" id="icon" type="text" name="icon" 
+                                <input v-model="form.icon" id="icon" type="text" name="icon"
                                        class="form-control" :class="{ 'is-invalid': form.errors.has('icon') }">
                                 <has-error :form="form" field="icon"></has-error>
                             </div>
@@ -190,7 +190,7 @@
             },
             uprecords(id) {
                 axios({
-                    url: "/api/socialmediaup/",
+                    url: "/api/socialmediaup",
                     method: "POST",
                     data: {
                         id:id
@@ -212,7 +212,7 @@
             },
             downrecords(id) {
                 axios({
-                    url: "/api/socialmediadown/",
+                    url: "/api/socialmediadown",
                     method: "POST",
                     data: {
                         id:id

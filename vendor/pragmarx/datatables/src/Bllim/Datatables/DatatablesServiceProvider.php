@@ -5,13 +5,6 @@ use Illuminate\Support\ServiceProvider;
 class DatatablesServiceProvider extends ServiceProvider {
 
     /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
-
-    /**
      * Bootstrap the application events.
      *
      * @return void
@@ -28,19 +21,9 @@ class DatatablesServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app->singleton('datatables', function($app) {
+        $this->app->singleton('bllim.datatables', function($app) {
             return new Datatables;
         });
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return array('datatables');
     }
 
     /**
@@ -74,5 +57,4 @@ class DatatablesServiceProvider extends ServiceProvider {
 
         $this->app['view']->addNamespace($namespace, $path.'/views');
     }
-
 }

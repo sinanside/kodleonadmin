@@ -356,7 +356,7 @@
             },
             uprecords(id) {
                 axios({
-                    url: "/api/icerikler3up/",
+                    url: "/api/icerikler3up",
                     method: "POST",
                     data: {
                         id:id
@@ -378,7 +378,7 @@
             },
             downrecords(id) {
                 axios({
-                    url: "/api/icerikler3down/",
+                    url: "/api/icerikler3down",
                     method: "POST",
                     data: {
                         id:id

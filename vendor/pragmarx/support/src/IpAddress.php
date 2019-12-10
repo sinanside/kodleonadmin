@@ -229,6 +229,11 @@ class IpAddress
 
 		$cidr = explode('/', $cidr);
 
+		if (count($cidr) !== 2) {
+			return false;
+		}
+
+
 		$range[0] = long2ip((ip2long($cidr[0])) & ((-1 << (32 - (int)$cidr[1]))));
 
 		$range[1] = long2ip((ip2long($cidr[0])) + pow(2, (32 - (int)$cidr[1])) - 1);
@@ -339,14 +344,6 @@ class IpAddress
         // Dashed range
         //   192.168.1.1-192.168.1.100
         //   0.0.0.0-255.255.255.255
-        if (count($twoIps = explode('-', $range)) == 2)
-        {
-            $ip1 = ip2long($twoIps[0]);
-            $ip2 = ip2long($twoIps[1]);
-
-            return ip2long($ip) >= $ip1 && ip2long($ip) <= $ip2;
-        }
-
         if (count($twoIps = explode('-', $range)) == 2)
         {
             $ip1 = ip2long($twoIps[0]);

@@ -160,7 +160,7 @@
 <script>
     import { VueEditor, Quill } from "vue2-editor";
     import { ImageDrop } from "quill-image-drop-module";
-    import ImageResize from "quill-image-resize-module";
+    import ImageResize from "quill-image-resize-module-withfix";
     import axios from "axios";
 
     Quill.register("modules/imageDrop", ImageDrop);
@@ -242,7 +242,7 @@
             },
             uprecords(id) {
                 axios({
-                    url: "/api/sssup/",
+                    url: "/api/sssup",
                     method: "POST",
                     data: {
                         id:id
@@ -264,7 +264,7 @@
             },
             downrecords(id) {
                 axios({
-                    url: "/api/sssdown/",
+                    url: "/api/sssdown",
                     method: "POST",
                     data: {
                         id:id

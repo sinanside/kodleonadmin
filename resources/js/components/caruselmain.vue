@@ -221,7 +221,7 @@
             },
             uprecords(id) {
                 axios({
-                    url: "/api/carouselup/",
+                    url: "/api/carouselup",
                     method: "POST",
                     data: {
                         id:id
@@ -243,7 +243,7 @@
             },
             downrecords(id) {
                 axios({
-                    url: "/api/carouseldown/",
+                    url: "/api/carouseldown",
                     method: "POST",
                     data: {
                         id:id

@@ -246,7 +246,12 @@ return [
 
     /*
      * ** IMPORTANT **
-     *   Change the user model to your own.
+     * Change the user model to your own.
+     * If the model is under a different connection, be specific.
+     * ...
+     * class ModelName {
+     *      protected $connection = 'mysql';
+     * ...
      */
     'user_model' => 'PragmaRX\Tracker\Vendor\Laravel\Models\User',
 
@@ -308,6 +313,8 @@ return [
      * Laravel internal variables on user authentication and login.
      */
     'authentication_ioc_binding' => ['auth'], // defaults to 'auth' in Illuminate\Support\Facades\Auth
+
+    'authentication_guards' => [], // defaults to []
 
     'authenticated_check_method' => 'check', // to Auth::check()
 
