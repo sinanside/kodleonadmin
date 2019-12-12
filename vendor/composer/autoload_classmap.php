@@ -33,6 +33,7 @@ return array(
     'App\\Http\\Controllers\\API\\ContactController' => $baseDir . '/app/Http/Controllers/API/ContactController.php',
     'App\\Http\\Controllers\\API\\ContactUsController' => $baseDir . '/app/Http/Controllers/API/ContactUsController.php',
     'App\\Http\\Controllers\\API\\ImageController' => $baseDir . '/app/Http/Controllers/API/ImageController.php',
+    'App\\Http\\Controllers\\API\\PagecreatorController' => $baseDir . '/app/Http/Controllers/API/PagecreatorController.php',
     'App\\Http\\Controllers\\API\\SocialmediaController' => $baseDir . '/app/Http/Controllers/API/SocialmediaController.php',
     'App\\Http\\Controllers\\API\\UserController' => $baseDir . '/app/Http/Controllers/API/UserController.php',
     'App\\Http\\Controllers\\API\\aboutmeController' => $baseDir . '/app/Http/Controllers/API/aboutmeController.php',

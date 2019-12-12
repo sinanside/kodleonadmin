@@ -618,6 +618,7 @@ class ComposerStaticInitb85a2406255690d6b161eb28c2d40061
         'App\\Http\\Controllers\\API\\ContactController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/ContactController.php',
         'App\\Http\\Controllers\\API\\ContactUsController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/ContactUsController.php',
         'App\\Http\\Controllers\\API\\ImageController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/ImageController.php',
+        'App\\Http\\Controllers\\API\\PagecreatorController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PagecreatorController.php',
         'App\\Http\\Controllers\\API\\SocialmediaController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/SocialmediaController.php',
         'App\\Http\\Controllers\\API\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/UserController.php',
         'App\\Http\\Controllers\\API\\aboutmeController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/aboutmeController.php',

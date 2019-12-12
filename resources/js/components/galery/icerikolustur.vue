@@ -47,6 +47,8 @@
                             <tbody><tr>
                                 <th>#</th>
                                 <th>Resim</th>
+                                <th>Hizmet</th>
+                                <th>Alt Hizmet</th>
                                 <th>Tanım</th>
                                 <th>Dil</th>
                                 <th>Durum</th>
@@ -58,6 +60,9 @@
                                 <td>{{ index+1 }}</td>
                                 <td><img v-if="posts.picture1" :src="'\/img\/gallery\/thumbs\/'+posts.picture1">
                                     <img v-else :src="'\/img\/nophoto.png'"></td>
+                                <td>{{ posts.hizmettur.title }}</td>
+                                <td  v-if="posts.althiz_id !== null">{{ posts.althizmettur.title }}</td>
+                                <td v-else>-</td>
                                 <td>{{ posts.name }}</td>
                                 <td>{{ posts.localization.title }}</td>
                                 <td>
@@ -132,6 +137,20 @@
                                                 </option>
                                             </select>
                                             <has-error :form="form" field="hiz_id"></has-error>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="althiz_id" class="col-sm-2 control-label">Alt Hizmet:</label>
+
+                                        <div class="col-sm-12">
+                                            <select v-model="form.althiz_id" class="form-control" id="althiz_id" :class="{ 'is-invalid': form.errors.has('althiz_id') }">
+                                                <option value="0">Alt Hizmet Seç</option>
+                                                <option v-if="althizmetturs.length > 0" v-for="althizmettur in althizmetturs" v-bind:value="althizmettur.id">
+                                                    {{ althizmettur.title }}
+                                                </option>
+                                            </select>
+                                            <has-error :form="form" field="althiz_id"></has-error>
                                         </div>
                                     </div>
 
@@ -248,6 +267,7 @@
                 listmode: true,
                 addmode: false,
                 hizmetturs:{},
+                althizmetturs:{},
                 localizations:{},
                 posts: {},
                 tmplang:'',
@@ -255,6 +275,7 @@
                     {
                         id: '',
                         hiz_id:'',
+                        althiz_id:'',
                         language:'',
                         language2:'1',
                         name: '',
@@ -385,6 +406,7 @@
                 this.form.language = this.tmplang;
                 this.form.fill(posts);
                 this.loadhizmettursbylang(this.form.language);
+                this.loadAlthizmettur(this.form.hiz_id);
                 this.form.language2=this.form.language;
 
             },
@@ -396,6 +418,7 @@
                 this.tmplang=this.form.language2;
                 this.form.reset();﻿
                 this.form.hiz_id = 0;
+                this.form.althiz_id = 0;
                 this.form.language = this.tmplang;
                 this.form.language2=this.form.language;
 
@@ -448,6 +471,9 @@
             },
             loadHizmettur() {
                 axios.get('/api/hizmettursbylang2/1').then(({ data})=> (this.hizmetturs=data));
+            },
+            loadAlthizmettur(id) {
+                axios.get('/api/Allalthizmettur/'+id).then(({ data})=> (this.althizmetturs=data));
             },
             loadLocalization() {
                 axios.get('/api/localizations').then(({ data})=> (this.localizations=data));

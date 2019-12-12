@@ -21,30 +21,30 @@ class galeryController extends Controller
     public function index()
     {
         $this->authorize('isAdmin');
-        return Galerycreator::with('hizmettur','localization')->ordered()->paginate(10);
+        return Galerycreator::with('hizmettur','althizmettur','localization')->ordered()->paginate(10);
     }
     public function all()
     {
         $this->authorize('isAdmin');
-        return Galerycreator::with('hizmettur','localization')->ordered()->paginate(10);
+        return Galerycreator::with('hizmettur','althizmettur','localization')->ordered()->paginate(10);
     }
     public function listbylang($id)
     {
         $this->authorize('isAdmin');
         if($id==0)
         {
-            return Galerycreator::with('hizmettur','localization')->ordered()->paginate(10);
+            return Galerycreator::with('hizmettur','althizmettur','localization')->ordered()->paginate(10);
         }
         else
         {
-            return Galerycreator::with('hizmettur','localization')->where("language", "=", $id)->ordered()->paginate(10);
+            return Galerycreator::with('hizmettur','althizmettur','localization')->where("language", "=", $id)->ordered()->paginate(10);
         }
     }
     public function listbyid(Request $request)
     {
         $this->authorize('isAdmin');
         if ($search = \Request::get('q')) {
-            return Galerycreator::with('hizmettur', 'localization')->where(function($query) use ($search){
+            return Galerycreator::with('hizmettur','althizmettur','localization')->where(function($query) use ($search){
                 $query->where('hiz_id','=',"%$search%");
             })->ordered()->paginate(10);
         }
@@ -61,6 +61,7 @@ class galeryController extends Controller
         $page =  Galerycreator::create([
             'name'=>$request['name'],
             'hiz_id'=>$request['hiz_id'],
+            'althiz_id'=>$request['althiz_id'],
             'language'=>$request['language'],
             'short_description1'=>$request['short_description1'],
             'picture1'=>$request['picture1'],
@@ -124,7 +125,7 @@ class galeryController extends Controller
     public function show($id)
     {
         $this->authorize('isAdmin');
-        return Galerycreator::with('hizmettur','localization')->findOrFail($id);
+        return Galerycreator::with('hizmettur','althizmettur','localization')->findOrFail($id);
     }
 
     public function up(Request $request)
@@ -165,7 +166,7 @@ class galeryController extends Controller
     public function destroy($id)
     {
         $this->authorize('isAdmin');
-        $pages =Galerycreator::with('hizmettur','localization')->findorFail($id);
+        $pages =Galerycreator::with('hizmettur','althizmettur','localization')->findorFail($id);
 
         $pages->delete();
 
@@ -175,11 +176,11 @@ class galeryController extends Controller
     public function search(){
         $this->authorize('isAdmin');
         if ($search = \Request::get('q')) {
-            $pages = Galerycreator::with('hizmettur','localization')->where(function($query) use ($search){
+            $pages = Galerycreator::with('hizmettur','althizmettur','localization')->where(function($query) use ($search){
                 $query->where('name','LIKE',"%$search%");
             })->paginate(10);
         }else{
-            $pages = Galerycreator::with('hizmettur','localization')->ordered()->paginate(10);
+            $pages = Galerycreator::with('hizmettur','althizmettur','localization')->ordered()->paginate(10);
         }
         return $pages;
     }

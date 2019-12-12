@@ -20,7 +20,8 @@
         "laravel/tinker": "^1.0",
         "mariuzzo/laravel-js-localization": "^1.4",
         "pragmarx/tracker": "^3.5.0",
-        "spatie/eloquent-sortable": "^3.6"
+        "spatie/eloquent-sortable": "^3.6",
+        "symfony/translation": "4.3.8"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

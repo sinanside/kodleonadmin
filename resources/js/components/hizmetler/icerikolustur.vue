@@ -865,7 +865,6 @@
                 this.form.language = this.tmplang;
                 this.form.fill(posts);
                 this.loadhizmettursbylang(this.form.language);
-
                 this.loadAlthizmettur(this.form.hiz_id);
                 this.form.language2=this.form.language;
 
