@@ -18,7 +18,6 @@ use Carbon\Carbon;
 use App\Settings;
 // Son gelen kayıtlar için
 use App\Reg_application;
-use App\Cities;
 
 class dashboardController extends Controller
 {
@@ -41,7 +40,7 @@ class dashboardController extends Controller
 
     public function lastusers()
     {
-        return Reg_application::with('city')->orderBy('id', 'DESC')->paginate(5);
+        return Reg_application::orderBy('id', 'DESC')->paginate(5);
     }
 
     public function statscountall()

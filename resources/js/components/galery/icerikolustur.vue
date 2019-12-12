@@ -62,7 +62,7 @@
                                     <img v-else :src="'\/img\/nophoto.png'"></td>
                                 <td>{{ posts.hizmettur.title }}</td>
                                 <td  v-if="posts.althiz_id !== null">{{ posts.althizmettur.title }}</td>
-                                <td v-else>-</td>
+                                <td>-</td>
                                 <td>{{ posts.name }}</td>
                                 <td>{{ posts.localization.title }}</td>
                                 <td>
