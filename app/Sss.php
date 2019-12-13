@@ -10,7 +10,7 @@ class Sss extends Model implements Sortable
 {
 
     protected $fillable = [
-        'language','question', 'answer', 'queue', 'active'
+        'language','question', 'answer', 'queue', 'mainpage', 'active'
     ];
 
     public  function localization(){

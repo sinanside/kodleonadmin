@@ -49,6 +49,7 @@
                                 <th>{{ $trans[lang+'.sss']['question'] }}</th>
                                 <th>{{ $trans[lang+'.sss']['answer'] }}</th>
                                 <th>Dil</th>
+                                <th>Anasayfa</th>
                                 <th>{{ $trans[lang+'.sss']['status'] }}</th>
                                 <th>{{ $trans[lang+'.carousel']['order'] }}</th>
                                 <th>{{ $trans[lang+'.sss']['modify'] }}</th>
@@ -59,6 +60,10 @@
                                 <td v-html="sss.question">{{ sss.question }}</td>
                                 <td  v-html="sss.answer">{{ sss.answer }}</td>
                                 <td>{{ sss.localization.title }}</td>
+                                <td>
+                                    <span class="badge badge-success" v-if="althizmetturs.mainpage==1">Evet</span>
+                                    <span class="badge badge-danger" v-if="althizmetturs.mainpage==0">Hayır</span>
+                                </td>
                                 <td>
                                     <span v-show="sss.active==1" class="badge badge-success" >{{ $trans[lang+'.sss']['active'] }}</span>
                                     <span v-show="sss.active==0" class="badge badge-danger" >{{ $trans[lang+'.sss']['passive'] }}</span>
@@ -198,6 +203,7 @@
                     language2:'0',
                     question: '',
                     answer: '',
+                    mainpage:'0',
                     active: '1'
 
                 })

@@ -85,6 +85,7 @@ class sssController extends Controller
         return Sss::create([
             'question'=>$request['question'],
             'answer'=>$request['answer'],
+            'mainpage'=>$request['mainpage'],
             'active'=>$request['active']
         ]);
     }

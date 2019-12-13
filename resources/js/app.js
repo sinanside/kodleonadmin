@@ -104,27 +104,6 @@ let routes = [
     { path: '/galeryolustur', component: require('./components/galery/icerikolustur.vue').default },
     { path: '/commentolustur', component: require('./components/comments/icerikolustur.vue').default },
 
-
-    // Hizmetlerimiz / SAÇ EKİMİ
-    { path: '/fueteknigipage', component: require('./components/hizmetler/sacekimi/fueteknigi.vue').default },
-    { path: '/kadinlardasacekimipage', component: require('./components/hizmetler/sacekimi/kadinlardasacekimi.vue').default },
-    { path: '/kasekimipage', component: require('./components/hizmetler/sacekimi/kasekimi.vue').default },
-    { path: '/trassizsacekimipage', component: require('./components/hizmetler/sacekimi/trassizsacekimi.vue').default },
-    { path: '/sakalbiyikekimipage', component: require('./components/hizmetler/sacekimi/sakalbiyikekimi.vue').default },
-    { path: '/prptedavisihizmetipage', component: require('./components/hizmetler/sacekimi/prptedavisihizmeti.vue').default },
-    { path: '/dhisacekimipage', component: require('./components/hizmetler/sacekimi/dhisacekimi.vue').default },
-
-    // Hizmetlerimiz / DİŞ TEDAVİSİ
-    { path: '/implantpage', component: require('./components/hizmetler/distedavisi/implant.vue').default },
-    { path: '/sabitprotezpage', component: require('./components/hizmetler/distedavisi/sabitprotez.vue').default },
-    { path: '/zirkonyumpage', component: require('./components/hizmetler/distedavisi/zirkonyum.vue').default },
-    { path: '/hareketliprotezlerpage', component: require('./components/hizmetler/distedavisi/hareketliprotezler.vue').default },
-    { path: '/erkenimplantyerlesimipage', component: require('./components/hizmetler/distedavisi/erkenimplantyerlesimi.vue').default },
-    { path: '/erkenimplantyuklemesipage', component: require('./components/hizmetler/distedavisi/erkenimplantyuklemesi.vue').default },
-    { path: '/ortodontipage', component: require('./components/hizmetler/distedavisi/ortodonti.vue').default },
-
-
-
     { path: '*', component: require('./components/NotFound.vue').default }
 
 ]

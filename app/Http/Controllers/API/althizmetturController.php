@@ -98,6 +98,7 @@ class althizmetturController extends Controller
                 'short_description' => $request['short_description'],
                 'photo' => $request['photo'],
                 'photo_alt' => $request['photo_alt'],
+                'mainpage' => $request['mainpage'],
                 'language' => $request['language'],
                 'active' => $request['active']
             ]);
