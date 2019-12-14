@@ -61,7 +61,8 @@ Route::apiResources([
     'icerikler3' => 'API\carusellerController',
     'icerikler4' => 'API\bloglarController',
     'resimler' => 'API\galeryController',
-    'comments' => 'API\commentsController'
+    'comments' => 'API\commentsController',
+    'konaklamas' => 'API\konaklamaController'
 
 ]);
 Route::put('regs', 'API\regApplicationsController@update');
@@ -254,7 +255,7 @@ Route::post('resimler_image1', 'API\galeryController@storeimage1');
 Route::post('resimlerup', 'API\galeryController@up');
 Route::post('resimlerdown', 'API\galeryController@down');
 
-//Resimler
+//Comments
 Route::get('findComments', 'API\commentsController@search');
 Route::get('commentsbylang/{id}', 'API\commentsController@listbylang');
 Route::put('comments', 'API\commentsController@update');
@@ -262,3 +263,16 @@ Route::post('comments_image', 'API\commentsController@storeimage');
 Route::post('comments_image1', 'API\commentsController@storeimage1');
 Route::post('commentsup', 'API\commentsController@up');
 Route::post('commentsdown', 'API\commentsController@down');
+
+//Konaklama
+Route::get('findKonaklamas', 'API\konaklamaController@search');
+Route::get('konaklamasbylang/{id}', 'API\konaklamaController@listbylang');
+Route::put('konaklamas', 'API\konaklamaController@update');
+Route::post('konaklamas_image', 'API\konaklamaController@storeimage');
+Route::post('konaklamas_image1', 'API\konaklamaController@storeimage1');
+Route::post('konaklamas_image2', 'API\konaklamaController@storeimage2');
+Route::post('konaklamas_image3', 'API\konaklamaController@storeimage3');
+Route::post('konaklamas_image4', 'API\konaklamaController@storeimage4');
+Route::post('konaklamas_image5', 'API\konaklamaController@storeimage5');
+Route::post('konaklamasup', 'API\konaklamaController@up');
+Route::post('konaklamasdown', 'API\konaklamaController@down');

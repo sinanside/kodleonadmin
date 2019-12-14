@@ -103,6 +103,7 @@ let routes = [
     { path: '/caruselolustur', component: require('./components/carousel/icerikolustur.vue').default },
     { path: '/galeryolustur', component: require('./components/galery/icerikolustur.vue').default },
     { path: '/commentolustur', component: require('./components/comments/icerikolustur.vue').default },
+    { path: '/konaklamaolustur', component: require('./components/konaklama/icerikolustur.vue').default },
 
     { path: '*', component: require('./components/NotFound.vue').default }
 
