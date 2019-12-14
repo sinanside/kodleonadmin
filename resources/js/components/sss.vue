@@ -61,8 +61,8 @@
                                 <td  v-html="sss.answer">{{ sss.answer }}</td>
                                 <td>{{ sss.localization.title }}</td>
                                 <td>
-                                    <span class="badge badge-success" v-if="althizmetturs.mainpage==1">Evet</span>
-                                    <span class="badge badge-danger" v-if="althizmetturs.mainpage==0">Hayır</span>
+                                    <span class="badge badge-success" v-if="sss.mainpage==1">Evet</span>
+                                    <span class="badge badge-danger" v-if="sss.mainpage==0">Hayır</span>
                                 </td>
                                 <td>
                                     <span v-show="sss.active==1" class="badge badge-success" >{{ $trans[lang+'.sss']['active'] }}</span>
@@ -119,7 +119,7 @@
                                 <label for="question" class="col-sm-2 control-label">{{ $trans[lang+'.sss']['question'] }}</label>
 
                                 <div class="col-sm-12">
-                                    <input type="" v-model="form.question" class="form-control" id="inputName" placeholder="Name" :class="{ 'is-invalid': form.errors.has('question') }">
+                                    <input type="" v-model="form.question" class="form-control" id="inputName" placeholder="Question" :class="{ 'is-invalid': form.errors.has('question') }">
                                     <has-error :form="form" field="question"></has-error>
                                 </div>
                             </div>
@@ -135,6 +135,20 @@
                                                 v-model="form.answer">
                                     </vue-editor>
                                     <has-error :form="form" field="answer"></has-error>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <strong>Anasayfa</strong><br>
+                                        <select v-model="form.mainpage" id="mainpage" name="mainpage"
+                                                class="form-control" :class="{ 'is-invalid': form.errors.has('mainpage') }">
+                                            <option value="0">Hayır</option>
+                                            <option value="1">Evet</option>
+                                        </select>
+                                        <has-error :form="form" field="mainpage"></has-error>
+                                    </div>
                                 </div>
                             </div>
 

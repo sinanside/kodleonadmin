@@ -128,11 +128,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         </li>
 
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-desktop pink"></i>
+                                <p>
+                                    {{ __('main.carousel') }}
+                                    <i class="right fa fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <router-link to="/carousel" class="nav-link">
+                                        <i class="fas fa-angle-right nav-icon indigo"></i>
+                                        <p>{{ __('main.carouselmain') }}</p>
+                                    </router-link>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <router-link to="/carouselalt" class="nav-link">
+                                        <i class="fas fa-angle-right nav-icon indigo"></i>
+                                        <p>{{ __('carousel.carouselalt') }}</p>
+                                    </router-link>
+                                </li>
+                            </ul>
+
+                        </li>
+
                         <li class="nav-item">
                             <router-link to="/caruselolustur" class="nav-link">
                                 <i class="nav-icon fas fa-id-card pink"></i>
                                 <p>
-                                    Karusel
+                                    Karusel (Eski)
                                 </p>
                             </router-link>
                         </li>
