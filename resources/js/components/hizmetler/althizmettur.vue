@@ -33,7 +33,7 @@
                         </div>
                         <div class="card-tools px-1">
                             <select v-model="form.language2" @change="loadalthizmettursbylang(form.language2)" class="form-control" id="language2">
-                                <option value="0">Dil Seç</option>
+                                <option value="0" disabled>Dil Seç</option>
                                 <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
                                     {{ localization.title }}
                                 </option>
@@ -237,7 +237,7 @@
                         photo: '',
                         photo_alt: '',
                         language:'',
-                        language2:'0',
+                        language2:'1',
                         mainpage:'0',
                         active: '1'
                     })
@@ -428,11 +428,11 @@
                     })
             })
 
-            this.loadAlthizmettur();
+            this.loadalthizmettursbylang(this.form.language2);
             this.loadHizmettur();
             this.loadLocalization();
             Fire.$on('AfterCreate',() => {
-                this.loadAlthizmettur();
+                this.loadalthizmettursbylang(this.form.language2);
             })
         }
     }

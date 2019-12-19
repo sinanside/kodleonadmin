@@ -566,7 +566,7 @@
                     {
                         id: '',
                         language:'',
-                        language2:'0',
+                        language2:'1',
                         name: '',
                         meta_title: '',
                         meta_description: '',
@@ -855,7 +855,7 @@
                     })
             })
 
-            this.loadposts();
+            this.loadpostsbylang(this.form.language2);
             this.loadLocalization();
 
             Fire.$on('AfterCreate',() => {

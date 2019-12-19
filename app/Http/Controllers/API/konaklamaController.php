@@ -52,10 +52,7 @@ class konaklamaController extends Controller
         $this->authorize('isAdmin');
         $this->validate($request, [
             'name' => 'required|string|max:191',
-            'meta_title' => 'nullable|string|max:191',
-            'meta_description' => 'nullable|string|max:191',
-            'meta_keywords' => 'nullable|string|max:191'
-
+            'meta_title' => 'nullable|string|max:191'
         ]);
 
         $page =  Konaklamacreator::create([
@@ -99,10 +96,6 @@ class konaklamaController extends Controller
             'description5'=>$request['description5'],
 
         ]);
-
-        $path = public_path().'/img/'.$page->slug;
-        File::isDirectory($path) or File::makeDirectory($path, 0777, true, true);
-        File::isDirectory($path.'/thumbs') or File::makeDirectory($path.'/thumbs', 0777, true, true);
 
     }
 

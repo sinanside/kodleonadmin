@@ -20,13 +20,22 @@ class carousel extends Model implements Sortable
         ];
     }
 
+    public  function localization(){
+        return $this->belongsTo(Localizations::class,'language');
+    }
+
     public $sortable = [
         'order_column_name' => 'queue',
         'sort_when_creating' => true,
     ];
 
+    public function buildSortQuery()
+    {
+        return static::query()->where('language', $this->language);
+    }
+
     protected $fillable = [
-        'carousel_title', 'image', 'image_alt', 'image_x', 'image_y', 'queue', 'active'
+        'carousel_title', 'image', 'image_alt', 'image_x', 'image_y', 'type', 'language', 'queue', 'active'
     ];
 
     protected $table = 'carousel';

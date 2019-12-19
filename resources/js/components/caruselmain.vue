@@ -31,6 +31,15 @@
                             <button class="btn btn-primary" @click="newForm">{{ $trans[lang+'.blog']['addnew'] }} <i class="fas fa-plus fa-fw"></i></button>
                         </div>
 
+                        <div class="card-tools px-1">
+                            <select v-model="form.language2" @change="loadcarouselbylang(form.language2)" class="form-control" id="language2">
+                                <option value="0" disabled>Dil Seç</option>
+                                <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
+                                    {{ localization.title }}
+                                </option>
+                            </select>
+                        </div>
+
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
@@ -39,6 +48,8 @@
                                 <th>#</th>
                                 <th>{{ $trans[lang+'.carousel']['image'] }}</th>
                                 <th>{{ $trans[lang+'.carousel']['title1'] }}</th>
+                                <th>Tür</th>
+                                <th>Dil</th>
                                 <th>{{ $trans[lang+'.carousel']['status'] }}</th>
                                 <th>{{ $trans[lang+'.carousel']['order'] }}</th>
                                 <th>{{ $trans[lang+'.carousel']['modify'] }}</th>
@@ -52,6 +63,12 @@
 
                                 </td>
                                 <td>{{ carousel.carousel_title }}</td>
+                                <td>
+                                    <span v-show="carousel.type==1" class="badge badge-info">Liste</span>
+                                    <span v-show="carousel.type==0" class="badge badge-warning">Default</span>
+                                </td>
+                                <td>{{ carousel.localization.title }}</td>
+
                                 <td>
                                     <span v-show="carousel.active==1" class="badge badge-success">{{ $trans[lang+'.carousel']['active'] }}</span>
                                     <span v-show="carousel.active==0" class="badge badge-danger">{{ $trans[lang+'.carousel']['passive'] }}</span>
@@ -91,6 +108,29 @@
                             <div class="tab-pane active show" id="picturetab">
 
                                 <form class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <strong>Dil:</strong>
+
+                                            <select v-model="form.language" id="language" class="form-control" :class="{ 'is-invalid': form.errors.has('language') }">
+                                                <option value="0" disabled>Dil Seç</option>
+                                                <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
+                                                    {{ localization.title }}
+                                                </option>
+                                            </select>
+                                            <has-error :form="form" field="language"></has-error>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <strong>{{ $trans[lang+'.carousel']['status'] }}:</strong><br>
+                                        <select v-model="form.type" id="type" name="type"
+                                                class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
+                                            <option value="0">Default</option>
+                                            <option value="1">Liste</option>
+                                        </select>
+                                        <has-error :form="form" field="type"></has-error>
+                                    </div>
 
                                     <div class="form-group">
                                         <strong>{{ $trans[lang+'.carousel']['title1'] }}:</strong><br>
@@ -187,9 +227,15 @@
                 listmode: true,
                 addmode: false,
                 carousel: {},
+                localizations:{},
+                tmplang:'',
+
                 form: new Form(
                     {
                         id: '',
+                        language:'',
+                        language2:'1',
+                        type:'',
                         carousel_title: '',
                         image: '',
                         image_alt: '',
@@ -313,15 +359,21 @@
                 this.addmode= true;
                 this.editmode = true;
                 this.$refs.myVueDropzone.removeAllFiles();
+                this.tmplang=this.form.language2;
                 this.form.reset();﻿
+                this.form.language = this.tmplang;
                 this.form.fill(carousel);
+                this.form.language2=this.form.language;
             },
             newForm() {
                 this.listmode= false;
                 this.addmode= true;
                 this.editmode = false;
                 this.$refs.myVueDropzone.removeAllFiles();
+                this.tmplang=this.form.language2;
                 this.form.reset();﻿
+                this.form.language = this.tmplang;
+                this.form.language2=this.form.language;
             },
             backtolist() {
                 this.listmode= true;
@@ -361,7 +413,13 @@
             },
             loadcarousel() {
                 axios.get('/api/carousel').then(({ data})=> (this.carousel=data));
-            }
+            },
+            loadcarouselbylang(id) {
+                axios.get('/api/carouselbylang/'+id).then(({ data})=> (this.carousel=data));
+            },
+            loadLocalization() {
+                axios.get('/api/localizations').then(({ data})=> (this.localizations=data));
+            },
         },
         created() {
             Fire.$on('searching',() => {
@@ -374,10 +432,14 @@
                     })
             })
 
-            this.loadcarousel();
+            //this.loadcarousel();
+            this.loadcarouselbylang(this.form.language2);
+            this.loadLocalization();
 
             Fire.$on('AfterCreate',() => {
-                this.loadcarousel();
+                //this.loadcarousel();
+                this.loadcarouselbylang(this.form.language2);
+
             })
         }
     }

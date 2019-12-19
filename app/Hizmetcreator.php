@@ -37,6 +37,11 @@ class Hizmetcreator extends Model implements Sortable
 
     use SortableTrait;
 
+    public function buildSortQuery()
+    {
+        return static::query()->where('language', $this->language);
+    }
+
     public $sortable = [
         'order_column_name' => 'queue',
         'sort_when_creating' => true,

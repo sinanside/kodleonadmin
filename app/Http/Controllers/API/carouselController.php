@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Hizmetcreator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\carousel;
@@ -20,6 +21,31 @@ class carouselController extends Controller
     {
         $this->authorize('isAdmin');
         return carousel::ordered()->paginate(10);
+    }
+
+    public function listbylang($id)
+    {
+        $this->authorize('isAdmin');
+        if($id==0)
+        {
+            return carousel::with('localization')->ordered()->paginate(10);
+        }
+        else
+        {
+            return carousel::with('localization')->where("language", "=", $id)->ordered()->paginate(10);
+        }
+    }
+    public function listbylang2($id)
+    {
+        $this->authorize('isAdmin');
+        if($id==0)
+        {
+            return carousel::with('localization')->ordered()->get();
+        }
+        else
+        {
+            return carousel::with('localization')->where("language", "=", $id)->ordered()->get();
+        }
     }
 
     public function allcarousels()
@@ -63,6 +89,8 @@ class carouselController extends Controller
             'carousel_title'=>$request['carousel_title'],
             'image'=>$request['image'],
             'image_alt'=>$request['image_alt'],
+            'type'=>$request['type'],
+            'language'=>$request['language'],
             'active'=>$request['active']
         ]);
     }

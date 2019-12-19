@@ -243,11 +243,36 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </ul>
                         </li>
 
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-blog orange"></i>
+                                <p>
+                                    {{ __('main.blog') }}
+                                    <i class="right fa fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <router-link to="/blogolustur" class="nav-link">
+                                        <i class="fas fa-folder-plus nav-icon green"></i>
+                                        <p>{{ __('main.blogpost') }}</p>
+                                    </router-link>
+                                </li>
+                                <li class="nav-item">
+                                    <router-link to="/makaleyorumlari" class="nav-link">
+                                        <i class="fas fa-folder-plus nav-icon blue"></i>
+                                        <p>Makale Yorumları</p>
+                                    </router-link>
+                                </li>
+                            </ul>
+                        </li>
+
+
                         <li class="nav-item">
                             <router-link to="/commentolustur" class="nav-link">
                                 <i class="nav-icon fas fa-comments blue"></i>
                                 <p>
-                                    Yorumlar
+                                    Site Yorumları
                                 </p>
                             </router-link>
                         </li>

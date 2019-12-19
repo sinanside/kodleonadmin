@@ -34,7 +34,7 @@
                         </div>
                         <div class="card-tools px-1">
                             <select v-model="form.language2" @change="loadpostsbylang(form.language2)" class="form-control" id="language2">
-                                <option value="0">Dil Seç</option>
+                                <option value="0" disabled>Dil Seç</option>
                                 <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
                                     {{ localization.title }}
                                 </option>
@@ -295,7 +295,7 @@
                     {
                         id: '',
                         language:'',
-                        language2:'0',
+                        language2:'1',
                         name: '',
                         meta_title: '',
                         meta_description: '',
@@ -524,7 +524,7 @@
                     })
             })
 
-            this.loadposts();
+            this.loadpostsbylang(this.form.language2);
             this.loadLocalization();
 
             Fire.$on('AfterCreate',() => {

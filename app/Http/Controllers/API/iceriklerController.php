@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Hizmetcreator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Pagecreator;
@@ -28,6 +29,33 @@ class iceriklerController extends Controller
         $this->authorize('isAdmin');
         return Pagecreator::with('localization')->ordered()->get();
     }
+    public function eslestir(Request $request)
+    {
+        $this->authorize('isAdmin');
+        $random = mt_rand(1000000000, 9999999999);
+        if($request["icerik2"]>0)
+        {
+            $hizmet1 = Pagecreator::with('localization')->findOrFail($request["id"]);
+            $refcode=$hizmet1->special_code;
+            if($refcode > 0)
+            {
+                $hizmet2 = Pagecreator::with('localization')->findOrFail($request["icerik2"])->update(['special_code' => $refcode]);
+            }
+            else
+            {
+                $hizmet1->update(['special_code' => $random]);
+                $hizmet2 = Pagecreator::with('localization')->findOrFail($request["icerik2"])->update(['special_code' => $random]);            }
+            return "pair success";
+        }
+        else
+        {
+            return 'pair failed';
+        }
+
+
+
+    }
+
     public function listbylang($id)
     {
         $this->authorize('isAdmin');
@@ -41,6 +69,19 @@ class iceriklerController extends Controller
         }
     }
 
+    public function listbylang2($id)
+    {
+        $this->authorize('isAdmin');
+        if($id==0)
+        {
+            return Pagecreator::with('localization')->ordered()->get();
+        }
+        else
+        {
+            return Pagecreator::with('localization')->where("language", "=", $id)->ordered()->get();
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -51,10 +92,10 @@ class iceriklerController extends Controller
     {
         $this->authorize('isAdmin');
         $this->validate($request, [
+            'language' => 'required|numeric|min:1',
             'name' => 'required|string|max:191',
             'meta_title' => 'nullable|string|max:191',
-            'meta_description' => 'nullable|string|max:191',
-            'meta_keywords' => 'nullable|string|max:191'
+            'meta_description' => 'nullable|string|max:191'
 
         ]);
 

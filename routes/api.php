@@ -23,7 +23,6 @@ Route::apiResources([
     'settings' => 'API\settingsController',
     'socialmedia' => 'API\SocialmediaController',
     'carousel' => 'API\carouselController',
-    'carousel' => 'API\carouselController',
     'carouselalt' => 'API\carouselaltController',
     'sss' => 'API\sssController',
     'posts' => 'API\postController',
@@ -62,7 +61,9 @@ Route::apiResources([
     'icerikler4' => 'API\bloglarController',
     'resimler' => 'API\galeryController',
     'comments' => 'API\commentsController',
-    'konaklamas' => 'API\konaklamaController'
+    'konaklamas' => 'API\konaklamaController',
+    'blogcomments' => 'API\BlogcommentsController'
+
 
 ]);
 Route::put('regs', 'API\regApplicationsController@update');
@@ -87,6 +88,8 @@ Route::post('socialmedia_image', 'API\SocialmediaController@storeimage');
 Route::post('socialmediaup', 'API\SocialmediaController@up');
 Route::post('socialmediadown', 'API\SocialmediaController@down');
 Route::get('findcarousel', 'API\carouselController@search');
+Route::get('carouselbylang/{id}', 'API\carouselController@listbylang');
+Route::get('carouselbylang2/{id}', 'API\carouselController@listbylang2');
 Route::put('carousel', 'API\carouselController@update');
 Route::post('carousel_image', 'API\carouselController@storeimage');
 Route::post('carouselup', 'API\carouselController@up');
@@ -207,7 +210,9 @@ Route::post('althizmettursbyid', 'API\hizmetlerController@listbyid');
 //içerikler
 Route::get('findIcerikler2', 'API\iceriklerController@search');
 Route::get('icerikler2bylang/{id}', 'API\iceriklerController@listbylang');
+Route::get('icerikler2bylang2/{id}', 'API\iceriklerController@listbylang2');
 Route::put('icerikler2', 'API\iceriklerController@update');
+Route::post('eslestir2', 'API\iceriklerController@eslestir');
 Route::post('icerikler2_image', 'API\iceriklerController@storeimage');
 Route::post('icerikler2_image1', 'API\iceriklerController@storeimage1');
 Route::post('icerikler2_image2', 'API\iceriklerController@storeimage2');
@@ -234,6 +239,7 @@ Route::post('icerikler3_image_editor', 'API\carusellerController@storeimagebyedi
 
 //blog
 Route::get('findIcerikler4', 'API\bloglarController@search');
+Route::get('allicerikler4', 'API\bloglarController@all');
 Route::get('icerikler4bylang/{id}', 'API\bloglarController@listbylang');
 Route::put('icerikler4', 'API\bloglarController@update');
 Route::post('icerikler4_image', 'API\bloglarController@storeimage');
@@ -263,6 +269,13 @@ Route::post('comments_image', 'API\commentsController@storeimage');
 Route::post('comments_image1', 'API\commentsController@storeimage1');
 Route::post('commentsup', 'API\commentsController@up');
 Route::post('commentsdown', 'API\commentsController@down');
+
+//Blog comments
+Route::get('findBlogcomments', 'API\BlogcommentsController@search');
+Route::get('blogcommentsbylang/{id}', 'API\BlogcommentsController@listbylang');
+Route::put('blogcomments', 'API\BlogcommentsController@update');
+Route::post('blogcommentsup', 'API\BlogcommentsController@up');
+Route::post('blogcommentsdown', 'API\BlogcommentsController@down');
 
 //Konaklama
 Route::get('findKonaklamas', 'API\konaklamaController@search');

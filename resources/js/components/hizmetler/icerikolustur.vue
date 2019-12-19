@@ -34,7 +34,7 @@
                         </div>
                         <div class="card-tools px-1">
                             <select v-model="form.language2" @change="loadpostsbylang(form.language2)" class="form-control" id="language2">
-                                <option value="0">Dil Seç</option>
+                                <option value="0" disabled>Dil Seç</option>
                                 <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
                                     {{ localization.title }}
                                 </option>
@@ -119,7 +119,7 @@
 
                                         <div class="col-sm-12">
                                             <select @change="loadhizmettursbylang(form.language)" v-model="form.language" class="form-control" id="language" :class="{ 'is-invalid': form.errors.has('language') }">
-                                                <option value="0">Dil Seç</option>
+                                                <option value="0" disabled>Dil Seç</option>
                                                 <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
                                                     {{ localization.title }}
                                                 </option>
@@ -458,12 +458,7 @@
                                 <div class="alert alert-info" role="alert">
                                     Farklı dillerdeki aynı içerikli hizmetleri eşleştirmek amacıyla kullanılır.
                                 </div>
-
                                 <form class="form-horizontal">
-
-
-
-
                                     <div class="form-group">
                                         <label for="language3" class="col-sm-2 control-label">Dil:</label>
 
@@ -477,12 +472,11 @@
                                             <has-error :form="form" field="language3"></has-error>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Hizmet:</label>
 
                                         <div class="col-sm-12">
-                                            <select  v-model="form.hizmet2" class="form-control" :class="{ 'is-invalid': form.errors.has('hiz_id2') }">
+                                            <select  v-model="form.hizmet2" class="form-control" :class="{ 'is-invalid': form.errors.has('hizmet2') }">
                                                 <option value="0">Hizmet Seç</option>
                                                 <option v-if="posts2.length > 0" v-for="post2 in posts2" v-bind:value="post2.id">
                                                     {{ post2.name }}
@@ -491,9 +485,6 @@
                                             <has-error :form="form" field="hizmet2"></has-error>
                                         </div>
                                     </div>
-
-
-
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-12">
                                             <button  @click.prevent="eslestirmeyap" type="button" class="btn btn-dark"><i class="fas fa-check-double"></i> Eşleştir</button>
@@ -502,11 +493,6 @@
                                 </form>
                             </div>
                             <!-- /.tab-pane -->
-
-
-
-
-
 
                         </div>
                         <!-- /.tab-content -->
@@ -619,7 +605,7 @@
                         hiz_id:'',
                         althiz_id:'',
                         language:'',
-                        language2:'0',
+                        language2:'1',
                         language3:'0',
                         name: '',
                         meta_title: '',
@@ -957,7 +943,7 @@
                     })
             })
 
-            this.loadposts();
+            this.loadpostsbylang(this.form.language2);
             //this.loadAlthizmettur();
             this.loadHizmettur();
             this.loadLocalization();
