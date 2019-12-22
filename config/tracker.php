@@ -10,7 +10,7 @@ return [
     /*
      * Enable cache?
      */
-    'cache_enabled' => false,
+    'cache_enabled' => true,
 
     /*
      * Deffer booting for middleware use
@@ -20,7 +20,7 @@ return [
     /*
      * Robots should be tracked?
      */
-    'do_not_track_robots' => false,
+    'do_not_track_robots' => true,
 
     /*
      * Which environments are not trackable?
@@ -76,7 +76,7 @@ return [
      *    - Error log
      *    - URL queries (including values)
      */
-    'log_enabled' => true,
+    'log_enabled' => false,
 
     /*
      * Log artisan commands?
@@ -112,7 +112,7 @@ return [
      *
      */
     'do_not_log_sql_queries_connections' => [
-        'tracker',
+        'mysql',
     ],
 
     /*
@@ -136,7 +136,7 @@ return [
     /*
      * Log events?
      */
-    'log_events' => true,
+    'log_events' => false,
 
     /*
      * Which events do you want to log exactly?
@@ -191,27 +191,27 @@ return [
     /*
      * Do you wish to log your users?
      */
-    'log_users' => true,
+    'log_users' => false,
 
     /*
      * Do you wish to log devices?
      */
-    'log_devices' => true,
+    'log_devices' => false,
 
     /*
      * Do you wish to log languages?
      */
-    'log_languages' => true,
+    'log_languages' => false,
 
     /*
      * Do you wish to log HTTP referers?
      */
-    'log_referers' => true,
+    'log_referers' => false,
 
     /*
      * Do you wish to log url paths?
      */
-    'log_paths' => true,
+    'log_paths' => false,
 
     /*
      * Do you wish to log url queries and query arguments?

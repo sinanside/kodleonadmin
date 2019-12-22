@@ -37,10 +37,10 @@ class localizationController extends Controller
                 $image = $request->file('file');
                 $name = time() . '.' . $image->getClientOriginalExtension();
 
-                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/localization/thumbs/' . $name));
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/languages/thumbs/' . $name));
                 $watermark = Images::make(public_path('/img/watermark.png'));
                 //$Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/hizmetler/' . $name));
-                $Image = Images::make($image)->save(public_path('/img/localization/' . $name));
+                $Image = Images::make($image)->save(public_path('/img/languages/' . $name));
                 //$image->move(public_path().'/img/social/', $name);
             }
 
@@ -58,15 +58,13 @@ class localizationController extends Controller
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
             $this->validate($request, [
-                'hiz_id' => 'required|integer|min:1',
                 'title' => 'required|string|max:191'
             ]);
 
             return Localizations::create([
                 'title' => $request['title'],
-                'short_description' => $request['short_description'],
-                'photo' => $request['photo'],
-                'photo_alt' => $request['photo_alt'],
+                'short_title' => $request['short_title'],
+                'image' => $request['image'],
                 'active' => $request['active']
             ]);
         }
@@ -96,10 +94,8 @@ class localizationController extends Controller
         {
             $localizations = Localizations::findOrFail($id);
             $this->validate($request, [
-                'hiz_id' => 'required|integer|min:1',
                 'title' => 'required|string|max:191'
             ]);
-            $localizations->slug = null;
             $localizations->update($request->all());
 
             return ['message' => 'update localization'];

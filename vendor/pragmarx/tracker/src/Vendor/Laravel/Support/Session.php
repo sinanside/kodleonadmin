@@ -16,7 +16,7 @@ class Session
 
         LaravelSession::put('tracker.stats.page', $this->getValue('page', 'visits'));
 
-        $this->minutes = new Minutes(60 * 24 * LaravelSession::get('tracker.stats.days'));
+        $this->minutes = new Minutes(30 * 60 * 24 * LaravelSession::get('tracker.stats.days'));
     }
 
     /**

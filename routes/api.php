@@ -289,3 +289,11 @@ Route::post('konaklamas_image4', 'API\konaklamaController@storeimage4');
 Route::post('konaklamas_image5', 'API\konaklamaController@storeimage5');
 Route::post('konaklamasup', 'API\konaklamaController@up');
 Route::post('konaklamasdown', 'API\konaklamaController@down');
+
+
+//localization
+Route::get('findlocalizations', 'API\localizationController@search');
+Route::put('localizations', 'API\localizationController@update');
+Route::post('localizationsup', 'API\localizationController@up');
+Route::post('localizationsdown', 'API\localizationController@down');
+Route::post('localizations_image', 'API\localizationController@storeimage');

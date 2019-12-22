@@ -175,16 +175,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         </li>
 
-                        <li class="nav-item">
-                            <router-link to="/caruselolustur" class="nav-link">
-                                <i class="nav-icon fas fa-id-card pink"></i>
-                                <p>
-                                    Karusel (Eski)
-                                </p>
-                            </router-link>
-                        </li>
-
-
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-baseball-ball white"></i>
@@ -324,6 +314,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <router-link to="/users" class="nav-link">
                                         <i class="fas fa-users nav-icon blue"></i>
                                         <p>{{ __('main.users') }}</p>
+                                    </router-link>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <router-link to="/dilsecenekleri" class="nav-link">
+                                        <i class="fas fa-language nav-icon blue"></i>
+                                        <p>Di Seçenekleri</p>
                                     </router-link>
                                 </li>
                             </ul>

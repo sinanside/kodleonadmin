@@ -101,6 +101,7 @@
                             <li class="nav-item"><a class="nav-link active show" href="#headerinfo" data-toggle="tab">{{ $trans[lang+'.blog']['header_information'] }}</a></li>
                             <li class="nav-item"><a class="nav-link" href="#shortdescription" data-toggle="tab">{{ $trans[lang+'.pages']['short_descriptions'] }}</a></li>
                             <li class="nav-item"><a class="nav-link" href="#pictures" data-toggle="tab">{{ $trans[lang+'.blog']['pictures'] }}</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#karsilastir" data-toggle="tab">Karşılaştır</a></li>
                             <li class="nav-item"><a class="nav-link" href="#detailed" data-toggle="tab">{{ $trans[lang+'.blog']['detailed_content'] }}</a></li>
                             <li class="nav-item"><a class="nav-link" href="#eslestir" data-toggle="tab">Eşleştir</a></li>
 
@@ -333,30 +334,44 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <strong>{{ $trans[lang+'.pages']['upload_picture4'] }}:</strong><br>
-                                            <vue-dropzone  ref="myVueDropzone4" id="upload4" :options="imguploadconfig4" @vdropzone-complete="picture4complete"></vue-dropzone>
-                                            <input v-model="form.picture4" id="picture4" type="text" name="picture4"
-                                                   class="form-control" :class="{ 'is-invalid': form.errors.has('picture4') }">
-                                            <has-error :form="form" field="picture4"></has-error>
-
-                                            <input type="text" v-model="form.picture4_alt" class="form-control" id="picture4_alt"  :class="{ 'is-invalid': form.errors.has('picture4_alt') }">
-                                            <has-error :form="form" field="picture4_alt"></has-error>
-                                        </div>
-                                        <div class="col-6">
-                                            <strong>{{ $trans[lang+'.pages']['preview'] }}:</strong><br>
-                                            <img v-if="form.picture4" :src="'\/img\/hizmetler\/thumbs\/'+form.picture4">
-                                            <img v-else :src="'\/img\/nophoto.png'">
-                                        </div>
+                                   <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-12">
+                                            <button  v-if="editmode"  @click.prevent="updateposts" type="button" class="btn btn-primary"><i class="fas fa-edit"></i> {{ $trans[lang+'.blog']['update'] }}</button>
+                                            <button  v-else  @click.prevent="createposts" type="button" class="btn btn-primary"><i class="fas fa-plus"></i> {{ $trans[lang+'.blog']['create'] }}</button>
+                                            <button  @click.prevent="backtolist" type="button" class="btn btn-warning"><i class="fas fa-undo"></i> Hizmet Listesine Dön </button>   </div>
                                     </div>
-                                </div>
+                                </form>
+                            </div>
+                            <!-- /.tab-pane -->
+
+                            <div class="tab-pane" id="karsilastir">
+
+                                <form class="form-horizontal">
 
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-6">
-                                                <strong>{{ $trans[lang+'.pages']['upload_picture5'] }}:</strong><br>
+                                                <strong>Karşılaştırma (Öncesi):</strong><br>
+                                                <vue-dropzone  ref="myVueDropzone4" id="upload4" :options="imguploadconfig4" @vdropzone-complete="picture4complete"></vue-dropzone>
+                                                <input v-model="form.picture4" id="picture4" type="text" name="picture4"
+                                                       class="form-control" :class="{ 'is-invalid': form.errors.has('picture4') }">
+                                                <has-error :form="form" field="picture4"></has-error>
+
+                                                <input type="text" v-model="form.picture4_alt" class="form-control" id="picture4_alt"  :class="{ 'is-invalid': form.errors.has('picture4_alt') }">
+                                                <has-error :form="form" field="picture4_alt"></has-error>
+                                            </div>
+                                            <div class="col-6">
+                                                <strong>{{ $trans[lang+'.pages']['preview'] }}:</strong><br>
+                                                <img v-if="form.picture4" :src="'\/img\/hizmetler\/thumbs\/'+form.picture4">
+                                                <img v-else :src="'\/img\/nophoto.png'">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <strong>Karşılaştırma (Sonrası):</strong><br>
                                                 <vue-dropzone  ref="myVueDropzone5" id="upload5" :options="imguploadconfig5" @vdropzone-complete="picture5complete"></vue-dropzone>
                                                 <input v-model="form.picture5" id="picture5" type="text" name="picture5"
                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('picture5') }">
