@@ -48,8 +48,8 @@
                                 <td>{{ contactus.email }}</td>
                                 <td>{{ contactus.phone }}</td>
                                 <td>
-                                    <span class="badge badge-success" v-if="contactus.responsed">{{ $trans[lang+'.contactus']['active'] }}</span>
-                                    <span class="badge badge-danger" v-else>{{ $trans[lang+'.contactus']['passive'] }}</span>
+                                    <span class="badge badge-success" v-show="contactus.responsed==1">{{ $trans[lang+'.contactus']['active'] }}</span>
+                                    <span class="badge badge-danger" v-show="contactus.responsed==0">{{ $trans[lang+'.contactus']['passive'] }}</span>
                                 </td>
                                 <td>{{ contactus.created_at  | moment("add", "3 h", "from", "now") }}</td>
                                 <td>{{ contactus.updated_at  | moment("add", "3 h", "from", "now") }}</td>
@@ -169,7 +169,7 @@
     import vueDropzone from "vue2-dropzone";
     import { VueEditor, Quill } from "vue2-editor";
     import { ImageDrop } from "quill-image-drop-module";
-    import ImageResize from "quill-image-resize-module-withfix";
+    import ImageResize from "quill-image-resize-module";
     import axios from "axios";
 
     Quill.register("modules/imageDrop", ImageDrop);
@@ -197,9 +197,9 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
+                    chunking: false,
                     dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
                     addRemoveLinks: true
                 },

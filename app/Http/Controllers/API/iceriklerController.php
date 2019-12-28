@@ -56,6 +56,13 @@ class iceriklerController extends Controller
 
     }
 
+    public function eslestirmesil(Request $request)
+    {
+        $this->authorize('isAdmin');
+        $hizmet1 = Pagecreator::with('localization')->findOrFail($request["id"])->update(['special_code' => null]);
+        return "eşleştirme silindi";
+    }
+
     public function listbylang($id)
     {
         $this->authorize('isAdmin');
@@ -138,6 +145,10 @@ class iceriklerController extends Controller
             'description3'=>$request['description3'],
             'description4'=>$request['description4'],
             'description5'=>$request['description5'],
+            'description6'=>$request['description6'],
+            'description7'=>$request['descriptio7'],
+            'description8'=>$request['description8'],
+
 
         ]);
 
@@ -286,6 +297,75 @@ class iceriklerController extends Controller
             ], 200);
         }
     }
+    public function storeimage6(Request $request)
+    {
+        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+            if ($request->file('file')) {
+                $image = $request->file('file');
+                $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
+
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/sayfalar/thumbs/' . $name));
+
+                $watermark = Images::make(public_path('/img/watermark2.png'));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/sayfalar/' . $name));
+                //$image->move(public_path().'/img/social/', $name);
+            }
+
+            $image = new Image();
+            $image->image_name = $name;
+            $image->save();
+
+            return response()->json([
+                'data' => $name
+            ], 200);
+        }
+    }
+    public function storeimage7(Request $request)
+    {
+        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+            if ($request->file('file')) {
+                $image = $request->file('file');
+                $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
+
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/sayfalar/thumbs/' . $name));
+
+                $watermark = Images::make(public_path('/img/watermark2.png'));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/sayfalar/' . $name));
+                //$image->move(public_path().'/img/social/', $name);
+            }
+
+            $image = new Image();
+            $image->image_name = $name;
+            $image->save();
+
+            return response()->json([
+                'data' => $name
+            ], 200);
+        }
+    }
+    public function storeimage8(Request $request)
+    {
+        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+            if ($request->file('file')) {
+                $image = $request->file('file');
+                $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
+
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/sayfalar/thumbs/' . $name));
+
+                $watermark = Images::make(public_path('/img/watermark2.png'));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/sayfalar/' . $name));
+                //$image->move(public_path().'/img/social/', $name);
+            }
+
+            $image = new Image();
+            $image->image_name = $name;
+            $image->save();
+
+            return response()->json([
+                'data' => $name
+            ], 200);
+        }
+    }
     public function storeimagebyeditor(Request $request)
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
@@ -316,6 +396,15 @@ class iceriklerController extends Controller
     {
         $this->authorize('isAdmin');
         return Pagecreator::with('localization')->findOrFail($id);
+    }
+
+    public function searchbyspecialcode($code){
+        $this->authorize('isAdmin');
+            $pages = Pagecreator::with('localization')->where(function($query) use ($code){
+                $query->where('special_code','=',"$code");
+            })->paginate(10);
+
+        return $pages;
     }
 
     public function up(Request $request)

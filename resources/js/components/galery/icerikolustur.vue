@@ -9,12 +9,12 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Galery</h1>
+                        <h1 class="m-0 text-dark">Referanslar</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="/dashboard">{{ $trans[lang+'.pages']['dashboard'] }}</a></li>
-                            <li class="breadcrumb-item active">Galery</li>
+                            <li class="breadcrumb-item active">Referanslar</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -26,7 +26,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-success">
-                        <h3 class="card-title">Galery Listesi</h3>
+                        <h3 class="card-title">Referans Listesi</h3>
 
                         <div class="card-tools">
                             <button class="btn btn-primary" @click="newForm">{{ $trans[lang+'.blog']['addnew'] }} <i class="fas fa-plus fa-fw"></i></button>
@@ -62,12 +62,12 @@
                                     <img v-else :src="'\/img\/nophoto.png'"></td>
                                 <td>{{ posts.hizmettur.title }}</td>
                                 <td  v-if="posts.althiz_id !== null">{{ posts.althizmettur.title }}</td>
-                                <td>-</td>
+                                <td v-else>-</td>
                                 <td>{{ posts.name }}</td>
                                 <td>{{ posts.localization.title }}</td>
                                 <td>
-                                    <span class="badge badge-success" v-if="posts.active">{{ $trans[lang+'.blog']['active'] }}</span>
-                                    <span class="badge badge-danger" v-else>{{ $trans[lang+'.blog']['passive'] }}</span>
+                                    <span class="badge badge-success" v-show="posts.active==1">{{ $trans[lang+'.blog']['active'] }}</span>
+                                    <span class="badge badge-danger" v-show="posts.active==0">{{ $trans[lang+'.blog']['passive'] }}</span>
                                 </td>
                                 <td>
                                     <a href="#" @click="uprecords(posts.id)"><i class="fa fa-arrow-up orange"></i></a> /
@@ -90,12 +90,6 @@
 
 
         <div v-show="addmode" class="row mt-2" v-if="$gate.isAdmin()">
-
-            <div v-if="hizmetturs.length == 0" class="col-md-12 alert alert-warning alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h5><i class="icon fas fa-exclamation-triangle"></i> {{ $trans[lang+'.blog']['alert'] }}</h5>
-                {{ $trans[lang+'.blog']['category_warning'] }}
-            </div>
 
             <div class="col-md-12">
                 <div class="card">
@@ -209,7 +203,7 @@
                                         <div class="col-sm-offset-2 col-sm-12">
                                             <button  v-if="editmode"  @click.prevent="updateposts" type="button" class="btn btn-primary"><i class="fas fa-edit"></i> {{ $trans[lang+'.blog']['update'] }}</button>
                                             <button  v-else  @click.prevent="createposts" type="button" class="btn btn-primary"><i class="fas fa-plus"></i> {{ $trans[lang+'.blog']['create'] }}</button>
-                                            <button  @click.prevent="backtolist" type="button" class="btn btn-warning"><i class="fas fa-undo"></i> Galery Listesine Dön </button>
+                                            <button  @click.prevent="backtolist" type="button" class="btn btn-warning"><i class="fas fa-undo"></i> Referans Listesine Dön </button>
                                         </div>
                                     </div>
                                 </form>
@@ -256,9 +250,9 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
+                    chunking: false,
                     dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
                     addRemoveLinks: true
                 },

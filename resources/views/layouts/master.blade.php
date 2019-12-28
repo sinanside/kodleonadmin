@@ -88,6 +88,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </router-link>
                     </li>
 
+                        <!-- MENÜ - KAYITLAR  -->
+
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-user-clock yellow"></i>
@@ -101,12 +103,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <li class="nav-item">
                                     <router-link to="/regs" class="nav-link">
                                         <i class="fas fa-angle-right nav-icon cyan"></i>
-                                        <p>Rezervasyonlar</p>
+                                        <p>Teklifler</p>
                                     </router-link>
                                 </li>
                             </ul>
 
                         </li>
+
+                        <!-- MENÜ - KAYITLAR BİTİŞ  -->
 
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
@@ -128,7 +132,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         </li>
 
-                        <li class="nav-item has-treeview">
+                        <!--<li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-hotel brown"></i>
                                 <p>
@@ -146,7 +150,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                             </ul>
 
-                        </li>
+                        </li>-->
 
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
@@ -270,7 +274,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <router-link to="/galeryolustur" class="nav-link">
                                 <i class="nav-icon fas fa-images brown"></i>
                                 <p>
-                                   Galeri
+                                   Referanslar
+                                </p>
+                            </router-link>
+                        </li>
+
+                        <li class="nav-item">
+                            <router-link to="/ourteam" class="nav-link">
+                                <i class="nav-icon fas fa-users green"></i>
+                                <p>
+                                    Takım
+                                </p>
+                            </router-link>
+                        </li>
+
+                        <li class="nav-item">
+                            <router-link to="/isortaklari" class="nav-link">
+                                <i class="nav-icon fa fa-cubes lightblue"></i>
+                                <p>
+                                    İş Ortakları
                                 </p>
                             </router-link>
                         </li>

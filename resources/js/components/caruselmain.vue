@@ -100,12 +100,16 @@
                 <div class="card">
 
                     <div class="card-header p-2 bg-success">
-                        <h3 class="card-title">{{ $trans[lang+'.carousel']['title'] }}</h3>
+                        <ul class="nav nav-pills">
+                        <li class="nav-item"><a class="nav-link active show" href="#giristab" data-toggle="tab">{{ $trans[lang+'.blog']['header_information'] }}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#shortdescription" data-toggle="tab">Linkler</a></li>
+
+                    </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">
                         <div class="tab-content">
                             <!-- picturetab Tab -->
-                            <div class="tab-pane active show" id="picturetab">
+                            <div class="tab-pane active show" id="giristab">
 
                                 <form class="form-horizontal">
 
@@ -123,7 +127,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <strong>{{ $trans[lang+'.carousel']['status'] }}:</strong><br>
+                                        <strong>Tür:</strong><br>
                                         <select v-model="form.type" id="type" name="type"
                                                 class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
                                             <option value="0">Default</option>
@@ -179,6 +183,70 @@
                             </div>
                             <!-- /.tab-pane -->
 
+                            <!-- shortdescriptions Tab -->
+                            <div class="tab-pane" id="shortdescription">
+
+                                <form class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="short_description1" class="col-sm-2 control-label">Başlık 1:</label>
+
+                                        <div class="col-sm-12">
+                                            <input type="" v-model="form.short_description1" class="form-control" id="short_description1"  :class="{ 'is-invalid': form.errors.has('short_description1') }">
+                                            <has-error :form="form" field="short_description1"></has-error>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="short_description2" class="col-sm-2 control-label">Link 1:</label>
+
+                                        <div class="col-sm-12">
+                                            <input type="" v-model="form.short_description2" class="form-control" id="short_description2"  :class="{ 'is-invalid': form.errors.has('short_description2') }">
+                                            <has-error :form="form" field="short_description2"></has-error>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="short_description1" class="col-sm-2 control-label">Başlık 2:</label>
+
+                                        <div class="col-sm-12">
+                                            <input type="" v-model="form.short_description3" class="form-control" id="short_description3"  :class="{ 'is-invalid': form.errors.has('short_description3') }">
+                                            <has-error :form="form" field="short_description3"></has-error>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="short_description1" class="col-sm-2 control-label">Link 2:</label>
+
+                                        <div class="col-sm-12">
+                                            <input type="" v-model="form.short_description4" class="form-control" id="short_description4"  :class="{ 'is-invalid': form.errors.has('short_description4') }">
+                                            <has-error :form="form" field="short_description4"></has-error>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="short_description5" class="col-sm-2 control-label">Başlık 3:</label>
+
+                                        <div class="col-sm-12">
+                                            <input type="" v-model="form.short_description5" class="form-control" id="short_description5"  :class="{ 'is-invalid': form.errors.has('short_description5') }">
+                                            <has-error :form="form" field="short_description5"></has-error>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="short_description6" class="col-sm-2 control-label">Link 3:</label>
+
+                                        <div class="col-sm-12">
+                                            <input type="" v-model="form.short_description6" class="form-control" id="short_description6"  :class="{ 'is-invalid': form.errors.has('short_description6') }">
+                                            <has-error :form="form" field="short_description6"></has-error>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-12">
+                                            <button  v-if="editmode"  @click.prevent="updatecarousel" type="button" class="btn btn-primary"><i class="fas fa-edit"></i> {{ $trans[lang+'.blog']['update'] }}</button>
+                                            <button  v-else  @click.prevent="createcarousel" type="button" class="btn btn-primary"><i class="fas fa-plus"></i> {{ $trans[lang+'.blog']['create'] }}</button>
+                                            <button  @click.prevent="backtolist" type="button" class="btn btn-warning"><i class="fas fa-undo"></i> {{ $trans[lang+'.carousel']['backtolist'] }} </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.tab-pane -->
+
                         </div>
                         <!-- /.tab-content -->
                     </div><!-- /.card-body -->
@@ -217,9 +285,9 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
+                    chunking: false,
                     dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
                     addRemoveLinks: true
                 },

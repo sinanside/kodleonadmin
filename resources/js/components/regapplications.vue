@@ -9,7 +9,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">{{ $trans[lang+'.regs']['title'] }}</h1>
+                        <h1 class="m-0 text-dark">Kayıt</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -25,7 +25,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-success">
-                        <h3 class="card-title">{{ $trans[lang+'.regs']['title'] }}</h3>
+                        <h3 class="card-title">Teklifler</h3>
                         <div class="card-tools">
                             <button class="btn btn-primary" @click="refresh_records">{{ $trans[lang+'.regs']['refresh'] }} <i class="fas fa-sync fa-fw"></i></button>
                         </div>
@@ -36,9 +36,8 @@
                             <tbody><tr>
                                 <th>#</th>
                                 <th>{{ $trans[lang+'.regs']['name'] }}</th>
+                                <th>{{ $trans[lang+'.contactus']['email'] }}</th>
                                 <th>{{ $trans[lang+'.regs']['phone'] }}</th>
-                                <th>Tür</th>
-                                <th>Randevu Tarihi</th>
                                 <th>{{ $trans[lang+'.regs']['status'] }}</th>
                                 <th>Zaman</th>
                                 <th>{{ $trans[lang+'.regs']['modify'] }}</th>
@@ -48,9 +47,8 @@
                             <tr v-for="regs,index in regs.data" :key="regs.id" v-bind:class="{ 'table-info': regs.reads==0 }">
                                 <td>{{ index+1 }}</td>
                                 <td>{{ regs.name }}</td>
+                                <td>{{ regs.email }}</td>
                                 <td>{{ regs.phone }}</td>
-                                <td>{{ regs.type }}</td>
-                                <td>{{ regs.regdate }}</td>
                                 <td>
                                     <span v-show="regs.status==1" class="badge badge-success">{{ $trans[lang+'.regs']['active'] }}</span>
                                     <span v-show="regs.status==0" class="badge badge-danger">{{ $trans[lang+'.regs']['passive'] }}</span>
@@ -94,32 +92,20 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ $trans[lang+'.regs']['email'] }}:</label>
+                                <div class="col-sm-12">
+                                    <input v-model="form.email" id="email" type="text" name="email"
+                                           class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+                                    <has-error :form="form" field="email"></has-error>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">{{ $trans[lang+'.regs']['phone'] }}:</label>
                                 <div class="col-sm-12">
                                 <input v-model="form.phone" id="top_text" type="text" name="phone"
                                        class="form-control" :class="{ 'is-invalid': form.errors.has('phone') }">
                                 <has-error :form="form" field="phone"></has-error>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Tür:</label>
-                                <div class="col-sm-12">
-                                <input v-model="form.type" id="middle_text" type="text" name="type"
-                                       class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
-                                <has-error :form="form" field="type"></has-error>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Randevu Tarihi:</label>
-                                <div class="col-sm-12">
-                                    <select v-model="form.regdate" class="form-control" :class="{ 'is-invalid': form.errors.has('regdate') }">
-                                        <option value="randevu">Randevu</option>
-                                        <option value="soru">Soru</option>
-                                        <option value="sikayet">Şikayet</option>
-                                    </select>
-                                    <has-error :form="form" field="regdate"></has-error>
                                 </div>
                             </div>
 
@@ -157,15 +143,12 @@
 
                 editmode: false,
                 regs: {},
-                cities: {},
                 form: new Form(
                     {
                         id: '',
                         name: '',
                         phone: '',
                         email: '',
-                        city_id: '0',
-                        town: '',
                         reads: '',
                         status: '0'
                     })
@@ -213,7 +196,6 @@
                 this.form.reset();﻿
                 $('#addNew').modal('show');
                 this.form.fill(regs);
-                this.loadcities();
             },
             deleteregs(id) {
 
@@ -254,9 +236,6 @@
             updateread() {
                 axios.get('/api/regsread');
             },
-            loadcities() {
-                axios.get('/api/allcities').then(({ data})=> (this.cities=data));
-            }
         },
         created() {
             Fire.$on('searching',() => {

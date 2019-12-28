@@ -1,3 +1,7 @@
 .env
+.idea
+.editorconfig
 node_modules
 public/img
+error.log
+yarn-error.log

@@ -32,18 +32,18 @@ class hizmetlerController extends Controller
     {
         $this->authorize('isAdmin');
         $random = mt_rand(1000000000, 9999999999);
-        if($request["hizmet2"]>0)
+        if($request["icerik2"]>0)
         {
-        $hizmet1 = Hizmetcreator::with('hizmettur','althizmettur','localization')->findOrFail($request["id"]);
-        $refcode=$hizmet1->special_code;
-        if($refcode > 0)
-        {
-            $hizmet2 = Hizmetcreator::with('hizmettur','althizmettur','localization')->findOrFail($request["hizmet2"])->update(['special_code' => $refcode]);
-        }
-        else
+            $hizmet1 = Hizmetcreator::with('hizmettur','althizmettur','localization')->findOrFail($request["id"]);
+            $refcode=$hizmet1->special_code;
+            if($refcode > 0)
+            {
+                $hizmet2 = Hizmetcreator::with('hizmettur','althizmettur','localization')->findOrFail($request["icerik2"])->update(['special_code' => $refcode]);
+            }
+            else
             {
                 $hizmet1->update(['special_code' => $random]);
-                $hizmet2 = Hizmetcreator::with('hizmettur','althizmettur','localization')->findOrFail($request["hizmet2"])->update(['special_code' => $random]);            }
+                $hizmet2 = Hizmetcreator::with('hizmettur','althizmettur','localization')->findOrFail($request["icerik2"])->update(['special_code' => $random]);            }
             return "pair success";
         }
         else
@@ -51,9 +51,23 @@ class hizmetlerController extends Controller
             return 'pair failed';
         }
 
-
-
     }
+
+    public function eslestirmesil(Request $request)
+    {
+        $this->authorize('isAdmin');
+        $hizmet1 = Hizmetcreator::with('hizmettur','althizmettur','localization')->findOrFail($request["id"])->update(['special_code' => null]);
+        return "eşleştirme silindi";
+    }
+    public function searchbyspecialcode($code){
+        $this->authorize('isAdmin');
+        $pages = Hizmetcreator::with('hizmettur','althizmettur','localization')->where(function($query) use ($code){
+            $query->where('special_code','=',"$code");
+        })->paginate(10);
+
+        return $pages;
+    }
+
     public function listbylang($id)
     {
         $this->authorize('isAdmin');
@@ -147,12 +161,15 @@ class hizmetlerController extends Controller
             'description3'=>$request['description3'],
             'description4'=>$request['description4'],
             'description5'=>$request['description5'],
+            'description6'=>$request['description6'],
+            'description7'=>$request['description7'],
+            'description8'=>$request['description8'],
 
         ]);
 
-        $path = public_path().'/img/'.$page->slug;
-        File::isDirectory($path) or File::makeDirectory($path, 0777, true, true);
-        File::isDirectory($path.'/thumbs') or File::makeDirectory($path.'/thumbs', 0777, true, true);
+        //$path = public_path().'/img/'.$page->slug;
+        //File::isDirectory($path) or File::makeDirectory($path, 0777, true, true);
+       // File::isDirectory($path.'/thumbs') or File::makeDirectory($path.'/thumbs', 0777, true, true);
 
     }
 
@@ -273,6 +290,76 @@ class hizmetlerController extends Controller
         }
     }
     public function storeimage5(Request $request)
+    {
+        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+            if ($request->file('file')) {
+                $image = $request->file('file');
+                $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
+
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/hizmetler/thumbs/' . $name));
+
+                $watermark = Images::make(public_path('/img/watermark2.png'));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/hizmetler/' . $name));
+                //$image->move(public_path().'/img/social/', $name);
+            }
+
+            $image = new Image();
+            $image->image_name = $name;
+            $image->save();
+
+            return response()->json([
+                'data' => $name
+            ], 200);
+        }
+    }
+
+    public function storeimage6(Request $request)
+    {
+        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+            if ($request->file('file')) {
+                $image = $request->file('file');
+                $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
+
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/hizmetler/thumbs/' . $name));
+
+                $watermark = Images::make(public_path('/img/watermark2.png'));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/hizmetler/' . $name));
+                //$image->move(public_path().'/img/social/', $name);
+            }
+
+            $image = new Image();
+            $image->image_name = $name;
+            $image->save();
+
+            return response()->json([
+                'data' => $name
+            ], 200);
+        }
+    }
+    public function storeimage7(Request $request)
+    {
+        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+            if ($request->file('file')) {
+                $image = $request->file('file');
+                $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
+
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/hizmetler/thumbs/' . $name));
+
+                $watermark = Images::make(public_path('/img/watermark2.png'));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/hizmetler/' . $name));
+                //$image->move(public_path().'/img/social/', $name);
+            }
+
+            $image = new Image();
+            $image->image_name = $name;
+            $image->save();
+
+            return response()->json([
+                'data' => $name
+            ], 200);
+        }
+    }
+    public function storeimage8(Request $request)
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
             if ($request->file('file')) {

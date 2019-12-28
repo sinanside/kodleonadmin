@@ -100,9 +100,9 @@ class carusellerController extends Controller
 
         ]);
 
-        $path = public_path().'/img/'.$page->slug;
-        File::isDirectory($path) or File::makeDirectory($path, 0777, true, true);
-        File::isDirectory($path.'/thumbs') or File::makeDirectory($path.'/thumbs', 0777, true, true);
+        //$path = public_path().'/img/'.$page->slug;
+        //File::isDirectory($path) or File::makeDirectory($path, 0777, true, true);
+        //File::isDirectory($path.'/thumbs') or File::makeDirectory($path.'/thumbs', 0777, true, true);
 
     }
 
@@ -114,10 +114,10 @@ class carusellerController extends Controller
                 $image = $request->file('file');
                 $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
 
-                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/sayfalar/thumbs/' . $name));
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/karuseller/thumbs/' . $name));
 
                 $watermark = Images::make(public_path('/img/watermark.png'));
-                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/sayfalar/' . $name));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/karuseller/' . $name));
 
                 //$image->move(public_path().'/img/social/', $name);
             }
@@ -161,9 +161,9 @@ class carusellerController extends Controller
                 $image = $request->file('file');
                 $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
 
-                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/sayfalar/thumbs/' . $name));
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/karuseller/thumbs/' . $name));
                 $watermark = Images::make(public_path('/img/watermark2.png'));
-                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/sayfalar/' . $name));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/karuseller/' . $name));
                 //$image->move(public_path().'/img/social/', $name);
             }
 
@@ -183,10 +183,10 @@ class carusellerController extends Controller
                 $image = $request->file('file');
                 $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
 
-                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/sayfalar/thumbs/' . $name));
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/karuseller/thumbs/' . $name));
 
                 $watermark = Images::make(public_path('/img/watermark2.png'));
-                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/sayfalar/' . $name));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/karuseller/' . $name));
                 //$image->move(public_path().'/img/social/', $name);
             }
 
@@ -206,10 +206,10 @@ class carusellerController extends Controller
                 $image = $request->file('file');
                 $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
 
-                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/sayfalar/thumbs/' . $name));
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/karuseller/thumbs/' . $name));
 
                 $watermark = Images::make(public_path('/img/watermark2.png'));
-                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/sayfalar/' . $name));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/karuseller/' . $name));
                 //$image->move(public_path().'/img/social/', $name);
             }
 
@@ -229,10 +229,10 @@ class carusellerController extends Controller
                 $image = $request->file('file');
                 $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
 
-                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/sayfalar/thumbs/' . $name));
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/karuseller/thumbs/' . $name));
 
                 $watermark = Images::make(public_path('/img/watermark2.png'));
-                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/sayfalar/' . $name));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/karuseller/' . $name));
                 //$image->move(public_path().'/img/social/', $name);
             }
 

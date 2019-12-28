@@ -179,7 +179,7 @@
 <script>
     import { VueEditor, Quill } from "vue2-editor";
     import { ImageDrop } from "quill-image-drop-module";
-    import ImageResize from "quill-image-resize-module-withfix";
+    import ImageResize from "quill-image-resize-module";
     import axios from "axios";
 
     Quill.register("modules/imageDrop", ImageDrop);

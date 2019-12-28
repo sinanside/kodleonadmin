@@ -57,8 +57,8 @@
                                 </td>
 
                                 <td>
-                                    <span class="badge badge-success" v-if="posts.active">{{ $trans[lang+'.blog']['active'] }}</span>
-                                    <span class="badge badge-danger" v-else>{{ $trans[lang+'.blog']['passive'] }}</span>
+                                    <span class="badge badge-success" v-show="posts.active==1">{{ $trans[lang+'.blog']['active'] }}</span>
+                                    <span class="badge badge-danger" v-show="posts.active==0">{{ $trans[lang+'.blog']['passive'] }}</span>
                                 </td>
                                 <td>
                                     <a href="#" @click="uprecords(posts.id)"><i class="fa fa-arrow-up orange"></i></a> /
@@ -491,7 +491,7 @@
     import vueDropzone from "vue2-dropzone";
     import { VueEditor, Quill } from "vue2-editor";
     import { ImageDrop } from "quill-image-drop-module";
-    import ImageResize from "quill-image-resize-module-withfix";
+    import ImageResize from "quill-image-resize-module";
     import axios from "axios";
 
     Quill.register("modules/imageDrop", ImageDrop);
@@ -519,9 +519,9 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
+                    chunking: false,
                     dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
                     addRemoveLinks: true
                 },
@@ -530,9 +530,9 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
+                    chunking: false,
                     dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
                     addRemoveLinks: true
                 },
@@ -541,9 +541,9 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
+                    chunking: false,
                     dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
                     addRemoveLinks: true
                 },
@@ -552,9 +552,9 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
+                    chunking: false,
                     dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
                     addRemoveLinks: true
                 },

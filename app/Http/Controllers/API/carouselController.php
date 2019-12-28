@@ -90,6 +90,12 @@ class carouselController extends Controller
             'image'=>$request['image'],
             'image_alt'=>$request['image_alt'],
             'type'=>$request['type'],
+            'short_description1'=>$request['short_description1'],
+            'short_description2'=>$request['short_description2'],
+            'short_description3'=>$request['short_description3'],
+            'short_description4'=>$request['short_description4'],
+            'short_description5'=>$request['short_description5'],
+            'short_description6'=>$request['short_description6'],
             'language'=>$request['language'],
             'active'=>$request['active']
         ]);

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reg_application extends Model
 {
     protected $fillable = [
-        'name', 'phone', 'type', 'regdate', 'reads', 'status'
+        'name', 'email','phone', 'type', 'regdate', 'reads', 'status'
     ];
 
 

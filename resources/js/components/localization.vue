@@ -57,8 +57,8 @@
                                 <td>{{ posts.short_title }}</td>
 
                                 <td>
-                                    <span class="badge badge-success" v-if="posts.active">{{ $trans[lang+'.blog']['active'] }}</span>
-                                    <span class="badge badge-danger" v-else>{{ $trans[lang+'.blog']['passive'] }}</span>
+                                    <span class="badge badge-success" v-show="posts.active==1">{{ $trans[lang+'.blog']['active'] }}</span>
+                                    <span class="badge badge-danger" v-show="posts.active==0">{{ $trans[lang+'.blog']['passive'] }}</span>
                                 </td>
                                 <td>
                                     <a href="#" @click="uprecords(posts.id)"><i class="fa fa-arrow-up orange"></i></a> /
@@ -195,9 +195,9 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
+                    chunking: false,
                     dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
                     addRemoveLinks: true
                 },

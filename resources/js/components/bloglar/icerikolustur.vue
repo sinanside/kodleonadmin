@@ -47,6 +47,8 @@
                         <table class="table table-hover">
                             <tbody><tr>
                                 <th>#</th>
+                                <th>Hizmet</th>
+                                <th>Alt Hizmet</th>
                                 <th>Tanım</th>
                                 <th>Dil</th>
                                 <th>Durum</th>
@@ -56,11 +58,16 @@
 
                             <tr v-for="posts,index in posts.data" :key="posts.id">
                                 <td>{{ index+1 }}</td>
+                                <td v-if="posts.hiz_id !== null && posts.hiz_id !==0">{{ posts.hizmettur.title }}</td>
+                                <td v-else>-</td>
+                                <td  v-if="posts.althiz_id !== null && posts.althiz_id !==0">{{ posts.althizmettur.title }}</td>
+                                <td v-else>-</td>
+
                                 <td>{{ posts.name }}</td>
                                 <td>{{ posts.localization.title }}</td>
                                 <td>
-                                    <span class="badge badge-success" v-if="posts.active">{{ $trans[lang+'.blog']['active'] }}</span>
-                                    <span class="badge badge-danger" v-else>{{ $trans[lang+'.blog']['passive'] }}</span>
+                                    <span class="badge badge-success" v-show="posts.active==1">{{ $trans[lang+'.blog']['active'] }}</span>
+                                    <span class="badge badge-danger" v-show="posts.active==0">{{ $trans[lang+'.blog']['passive'] }}</span>
                                 </td>
                                 <td>
                                     <a href="#" @click="uprecords(posts.id)"><i class="fa fa-arrow-up orange"></i></a> /
@@ -109,6 +116,34 @@
                                                 <option value="0">Dil Seç</option>
                                                 <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
                                                     {{ localization.title }}
+                                                </option>
+                                            </select>
+                                            <has-error :form="form" field="althiz_id"></has-error>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Kategori:</label>
+
+                                        <div class="col-sm-12">
+                                            <select @change="loadAlthizmettur(form.hiz_id)" v-model="form.hiz_id" class="form-control" :class="{ 'is-invalid': form.errors.has('hiz_id') }">
+                                                <option value="0">Hizmet Seç</option>
+                                                <option v-if="hizmetturs.length > 0" v-for="hizmettur in hizmetturs" v-bind:value="hizmettur.id">
+                                                    {{ hizmettur.title }}
+                                                </option>
+                                            </select>
+                                            <has-error :form="form" field="hiz_id"></has-error>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="althiz_id" class="col-sm-2 control-label">Alt Hizmet:</label>
+
+                                        <div class="col-sm-12">
+                                            <select v-model="form.althiz_id" class="form-control" id="althiz_id" :class="{ 'is-invalid': form.errors.has('althiz_id') }">
+                                                <option value="0">Alt Hizmet Seç</option>
+                                                <option v-if="althizmetturs.length > 0" v-for="althizmettur in althizmetturs" v-bind:value="althizmettur.id">
+                                                    {{ althizmettur.title }}
                                                 </option>
                                             </select>
                                             <has-error :form="form" field="althiz_id"></has-error>
@@ -205,7 +240,7 @@
                                             </div>
                                             <div class="col-6">
                                                 <strong>{{ $trans[lang+'.pages']['preview'] }}:</strong><br>
-                                                <img v-if="form.picture1" :src="'\/img\/sayfalar\/thumbs\/'+form.picture1">
+                                                <img v-if="form.picture1" :src="'\/img\/blog\/thumbs\/'+form.picture1">
                                                 <img v-else :src="'\/img\/nophoto.png'">
                                             </div>
                                         </div>
@@ -225,7 +260,7 @@
                                             </div>
                                             <div class="col-6">
                                                 <strong>{{ $trans[lang+'.pages']['preview'] }}:</strong><br>
-                                                <img v-if="form.picture2" :src="'\/img\/sayfalar\/thumbs\/'+form.picture2">
+                                                <img v-if="form.picture2" :src="'\/img\/blog\/thumbs\/'+form.picture2">
                                                 <img v-else :src="'\/img\/nophoto.png'">
                                             </div>
                                         </div>
@@ -282,7 +317,7 @@
     import vueDropzone from "vue2-dropzone";
     import { VueEditor, Quill } from "vue2-editor";
     import { ImageDrop } from "quill-image-drop-module";
-    import ImageResize from "quill-image-resize-module-withfix";
+    import ImageResize from "quill-image-resize-module";
     import axios from "axios";
 
     Quill.register("modules/imageDrop", ImageDrop);
@@ -310,9 +345,9 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
+                    chunking: false,
                     dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
                     addRemoveLinks: true
                 },
@@ -321,9 +356,9 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
+                    chunking: false,
                     dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
                     addRemoveLinks: true
                 },
@@ -332,9 +367,9 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
+                    chunking: false,
                     dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
                     addRemoveLinks: true
                 },
@@ -343,9 +378,9 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
+                    chunking: false,
                     dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
                     addRemoveLinks: true
                 },
@@ -354,9 +389,9 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
+                    chunking: false,
                     dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
                     addRemoveLinks: true
                 },
@@ -364,12 +399,16 @@
                 editmode: false,
                 listmode: true,
                 addmode: false,
+                hizmetturs:{},
+                althizmetturs:{},
                 localizations:{},
                 posts: {},
                 tmplang:'',
                 form: new Form(
                     {
                         id: '',
+                        hiz_id:'',
+                        althiz_id:'',
                         language:'',
                         language2:'1',
                         name: '',
@@ -433,7 +472,7 @@
                     data: formData
                 })
                     .then(result => {
-                        let url = "/img/sayfalar/thumbs/"+result.data.data; // Get url from response
+                        let url = "/img/blog/"+result.data.data; // Get url from response
                         Editor.insertEmbed(cursorLocation, "image", url);
                         resetUploader();
                         console.log("Picture:"+url);
@@ -582,6 +621,8 @@
                 this.form.reset();﻿
                 this.form.language = this.tmplang;
                 this.form.fill(posts);
+                this.loadhizmettursbylang(this.form.language);
+                this.loadAlthizmettur(this.form.hiz_id);
                 this.form.language2=this.form.language;
             },
             newForm() {
@@ -594,7 +635,8 @@
                 this.form.reset();﻿
                 this.form.language = this.tmplang;
                 this.form.language2=this.form.language;
-
+                this.form.hiz_id = 0;
+                this.form.althiz_id = 0;
             },
             backtolist() {
                 this.listmode= true;
@@ -634,9 +676,19 @@
             },
             loadposts() {
                 axios.get('/api/icerikler4').then(({ data})=> (this.posts=data));
+                axios.get('/api/hizmettursbylang2/'+id).then(({ data})=> (this.hizmetturs=data));
             },
             loadLocalization() {
                 axios.get('/api/localizations').then(({ data})=> (this.localizations=data));
+            },
+            loadhizmettursbylang(id) {
+                axios.get('/api/hizmettursbylang2/'+id).then(({ data})=> (this.hizmetturs=data));
+            },
+            loadHizmettur() {
+                axios.get('/api/hizmettursbylang2/1').then(({ data})=> (this.hizmetturs=data));
+            },
+            loadAlthizmettur(id) {
+                axios.get('/api/Allalthizmettur/'+id).then(({ data})=> (this.althizmetturs=data));
             },
             loadpostsbylang(id) {
                 axios.get('/api/icerikler4bylang/'+id).then(({ data})=> (this.posts=data));
@@ -655,6 +707,7 @@
             })
 
             this.loadpostsbylang(this.form.language2);
+            this.loadHizmettur();
             this.loadLocalization();
 
             Fire.$on('AfterCreate',() => {

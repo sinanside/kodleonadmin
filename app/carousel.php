@@ -35,7 +35,7 @@ class carousel extends Model implements Sortable
     }
 
     protected $fillable = [
-        'carousel_title', 'image', 'image_alt', 'image_x', 'image_y', 'type', 'language', 'queue', 'active'
+        'carousel_title', 'image', 'image_alt', 'image_x', 'image_y', 'type', 'short_description1', 'short_description2', 'short_description3', 'short_description4', 'short_description5', 'short_description6', 'language', 'queue', 'active'
     ];
 
     protected $table = 'carousel';

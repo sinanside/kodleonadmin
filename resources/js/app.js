@@ -76,7 +76,6 @@ Vue.component('not-found',require('./components/NotFound.vue').default);
 let routes = [
     { path: '/', component: require('./components/Dashboard.vue').default },
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
-    { path: '/mainpage', component: require('./components/mainpage.vue').default },
     { path: '/registerpage', component: require('./components/registerpage.vue').default },
     { path: '/developer', component: require('./components/Developer.vue').default },
     { path: '/users', component: require('./components/users.vue').default },
@@ -93,7 +92,8 @@ let routes = [
     { path: '/contactus', component: require('./components/contactus.vue').default },
     { path: '/pages', component: require('./components/pages.vue').default },
     { path: '/regs', component: require('./components/regapplications.vue').default },
-
+    { path: '/ourteam', component: require('./components/ourteam.vue').default },
+    { path: '/isortaklari', component: require('./components/isortaklari.vue').default },
 
     { path: '/hizmettur', component: require('./components/hizmetler/hizmettur.vue').default },
     { path: '/althizmettur', component: require('./components/hizmetler/althizmettur.vue').default },

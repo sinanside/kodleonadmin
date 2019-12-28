@@ -57,10 +57,10 @@
                             <tr v-for="posts,index in posts.data" :key="posts.id">
                                 <td>{{ index+1 }}</td>
                                 <td>{{ posts.name }}</td>
-                                <td>{{ posts.localization.title }}</td>
+                                <td><img style="width: 25px; height: 25px;" :src="'\/img\/languages\/thumbs\/'+posts.localization.image"></td>
                                 <td>
-                                    <span class="badge badge-success" v-if="posts.active">{{ $trans[lang+'.blog']['active'] }}</span>
-                                    <span class="badge badge-danger" v-else>{{ $trans[lang+'.blog']['passive'] }}</span>
+                                    <span class="badge badge-success" v-show="posts.active==1">{{ $trans[lang+'.blog']['active'] }}</span>
+                                    <span class="badge badge-danger" v-show="posts.active==0">{{ $trans[lang+'.blog']['passive'] }}</span>
                                 </td>
                                 <td>
                                     <a href="#" @click="uprecords(posts.id)"><i class="fa fa-arrow-up orange"></i></a> /
@@ -180,6 +180,10 @@
                             <!-- shortdescriptions Tab -->
                             <div class="tab-pane" id="shortdescription">
 
+                                <div class="alert alert-info" role="alert">
+                                    <strong>Bilgi:</strong> Sayfanızın belirli yerlerlindeki kısa yazıları buradan değiştirebilirsiniz.
+                                </div>
+
                                 <form class="form-horizontal">
                                     <div class="form-group">
                                         <label for="short_description1" class="col-sm-2 control-label">{{ $trans[lang+'.pages']['short_description'] }} 1:</label>
@@ -275,108 +279,114 @@
 
                             <div class="tab-pane" id="pictures">
 
+                               <div class="alert alert-info" role="alert">
+                                    <strong>Bilgi:</strong> Resim yükleme ikonlarından herbiri farklı resim alanını temsil eder. Örneğin resim 1 için yüklediğiniz resim sayfanızda resim 1 in olduğu konuma gelecektir.
+                                </div>
+
                                 <form class="form-horizontal">
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-6">
-                                                <strong>{{ $trans[lang+'.pages']['upload_picture1'] }}:</strong><br>
+                                            <div class="col-3">
                                                 <vue-dropzone  ref="myVueDropzone1" id="upload1" :options="imguploadconfig1" @vdropzone-complete="picture1complete"></vue-dropzone>
-                                                <input v-model="form.picture1" id="photo1" type="text" name="picture1"
-                                                       class="form-control" :class="{ 'is-invalid': form.errors.has('photo1') }">
-                                                <has-error :form="form" field="photo1"></has-error>
+                                             </div>
+                                            <div class="col-3">
+                                                <vue-dropzone  ref="myVueDropzone2" id="upload2" :options="imguploadconfig2" @vdropzone-complete="picture2complete"></vue-dropzone>
+                                            </div>
+                                            <div class="col-3">
+                                                <vue-dropzone  ref="myVueDropzone3" id="upload3" :options="imguploadconfig3" @vdropzone-complete="picture3complete"></vue-dropzone>
+                                            </div>
+                                            <div class="col-3">
+                                                <vue-dropzone  ref="myVueDropzone4" id="upload4" :options="imguploadconfig4" @vdropzone-complete="picture4complete"></vue-dropzone>
+                                            </div>
+                                        </div>
 
-                                                <input type="text" v-model="form.picture1_alt" class="form-control" id="picture1_alt"  :class="{ 'is-invalid': form.errors.has('picture1_alt') }">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <vue-dropzone  ref="myVueDropzone5" id="upload5" :options="imguploadconfig5" @vdropzone-complete="picture5complete"></vue-dropzone>
+                                            </div>
+                                            <div class="col-3">
+                                                <vue-dropzone  ref="myVueDropzone6" id="upload6" :options="imguploadconfig6" @vdropzone-complete="picture6complete"></vue-dropzone>
+                                            </div>
+                                            <div class="col-3">
+                                                <vue-dropzone  ref="myVueDropzone7" id="upload7" :options="imguploadconfig7" @vdropzone-complete="picture7complete"></vue-dropzone>
+                                            </div>
+                                            <div class="col-3">
+                                                <vue-dropzone  ref="myVueDropzone8" id="upload8" :options="imguploadconfig8" @vdropzone-complete="picture8complete"></vue-dropzone>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-3 text-center">
+                                                <img class="img-thumbnail" v-if="form.picture1" :src="'\/img\/sayfalar\/thumbs\/'+form.picture1">
+                                                <img class="img-thumbnail" v-else :src="'\/img\/nophoto200.png'">
+                                                <input v-model="form.picture1" id="picture1" type="text" name="picture1"
+                                                       class="form-control" :class="{ 'is-invalid': form.errors.has('picture1') }">
+                                                <input type="text" v-model="form.picture1_alt" placeholder="Resim Alt Bilgisi" class="form-control" id="picture1_alt"  :class="{ 'is-invalid': form.errors.has('picture1_alt') }">
                                                 <has-error :form="form" field="picture1_alt"></has-error>
                                             </div>
-                                            <div class="col-6">
-                                                <strong>{{ $trans[lang+'.pages']['preview'] }}:</strong><br>
-                                                <img v-if="form.picture1" :src="'\/img\/sayfalar\/thumbs\/'+form.picture1">
-                                                <img v-else :src="'\/img\/nophoto.png'">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <strong>{{ $trans[lang+'.pages']['upload_picture2'] }}:</strong><br>
-                                                <vue-dropzone  ref="myVueDropzone2" id="upload2" :options="imguploadconfig2" @vdropzone-complete="picture2complete"></vue-dropzone>
-                                                <input v-model="form.picture2" id="photo2" type="text" name="photo2"
+                                            <div class="col-3 text-center">
+                                                <img class="img-thumbnail" v-if="form.picture2" :src="'\/img\/sayfalar\/thumbs\/'+form.picture2">
+                                                <img class="img-thumbnail" v-else :src="'\/img\/nophoto200.png'">
+                                                <input v-model="form.picture2" id="picture2" type="text" name="picture2"
                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('picture2') }">
-                                                <has-error :form="form" field="picture2"></has-error>
-
-                                                <input type="text" v-model="form.picture2_alt" class="form-control" id="picture2_alt"  :class="{ 'is-invalid': form.errors.has('picture2_alt') }">
+                                                <input type="text" v-model="form.picture2_alt" placeholder="Resim Alt Bilgisi" class="form-control" id="picture2_alt"  :class="{ 'is-invalid': form.errors.has('picture1_alt') }">
                                                 <has-error :form="form" field="picture2_alt"></has-error>
                                             </div>
-                                            <div class="col-6">
-                                                <strong>{{ $trans[lang+'.pages']['preview'] }}:</strong><br>
-                                                <img v-if="form.picture2" :src="'\/img\/sayfalar\/thumbs\/'+form.picture2">
-                                                <img v-else :src="'\/img\/nophoto.png'">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <strong>{{ $trans[lang+'.pages']['upload_picture3'] }}:</strong><br>
-                                                <vue-dropzone  ref="myVueDropzone3" id="upload3" :options="imguploadconfig3" @vdropzone-complete="picture3complete"></vue-dropzone>
+                                            <div class="col-3 text-center">
+                                                <img class="img-thumbnail" v-if="form.picture3" :src="'\/img\/sayfalar\/thumbs\/'+form.picture3">
+                                                <img class="img-thumbnail" v-else :src="'\/img\/nophoto200.png'">
                                                 <input v-model="form.picture3" id="picture3" type="text" name="picture3"
                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('picture3') }">
-                                                <has-error :form="form" field="picture3"></has-error>
-
-                                                <input type="text" v-model="form.picture3_alt" class="form-control" id="picture3_alt"  :class="{ 'is-invalid': form.errors.has('picture3_alt') }">
+                                                <input type="text" v-model="form.picture3_alt" placeholder="Resim Alt Bilgisi" class="form-control" id="picture3_alt"  :class="{ 'is-invalid': form.errors.has('picture3_alt') }">
                                                 <has-error :form="form" field="picture3_alt"></has-error>
                                             </div>
-                                            <div class="col-6">
-                                                <strong>{{ $trans[lang+'.pages']['preview'] }}:</strong><br>
-                                                <img v-if="form.picture3" :src="'\/img\/sayfalar\/thumbs\/'+form.picture3">
-                                                <img v-else :src="'\/img\/nophoto.png'">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <strong>{{ $trans[lang+'.pages']['upload_picture4'] }}:</strong><br>
-                                                <vue-dropzone  ref="myVueDropzone4" id="upload4" :options="imguploadconfig4" @vdropzone-complete="picture4complete"></vue-dropzone>
+                                            <div class="col-3 text-center">
+                                                <img class="img-thumbnail" v-if="form.picture4" :src="'\/img\/sayfalar\/thumbs\/'+form.picture4">
+                                                <img class="img-thumbnail" v-else :src="'\/img\/nophoto200.png'">
                                                 <input v-model="form.picture4" id="picture4" type="text" name="picture4"
                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('picture4') }">
-                                                <has-error :form="form" field="picture4"></has-error>
-
-                                                <input type="text" v-model="form.picture4_alt" class="form-control" id="picture4_alt"  :class="{ 'is-invalid': form.errors.has('picture4_alt') }">
+                                                <input type="text" v-model="form.picture4_alt" placeholder="Resim Alt Bilgisi" class="form-control" id="picture4_alt"  :class="{ 'is-invalid': form.errors.has('picture4_alt') }">
                                                 <has-error :form="form" field="picture4_alt"></has-error>
                                             </div>
-                                            <div class="col-6">
-                                                <strong>{{ $trans[lang+'.pages']['preview'] }}:</strong><br>
-                                                <img v-if="form.picture4" :src="'\/img\/sayfalar\/thumbs\/'+form.picture4">
-                                                <img v-else :src="'\/img\/nophoto.png'">
-                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group">
                                         <div class="row">
-                                            <div class="col-6">
-                                                <strong>{{ $trans[lang+'.pages']['upload_picture5'] }}:</strong><br>
-                                                <vue-dropzone  ref="myVueDropzone5" id="upload5" :options="imguploadconfig5" @vdropzone-complete="picture5complete"></vue-dropzone>
+                                            <div class="col-3 text-center">
+                                                <img class="img-thumbnail" v-if="form.picture5" :src="'\/img\/sayfalar\/thumbs\/'+form.picture5">
+                                                <img class="img-thumbnail" v-else :src="'\/img\/nophoto200.png'">
                                                 <input v-model="form.picture5" id="picture5" type="text" name="picture5"
                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('picture5') }">
-                                                <has-error :form="form" field="picture5"></has-error>
-
-                                                <input type="text" v-model="form.picture5_alt" class="form-control" id="picture5_alt"  :class="{ 'is-invalid': form.errors.has('picture5_alt') }">
+                                                <input type="text" v-model="form.picture5_alt" placeholder="Resim Alt Bilgisi" class="form-control" id="picture5_alt"  :class="{ 'is-invalid': form.errors.has('picture5_alt') }">
                                                 <has-error :form="form" field="picture5_alt"></has-error>
                                             </div>
-                                            <div class="col-6">
-                                                <strong>{{ $trans[lang+'.pages']['preview'] }}:</strong><br>
-                                                <img v-if="form.picture5" :src="'\/img\/sayfalar\/thumbs\/'+form.picture5">
-                                                <img v-else :src="'\/img\/nophoto.png'">
+                                            <div class="col-3 text-center">
+                                                <img class="img-thumbnail" v-if="form.picture6" :src="'\/img\/sayfalar\/thumbs\/'+form.picture6">
+                                                <img class="img-thumbnail" v-else :src="'\/img\/nophoto200.png'">
+                                                <input v-model="form.picture6" id="picture6" type="text" name="picture6"
+                                                       class="form-control" :class="{ 'is-invalid': form.errors.has('picture6') }">
+                                                <input type="text" v-model="form.picture6_alt" placeholder="Resim Alt Bilgisi" class="form-control" id="picture6_alt"  :class="{ 'is-invalid': form.errors.has('picture6_alt') }">
+                                                <has-error :form="form" field="picture6_alt"></has-error>
+                                            </div>
+                                            <div class="col-3 text-center">
+                                                <img class="img-thumbnail" v-if="form.picture7" :src="'\/img\/sayfalar\/thumbs\/'+form.picture7">
+                                                <img class="img-thumbnail" v-else :src="'\/img\/nophoto200.png'">
+                                                <input v-model="form.picture7" id="picture7" type="text" name="picture7"
+                                                       class="form-control" :class="{ 'is-invalid': form.errors.has('picture7') }">
+                                                <input type="text" v-model="form.picture7_alt" placeholder="Resim Alt Bilgisi" class="form-control" id="picture7_alt"  :class="{ 'is-invalid': form.errors.has('picture7_alt') }">
+                                                <has-error :form="form" field="picture7_alt"></has-error>
+                                            </div>
+                                            <div class="col-3 text-center">
+                                                <img class="img-thumbnail" v-if="form.picture8" :src="'\/img\/sayfalar\/thumbs\/'+form.picture8">
+                                                <img class="img-thumbnail" v-else :src="'\/img\/nophoto200.png'">
+                                                <input v-model="form.picture8" id="picture8" type="text" name="picture8"
+                                                       class="form-control" :class="{ 'is-invalid': form.errors.has('picture8') }">
+                                                <input type="text" v-model="form.picture8_alt" placeholder="Resim Alt Bilgisi" class="form-control" id="picture8_alt"  :class="{ 'is-invalid': form.errors.has('picture8_alt') }">
+                                                <has-error :form="form" field="picture8_alt"></has-error>
                                             </div>
                                         </div>
                                     </div>
-
-
 
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-12">
@@ -392,7 +402,6 @@
                             <div class="tab-pane" id="detailed">
 
                                 <form class="form-horizontal">
-
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">{{ $trans[lang+'.pages']['detailed_content1'] }}:</label>
@@ -419,7 +428,7 @@
                                                 <vue-editor :editorOptions="editorSettings"
                                                             useCustomImageHandler
                                                             @imageAdded="handleImageAdded"
-                                                            id="mainpage_editor1"
+                                                            id="mainpage_editor2"
                                                             v-model="form.description2">
                                                 </vue-editor>
 
@@ -445,6 +454,91 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">{{ $trans[lang+'.pages']['detailed_content4'] }}:</label>
+
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-12">
+                                                <vue-editor :editorOptions="editorSettings"
+                                                            useCustomImageHandler
+                                                            @imageAdded="handleImageAdded"
+                                                            id="mainpage_editor4"
+                                                            v-model="form.description4">
+                                                </vue-editor>
+
+                                                <has-error :form="form" field="description4"></has-error>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Detaylı Bilgi 5:</label>
+
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-12">
+                                                <vue-editor :editorOptions="editorSettings"
+                                                            useCustomImageHandler
+                                                            @imageAdded="handleImageAdded"
+                                                            id="mainpage_editor5"
+                                                            v-model="form.description5">
+                                                </vue-editor>
+
+                                                <has-error :form="form" field="description5"></has-error>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Detaylı Bilgi 6:</label>
+
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-12">
+                                                <vue-editor :editorOptions="editorSettings"
+                                                            useCustomImageHandler
+                                                            @imageAdded="handleImageAdded"
+                                                            id="mainpage_editor6"
+                                                            v-model="form.description6">
+                                                </vue-editor>
+
+                                                <has-error :form="form" field="description6"></has-error>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Detaylı Bilgi 7:</label>
+
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-12">
+                                                <vue-editor :editorOptions="editorSettings"
+                                                            useCustomImageHandler
+                                                            @imageAdded="handleImageAdded"
+                                                            id="mainpage_editor7"
+                                                            v-model="form.description7">
+                                                </vue-editor>
+
+                                                <has-error :form="form" field="description7"></has-error>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Detaylı Bilgi 8:</label>
+
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-12">
+                                                <vue-editor :editorOptions="editorSettings"
+                                                            useCustomImageHandler
+                                                            @imageAdded="handleImageAdded"
+                                                            id="mainpage_editor8"
+                                                            v-model="form.description8">
+                                                </vue-editor>
+
+                                                <has-error :form="form" field="description8"></has-error>
+                                            </div>
+                                        </div>
+                                    </div>
+
 
 
 
@@ -461,11 +555,35 @@
 
 
                             <!-- shortdescriptions Tab -->
-                            <div class="tab-pane" id="eslestir">
+                            <!--<div class="tab-pane" id="eslestir">
 
                                 <div class="alert alert-info" role="alert">
-                                    Farklı dillerdeki aynı içerikleri eşleştirmek amacıyla kullanılır.
+                                    Farklı dillerdeki aynı içerikleri eşleştirmek amacıyla kullanılır. Daha önce yaptığınız eşleştirmeler aşağıda görülmektedir. Yeni eşleştirme yapmak için eşleştireceğiniz içeriği seçip eşleştir butonuna basın.
                                 </div>
+
+                                <table class="table table-hover">
+                                    <tbody><tr>
+                                        <th>#</th>
+                                        <th>Dil</th>
+                                        <th>İçerik</th>
+                                        <th>{{ $trans[lang+'.blog']['modify'] }}</th>
+                                    </tr>
+                                    <template v-if="eslenikler.data.length > 0" v-for="eslenik,index in eslenikler.data">
+
+                                    <tr :key="eslenik.id" v-bind:class="{ 'bg-info': eslenik.name===form.name }">
+                                        <td>{{ index+1 }}</td>
+                                        <td>{{ eslenik.localization.title}}</td>
+                                        <td>{{ eslenik.name }}</td>
+                                        <td v-if="eslenik.name!==form.name">
+                                            <a href="#" @click="deleteeslenik(eslenik.id)"><i class="fa fa-trash red"></i></a>
+                                        </td>
+                                        <td v-else> - </td>
+                                    </tr>
+                                    </template>
+                                    </tbody></table>
+
+                                <h3>Yeni eşleştirme yap</h3>
+
                                 <form class="form-horizontal">
                                     <div class="form-group">
                                         <label for="language3" class="col-sm-2 control-label">Dil:</label>
@@ -473,9 +591,11 @@
                                         <div class="col-sm-12">
                                             <select @change="loadpostsbylang2(form.language3)" v-model="form.language3" class="form-control" id="language3" :class="{ 'is-invalid': form.errors.has('language3') }">
                                                 <option value="0" disabled>Dil Seç</option>
-                                                <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
+                                                <template v-if="localizations.data.length > 0" v-for="localization in localizations.data">
+                                                <option v-if="localization.id!==form.language" v-bind:value="localization.id">
                                                     {{ localization.title }}
                                                 </option>
+                                                </template>
                                             </select>
                                             <has-error :form="form" field="language3"></has-error>
                                         </div>
@@ -499,11 +619,8 @@
                                             <button  @click.prevent="backtolist" type="button" class="btn btn-warning"><i class="fas fa-undo"></i> İçerik Listesine Dön </button>   </div>
                                     </div>
                                 </form>
-                            </div>
+                            </div>-->
                             <!-- /.tab-pane -->
-
-
-
 
                         </div>
                         <!-- /.tab-content -->
@@ -521,7 +638,7 @@
     import vueDropzone from "vue2-dropzone";
     import { VueEditor, Quill } from "vue2-editor";
     import { ImageDrop } from "quill-image-drop-module";
-    import ImageResize from "quill-image-resize-module-withfix";
+    import ImageResize from "quill-image-resize-module";
     import axios from "axios";
 
     Quill.register("modules/imageDrop", ImageDrop);
@@ -549,10 +666,12 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
-                    dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
+                    chunking: false,
+                    thumbnailWidth: 60,
+                    thumbnailHeight: 60,
+                    dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 1",
                     addRemoveLinks: true
                 },
                 imguploadconfig2: {
@@ -560,10 +679,12 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
-                    dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
+                    chunking: false,
+                    thumbnailWidth: 60,
+                    thumbnailHeight: 60,
+                    dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 2",
                     addRemoveLinks: true
                 },
                 imguploadconfig3: {
@@ -571,10 +692,12 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
-                    dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
+                    chunking: false,
+                    thumbnailWidth: 60,
+                    thumbnailHeight: 60,
+                    dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 3",
                     addRemoveLinks: true
                 },
                 imguploadconfig4: {
@@ -582,10 +705,12 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
-                    dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
+                    chunking: false,
+                    thumbnailWidth: 60,
+                    thumbnailHeight: 60,
+                    dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 4",
                     addRemoveLinks: true
                 },
                 imguploadconfig5: {
@@ -593,10 +718,51 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
-                    dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
+                    chunking: false,
+                    thumbnailWidth: 60,
+                    thumbnailHeight: 60,
+                    dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 5",
+                    addRemoveLinks: true
+                },
+                imguploadconfig6: {
+                    url: "/api/icerikler2_image6",
+                    headers: {
+                        "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
+                    },
+                    maxFilesize: 10, // MB
+                    maxFiles: 1,
+                    chunking: false,
+                    thumbnailWidth: 60,
+                    thumbnailHeight: 60,
+                    dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 6",
+                    addRemoveLinks: false
+                },
+                imguploadconfig7: {
+                    url: "/api/icerikler2_image7",
+                    headers: {
+                        "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
+                    },
+                    maxFilesize: 10, // MB
+                    maxFiles: 1,
+                    chunking: false,
+                    thumbnailWidth: 60,
+                    thumbnailHeight: 60,
+                    dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 7",
+                    addRemoveLinks: true
+                },
+                imguploadconfig8: {
+                    url: "/api/icerikler2_image8",
+                    headers: {
+                        "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
+                    },
+                    maxFilesize: 10, // MB
+                    maxFiles: 1,
+                    chunking: false,
+                    thumbnailWidth: 60,
+                    thumbnailHeight: 60,
+                    dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 8",
                     addRemoveLinks: true
                 },
 
@@ -606,6 +772,7 @@
                 localizations:{},
                 posts: {},
                 posts2:{},
+                eslenikler:{},
                 tmplang:'',
                 form: new Form(
                     {
@@ -649,6 +816,10 @@
                         description3: '',
                         description4: '',
                         description5: '',
+                        description6: '',
+                        description7: '',
+                        description8: '',
+                        special_code:'',
                         active: '1'
                     })
             }
@@ -675,7 +846,7 @@
                     data: formData
                 })
                     .then(result => {
-                        let url = "/img/sayfalar/thumbs/"+result.data.data; // Get url from response
+                        let url = "/img/sayfalar/"+result.data.data; // Get url from response
                         Editor.insertEmbed(cursorLocation, "image", url);
                         resetUploader();
                         console.log("Picture:"+url);
@@ -716,6 +887,24 @@
                 let response = JSON.parse(file.xhr.response);
                 console.log("Photo5:"+response.data);
                 this.form.picture5= response.data;
+            },
+            picture6complete(file) {
+
+                let response = JSON.parse(file.xhr.response);
+                console.log("Photo6:"+response.data);
+                this.form.picture6= response.data;
+            },
+            picture7complete(file) {
+
+                let response = JSON.parse(file.xhr.response);
+                console.log("Photo7:"+response.data);
+                this.form.picture7= response.data;
+            },
+            picture8complete(file) {
+
+                let response = JSON.parse(file.xhr.response);
+                console.log("Photo8:"+response.data);
+                this.form.picture8= response.data;
             },
 
             getResults(page = 1) {
@@ -763,33 +952,50 @@
                         Fire.$emit('AfterCreate');
                     })
                     .catch(() => {
-                        toast.fire("Failed","There was an error","warning");
+                        toast.fire("Hata","Güncelenirken bir hata meydana geldi.","warning");
 
                     });
 
             },
             eslestirmeyap() {
-                this.$Progress.start();
-                this.form.post('/api/eslestir2')
-                    .then(({ data }) => {
-                        // form başarılıysa buraya girecek.
-                        //console.log(data);
-                        this.tmplang=this.form.language;
-                        this.form.reset();﻿
-                        this.form.language2 = this.tmplang;
-                        Fire.$emit('AfterCreate');
-                        $('#addNew').modal('hide');
-                        toast.fire({
-                            type: 'success',
-                            title: 'Record paired successfully'
-                        });
-                        this.$Progress.finish();
 
-                    })
-                    .catch(()=> {
-                        // formda hata varsa buraya girecek.
-                        this.$Progress.fail();
-                    })
+                swal.fire({
+                    title: 'Kayıtlar eşleştiriliyor!',
+                    text: "Bu işlemini onaylıyormusunuz?",
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Evet, onaylıyorum!'
+                }).then((result) => {
+
+                    this.$Progress.start();
+                    this.form.post('/api/eslestir2')
+                        .then(({data}) => {
+                            // form başarılıysa buraya girecek.
+                            //console.log(data);
+                            // this.tmplang = this.form.language;
+                            //this.form.reset();﻿
+                            //this.form.language2 = this.tmplang;
+                            // Fire.$emit('AfterCreate');
+                            //  $('#addNew').modal('hide');
+                            this.eslenikler.data=this.icerikler2byspecialcode(this.form.special_code);
+
+                            toast.fire({
+                                type: 'success',
+                                title: 'İçerikler başarıyla eşleştirilmiştir.'
+                            });
+                            //this.$Progress.finish();
+
+
+                        })
+                        .catch(() => {
+                            // formda hata varsa buraya girecek.
+                           // this.$Progress.fail();
+                            toast.fire("Hata","Eşleştirilirken bir hata meydana geldi.","warning");
+
+                        })
+                })
 
             },
 
@@ -801,8 +1007,8 @@
                 this.form.put('/api/icerikler2/'+this.form.id)
                     .then(() => {
                         toast.fire(
-                            'Updated!',
-                            'Record has been updated',
+                            'Güncellendi!',
+                            'İçerik güncellendi.',
                             'success'
                         )
                         this.$Progress.finish();
@@ -810,7 +1016,7 @@
                     })
                     .catch(() => {
                         this.$Progress.fail();
-                        toast.fire("Failed","There was an error","warning");
+                        toast.fire("Hata","Bir hata oluştu.","warning");
 
                     });
             },
@@ -827,7 +1033,7 @@
                         $('#addNew').modal('hide');
                         toast.fire({
                             type: 'success',
-                            title: 'Record created successfully'
+                            title: 'İçerik başarıyla oluşturulmuştur.'
                         });
                         this.$Progress.finish();
 
@@ -851,7 +1057,9 @@
                 this.form.reset();﻿
                 this.form.language = this.tmplang;
                 this.form.fill(posts);
+                this.form.language3 = 0;
                 this.form.language2=this.form.language;
+                this.eslenikler.data=this.icerikler2byspecialcode(this.form.special_code);
             },
             newForm() {
                 this.listmode= false;
@@ -873,16 +1081,48 @@
                 this.addmode= false;
                 this.editmode = false;
             },
-            deleteposts(id) {
+            deleteeslenik(id) {
 
                 swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: 'Emin misiniz?',
+                    text: "Eşleştirmeyi silmek üzeresiniz!",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonText: 'Evet, silmeyi onaylıyorum!'
+                }).then((result) => {
+
+                    if(result.value) {
+                        // send ajax request
+                        this.form.get('/api/icerikler2esleniksil/'+id).then(()=>{
+
+                            swal.fire(
+                                'Silindi!',
+                                'içerik silindi.',
+                                'success'
+                            )
+                            //Fire.$emit('AfterCreate');
+                            this.eslenikler.data=this.icerikler2byspecialcode(this.form.special_code);
+
+                        }).catch(()=>{
+
+                            swal.fire("Hata","Bir hata meydana geldi","warning");
+                        });
+                    }
+                })
+
+            },
+            deleteposts(id) {
+
+                swal.fire({
+                    title: 'Emin misiniz??',
+                    text: "Bu işlemin geri dönüşü yoktur.!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Evet, silmeyi onaylıyorum!'
                 }).then((result) => {
 
                     if(result.value) {
@@ -890,15 +1130,15 @@
                         this.form.delete('/api/icerikler2/'+id).then(()=>{
 
                             swal.fire(
-                                'Deleted!',
-                                'posts has been deleted.',
+                                'Silindi!',
+                                'içerik silindi.',
                                 'success'
                             )
                             Fire.$emit('AfterCreate');
 
                         }).catch(()=>{
 
-                            swal.fire("Failed","There was an error","warning");
+                            swal.fire("Hata","Bir hata meydana geldi","warning");
                         });
                     }
                 })
@@ -915,7 +1155,11 @@
             },
             loadpostsbylang2(id) {
                 axios.get('/api/icerikler2bylang2/'+id).then(({ data})=> (this.posts2=data));
+            },
+            icerikler2byspecialcode(code) {
+                axios.get('/api/icerikler2byspecialcode/'+code).then(({ data})=> (this.eslenikler=data));
             }
+
         },
 
         created() {

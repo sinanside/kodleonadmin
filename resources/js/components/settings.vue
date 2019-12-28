@@ -104,7 +104,7 @@
                                             <div class="col-6">
                                                 <strong>Logo Yükle:</strong><br>
                                                 <vue-dropzone  ref="myVueDropzone1" id="upload" :options="imguploadconfig" @vdropzone-complete="logocomplete"></vue-dropzone>
-                                                <input v-model="form.logo" id="logo" type="text" name="logo" 
+                                                <input v-model="form.logo" id="logo" type="text" name="logo"
                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('logo') }">
                                                 <has-error :form="form" field="logo"></has-error>
 
@@ -216,9 +216,9 @@
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     maxFiles: 1,
-                    chunking: true,
+                    chunking: false,
                     dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD LOGO",
                     addRemoveLinks: true
                 },

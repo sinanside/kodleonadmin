@@ -62,7 +62,8 @@ Route::apiResources([
     'resimler' => 'API\galeryController',
     'comments' => 'API\commentsController',
     'konaklamas' => 'API\konaklamaController',
-    'blogcomments' => 'API\BlogcommentsController'
+    'blogcomments' => 'API\BlogcommentsController',
+    'isortaklari' => 'API\isOrtaklariController'
 
 
 ]);
@@ -183,7 +184,7 @@ Route::post('hizmetturup', 'API\hizmetturController@up');
 Route::post('hizmetturdown', 'API\hizmetturController@down');
 
 Route::get('findAlthizmettur/{id}', 'API\althizmetturController@search');
-Route::get('althizmettursbylang/{id}', 'API\althizmetturController@listbylang');
+Route::get('althizmettursbylang/{id}/{hid}', 'API\althizmetturController@listbylang');
 Route::get('Allalthizmettur/{id}', 'API\althizmetturController@all');
 Route::put('Althizmettur', 'API\althizmetturController@update');
 Route::post('Althizmettur_image', 'API\althizmetturController@storeimage');
@@ -195,7 +196,8 @@ Route::get('findIcerikler', 'API\hizmetlerController@search');
 Route::get('iceriklerbylang/{id}', 'API\hizmetlerController@listbylang');
 Route::get('iceriklerbylang2/{id}', 'API\hizmetlerController@listbylang2');
 Route::put('icerikler', 'API\hizmetlerController@update');
-Route::post('eslestir', 'API\hizmetlerController@eslestir');
+Route::get('iceriklerbyspecialcode/{code}', 'API\hizmetlerController@searchbyspecialcode');
+Route::get('icerikleresleniksil/{id}', 'API\hizmetlerController@eslestirmesil');
 Route::post('icerikler_image', 'API\hizmetlerController@storeimage');
 Route::post('icerikler_image1', 'API\hizmetlerController@storeimage1');
 Route::post('icerikler_image2', 'API\hizmetlerController@storeimage2');
@@ -219,9 +221,15 @@ Route::post('icerikler2_image2', 'API\iceriklerController@storeimage2');
 Route::post('icerikler2_image3', 'API\iceriklerController@storeimage3');
 Route::post('icerikler2_image4', 'API\iceriklerController@storeimage4');
 Route::post('icerikler2_image5', 'API\iceriklerController@storeimage5');
+Route::post('icerikler2_image6', 'API\iceriklerController@storeimage6');
+Route::post('icerikler2_image7', 'API\iceriklerController@storeimage7');
+Route::post('icerikler2_image8', 'API\iceriklerController@storeimage8');
 Route::post('icerikler2up', 'API\iceriklerController@up');
 Route::post('icerikler2down', 'API\iceriklerController@down');
 Route::post('icerikler2_image_editor', 'API\iceriklerController@storeimagebyeditor');
+Route::get('icerikler2byspecialcode/{code}', 'API\iceriklerController@searchbyspecialcode');
+Route::get('icerikler2esleniksil/{id}', 'API\iceriklerController@eslestirmesil');
+
 
 //caruseller
 Route::get('findIcerikler3', 'API\carusellerController@search');
@@ -297,3 +305,11 @@ Route::put('localizations', 'API\localizationController@update');
 Route::post('localizationsup', 'API\localizationController@up');
 Route::post('localizationsdown', 'API\localizationController@down');
 Route::post('localizations_image', 'API\localizationController@storeimage');
+
+//isortaklari
+Route::get('findisortaklari/{id}', 'API\isOrtaklariController@search');
+Route::put('isortaklari', 'API\isOrtaklariController@update');
+Route::post('isortaklari_image', 'API\isOrtaklariController@storeimage');
+Route::post('isortaklari_image1', 'API\isOrtaklariController@storeimage1');
+Route::post('isortaklariup', 'API\isOrtaklariController@up');
+Route::post('isortaklaridown', 'API\isOrtaklariController@down');

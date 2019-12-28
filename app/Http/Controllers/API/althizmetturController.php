@@ -29,16 +29,24 @@ class althizmetturController extends Controller
             return Althizmetturs::where('hiz_id', '=', $id)->get();}
 
     }
-    public function listbylang($id)
+    public function listbylang($id,$hid)
     {
         $this->authorize('isAdmin');
-        if($id==0)
+        if($id==0 && $hid==0)
         {
             return Althizmetturs::with('hizmettur','localization')->ordered()->paginate(10);
         }
-        else
+        elseif($hid==0)
         {
             return Althizmetturs::with('hizmettur','localization')->where("language", "=", $id)->ordered()->paginate(10);
+        }
+        elseif($id==0)
+        {
+            return Althizmetturs::with('hizmettur','localization')->where("hiz_id", "=", $hid)->ordered()->paginate(10);
+        }
+        else
+        {
+            return Althizmetturs::with('hizmettur','localization')->where("language", "=", $id)->where("hiz_id", "=", $hid)->ordered()->paginate(10);
         }
     }
     public function listbylang2($id)

@@ -21,23 +21,23 @@ class bloglarController extends Controller
     public function index()
     {
         $this->authorize('isAdmin');
-        return Blogcreator::with('localization')->ordered()->paginate(10);
+        return Blogcreator::with('hizmettur','althizmettur','localization')->ordered()->paginate(10);
     }
     public function all()
     {
         $this->authorize('isAdmin');
-        return Blogcreator::with('localization')->ordered()->get();
+        return Blogcreator::with('hizmettur','althizmettur','localization')->ordered()->get();
     }
     public function listbylang($id)
     {
         $this->authorize('isAdmin');
         if($id==0)
         {
-            return Blogcreator::with('localization')->ordered()->paginate(10);
+            return Blogcreator::with('hizmettur','althizmettur','localization')->ordered()->paginate(10);
         }
         else
         {
-            return Blogcreator::with('localization')->where("language", "=", $id)->ordered()->paginate(10);
+            return Blogcreator::with('hizmettur','althizmettur','localization')->where("language", "=", $id)->ordered()->paginate(10);
         }
     }
 
@@ -100,9 +100,9 @@ class bloglarController extends Controller
 
         ]);
 
-        $path = public_path().'/img/'.$page->slug;
-        File::isDirectory($path) or File::makeDirectory($path, 0777, true, true);
-        File::isDirectory($path.'/thumbs') or File::makeDirectory($path.'/thumbs', 0777, true, true);
+        //$path = public_path().'/img/'.$page->slug;
+        //File::isDirectory($path) or File::makeDirectory($path, 0777, true, true);
+        //File::isDirectory($path.'/thumbs') or File::makeDirectory($path.'/thumbs', 0777, true, true);
 
     }
 
@@ -114,10 +114,10 @@ class bloglarController extends Controller
                 $image = $request->file('file');
                 $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
 
-                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/sayfalar/thumbs/' . $name));
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/blog/thumbs/' . $name));
 
                 $watermark = Images::make(public_path('/img/watermark.png'));
-                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/sayfalar/' . $name));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/blog/' . $name));
 
                 //$image->move(public_path().'/img/social/', $name);
             }
@@ -161,9 +161,9 @@ class bloglarController extends Controller
                 $image = $request->file('file');
                 $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
 
-                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/sayfalar/thumbs/' . $name));
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/blog/thumbs/' . $name));
                 $watermark = Images::make(public_path('/img/watermark2.png'));
-                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/sayfalar/' . $name));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/blog/' . $name));
                 //$image->move(public_path().'/img/social/', $name);
             }
 
@@ -183,10 +183,10 @@ class bloglarController extends Controller
                 $image = $request->file('file');
                 $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
 
-                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/sayfalar/thumbs/' . $name));
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/blog/thumbs/' . $name));
 
                 $watermark = Images::make(public_path('/img/watermark2.png'));
-                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/sayfalar/' . $name));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/blog/' . $name));
                 //$image->move(public_path().'/img/social/', $name);
             }
 
@@ -206,10 +206,10 @@ class bloglarController extends Controller
                 $image = $request->file('file');
                 $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
 
-                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/sayfalar/thumbs/' . $name));
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/blog/thumbs/' . $name));
 
                 $watermark = Images::make(public_path('/img/watermark2.png'));
-                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/sayfalar/' . $name));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/blog/' . $name));
                 //$image->move(public_path().'/img/social/', $name);
             }
 
@@ -229,10 +229,10 @@ class bloglarController extends Controller
                 $image = $request->file('file');
                 $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
 
-                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/sayfalar/thumbs/' . $name));
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/blog/thumbs/' . $name));
 
                 $watermark = Images::make(public_path('/img/watermark2.png'));
-                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/sayfalar/' . $name));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/blog/' . $name));
                 //$image->move(public_path().'/img/social/', $name);
             }
 
@@ -252,10 +252,10 @@ class bloglarController extends Controller
                 $image = $request->file('file');
                 $name = "cnt_" . time() . '.' . $image->getClientOriginalExtension();
 
-                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/karuseller/thumbs/' . $name));
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/blog/thumbs/' . $name));
 
                 $watermark = Images::make(public_path('/img/watermark2.png'));
-                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/karuseller/' . $name));
+                $Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/blog/' . $name));
                 //$image->move(public_path().'/img/social/', $name);
             }
 
@@ -274,7 +274,7 @@ class bloglarController extends Controller
     public function show($id)
     {
         $this->authorize('isAdmin');
-        return Blogcreator::with('localization')->findOrFail($id);
+        return Blogcreator::with('hizmettur','althizmettur','localization')->findOrFail($id);
     }
 
     public function up(Request $request)
@@ -300,7 +300,7 @@ class bloglarController extends Controller
 
     public function update(Request $request, $id)
     {
-        $page = Blogcreator::with('localization')->findOrFail($id);
+        $page = Blogcreator::with('hizmettur','althizmettur','localization')->findOrFail($id);
 
         $this->validate($request, [
             'name' => 'required|string|max:191',
@@ -318,7 +318,7 @@ class bloglarController extends Controller
     public function destroy($id)
     {
         $this->authorize('isAdmin');
-        $pages =Blogcreator::with('localization')->findorFail($id);
+        $pages =Blogcreator::with('hizmettur','althizmettur','localization')->findorFail($id);
 
         $pages->delete();
 
@@ -328,11 +328,11 @@ class bloglarController extends Controller
     public function search(){
         $this->authorize('isAdmin');
         if ($search = \Request::get('q')) {
-            $pages = Blogcreator::with('localization')->where(function($query) use ($search){
+            $pages = Blogcreator::with('hizmettur','althizmettur','localization')->where(function($query) use ($search){
                 $query->where('name','LIKE',"%$search%");
             })->paginate(10);
         }else{
-            $pages = Blogcreator::with('localization')->ordered()->paginate(10);
+            $pages = Blogcreator::with('hizmettur','althizmettur','localization')->ordered()->paginate(10);
         }
         return $pages;
     }
