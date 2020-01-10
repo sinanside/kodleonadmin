@@ -88,102 +88,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </router-link>
                     </li>
 
-                        <!-- MENÜ - KAYITLAR  -->
-
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-user-clock yellow"></i>
-                                <p>
-                                    {{ __('main.register') }}
-                                    <i class="right fa fa-angle-left"></i>
-                                </p>
-                            </a>
-
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <router-link to="/regs" class="nav-link">
-                                        <i class="fas fa-angle-right nav-icon cyan"></i>
-                                        <p>Teklifler</p>
-                                    </router-link>
-                                </li>
-                            </ul>
-
-                        </li>
-
-                        <!-- MENÜ - KAYITLAR BİTİŞ  -->
-
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-home blue"></i>
-                                <p>
-                                    Sayfalar
-                                    <i class="right fa fa-angle-left"></i>
-                                </p>
-                            </a>
-
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <router-link to="/sayfaolustur" class="nav-link">
-                                        <i class="fas fa-angle-right nav-icon cyan"></i>
-                                        <p>Sayfa Oluştur</p>
-                                    </router-link>
-                                </li>
-                            </ul>
-
-                        </li>
-
-                        <!--<li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-hotel brown"></i>
-                                <p>
-                                    Konaklamalar
-                                    <i class="right fa fa-angle-left"></i>
-                                </p>
-                            </a>
-
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <router-link to="/konaklamaolustur" class="nav-link">
-                                        <i class="fas fa-angle-right nav-icon cyan"></i>
-                                        <p>Konaklama Oluştur</p>
-                                    </router-link>
-                                </li>
-                            </ul>
-
-                        </li>-->
-
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-desktop pink"></i>
-                                <p>
-                                    {{ __('main.carousel') }}
-                                    <i class="right fa fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <router-link to="/carousel" class="nav-link">
-                                        <i class="fas fa-angle-right nav-icon indigo"></i>
-                                        <p>{{ __('main.carouselmain') }}</p>
-                                    </router-link>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <router-link to="/carouselalt" class="nav-link">
-                                        <i class="fas fa-angle-right nav-icon indigo"></i>
-                                        <p>{{ __('carousel.carouselalt') }}</p>
-                                    </router-link>
-                                </li>
-                            </ul>
-
-                        </li>
-
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-baseball-ball white"></i>
                                 <p>
-                                    Hizmetler
+                                    İçerik Yöneticisi
                                     <i class="right fa fa-angle-left"></i>
                                 </p>
                             </a>
@@ -210,6 +119,97 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <router-link to="/icerikolustur" class="nav-link">
                                         <i class="fas fa-angle-right nav-icon cyan"></i>
                                         <p>İçerik Oluştur</p>
+                                    </router-link>
+                                </li>
+                            </ul>
+
+                        </li>
+
+                        <!-- MENÜ - KAYITLAR  -->
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-user-clock yellow"></i>
+                                <p>
+                                    {{ __('main.register') }}
+                                    <i class="right fa fa-angle-left"></i>
+                                </p>
+                            </a>
+
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <router-link to="/regs" class="nav-link">
+                                        <i class="fas fa-angle-right nav-icon cyan"></i>
+                                        <p>Teklifler</p>
+                                    </router-link>
+                                </li>
+                            </ul>
+
+                        </li>
+
+                        <!-- MENÜ - KAYITLAR BİTİŞ  -->
+
+                       <!-- <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-home blue"></i>
+                                <p>
+                                    Sayfalar
+                                    <i class="right fa fa-angle-left"></i>
+                                </p>
+                            </a>
+
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <router-link to="/sayfaolustur" class="nav-link">
+                                        <i class="fas fa-angle-right nav-icon cyan"></i>
+                                        <p>Sayfa Oluştur</p>
+                                    </router-link>
+                                </li>
+                            </ul>
+
+                        </li>-->
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-cogs red"></i>
+                                <p>
+                                    Şubeler
+                                    <i class="right fa fa-angle-left"></i>
+                                </p>
+                            </a>
+
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <router-link to="/affiliates" class="nav-link">
+                                        <i class="fas fa-angle-right nav-icon cyan"></i>
+                                        <p>Şube Oluştur</p>
+                                    </router-link>
+                                </li>
+                            </ul>
+
+                        </li>
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-desktop pink"></i>
+                                <p>
+                                    {{ __('main.carousel') }}
+                                    <i class="right fa fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <router-link to="/carousel" class="nav-link">
+                                        <i class="fas fa-angle-right nav-icon indigo"></i>
+                                        <p>{{ __('main.carouselmain') }}</p>
+                                    </router-link>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <router-link to="/carouselalt" class="nav-link">
+                                        <i class="fas fa-angle-right nav-icon indigo"></i>
+                                        <p>{{ __('carousel.carouselalt') }}</p>
                                     </router-link>
                                 </li>
                             </ul>
@@ -274,7 +274,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <router-link to="/galeryolustur" class="nav-link">
                                 <i class="nav-icon fas fa-images brown"></i>
                                 <p>
-                                   Referanslar
+                                   Galeri
                                 </p>
                             </router-link>
                         </li>

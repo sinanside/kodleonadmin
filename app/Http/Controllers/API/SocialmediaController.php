@@ -13,7 +13,7 @@ class SocialmediaController extends Controller
     {
         $this->middleware('auth:api');
     }
-    
+
     public function index()
     {
         $this->authorize('isAdmin');
@@ -74,7 +74,9 @@ class SocialmediaController extends Controller
 
         return Socialmedia::create([
             'icon'=>$request['icon'],
+            'icon2'=>$request['icon2'],
             'name'=>$request['name'],
+            'url'=>$request['url'],
             'active'=>$request['active']
             ]);
     }
@@ -106,7 +108,7 @@ class SocialmediaController extends Controller
             'name' => 'required|string|max:191'
 
         ]);
-        
+
         $socialmedia -> update($request -> all());
 
         return ['message' => 'update socialmedia'];

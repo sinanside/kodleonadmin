@@ -54,8 +54,8 @@
                             >
                                 <option value="0" disabled>Dil Seç</option>
                                 <option
-                                    v-if="localizations.data.length > 0"
-                                    v-for="localization in localizations.data"
+                                    v-if="localizations.length > 0"
+                                    v-for="localization in localizations"
                                     v-bind:value="localization.id"
                                 >
                                     {{ localization.title }}
@@ -223,8 +223,8 @@
                                 >
                                     <option value="0">Dil Seç</option>
                                     <option
-                                        v-if="localizations.data.length > 0"
-                                        v-for="localization in localizations.data"
+                                        v-if="localizations.length > 0"
+                                        v-for="localization in localizations"
                                         v-bind:value="localization.id"
                                     >
                                         {{ localization.title }}
@@ -611,7 +611,7 @@ export default {
         },
         loadLocalization() {
             axios
-                .get("/api/localizations")
+                .get("/api/activelocalizations")
                 .then(({ data }) => (this.localizations = data));
         }
     },

@@ -21,7 +21,7 @@ class socialmedia extends Model implements Sortable
     }
 
     protected $fillable = [
-        'icon', 'name', 'queue', 'active','url'
+        'icon', 'icon2','name', 'queue', 'active','url'
     ];
 
     use SortableTrait;

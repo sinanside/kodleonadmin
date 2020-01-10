@@ -101,6 +101,13 @@
                             </div>
 
                             <div class="form-group">
+                                <strong>İkon2:</strong><br>
+                                <input v-model="form.icon2" id="icon2" type="text" name="icon2"
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('icon2') }">
+                                <has-error :form="form" field="icon2"></has-error>
+                            </div>
+
+                            <div class="form-group">
                                 <strong>{{ $trans[lang+'.socialmedia']['socialmedia_name'] }}:</strong><br>
                                 <input v-model="form.name" id="name" type="text" name="name"
                                        class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
@@ -164,6 +171,7 @@
                     {
                         id: '',
                         icon: '',
+                        icon2:'',
                         name: '',
                         url: '',
                         active: '1'

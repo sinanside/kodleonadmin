@@ -28,7 +28,28 @@ class galeryController extends Controller
         $this->authorize('isAdmin');
         return Galerycreator::with('hizmettur','althizmettur','localization')->ordered()->paginate(10);
     }
-    public function listbylang($id)
+    public function listbylang($id,$id2)
+    {
+        $this->authorize('isAdmin');
+        if($id==0 && $id2==0)
+        {
+            return Galerycreator::with('hizmettur','althizmettur','localization')->ordered()->paginate(10);
+        }
+        elseif($id2==0)
+        {
+            return Galerycreator::with('hizmettur','althizmettur','localization')->where("language", "=", $id)->ordered()->paginate(10);
+        }
+        elseif($id==0)
+        {
+            return Galerycreator::with('hizmettur','althizmettur','localization')->where("althiz_id", "=", $id2)->ordered()->paginate(10);
+        }
+        else
+        {
+            return Galerycreator::with('hizmettur','althizmettur','localization')->where("language", "=", $id)->where("althiz_id", "=", $id2)->ordered()->paginate(10);
+        }
+
+    }
+    public function listbyalthizmet($id)
     {
         $this->authorize('isAdmin');
         if($id==0)
@@ -37,7 +58,7 @@ class galeryController extends Controller
         }
         else
         {
-            return Galerycreator::with('hizmettur','althizmettur','localization')->where("language", "=", $id)->ordered()->paginate(10);
+            return Galerycreator::with('hizmettur','althizmettur','localization')->where("althiz_id", "=", $id)->ordered()->paginate(10);
         }
     }
     public function listbyid(Request $request)
@@ -64,6 +85,8 @@ class galeryController extends Controller
             'althiz_id'=>$request['althiz_id'],
             'language'=>$request['language'],
             'short_description1'=>$request['short_description1'],
+            'short_description2'=>$request['short_description2'],
+            'description1'=>$request['description1'],
             'picture1'=>$request['picture1'],
             'picture1_alt'=>$request['picture1_alt']
 

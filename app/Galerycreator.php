@@ -12,7 +12,7 @@ class Galerycreator extends Model implements Sortable
     use Sluggable;
 
     protected $fillable = [
-        'name', 'hiz_id', 'althiz_id','language', 'short_description1', 'picture1', 'picture1_alt', 'language','active'
+        'name', 'hiz_id', 'althiz_id','language', 'short_description1', 'short_description2', 'description1', 'picture1', 'picture1_alt', 'language','active'
     ];
 
     public  function hizmettur(){

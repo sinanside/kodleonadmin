@@ -35,7 +35,7 @@
                         <div class="card-tools px-1">
                             <select v-model="form.language2" @change="loadpostsbylang(form.language2)" class="form-control" id="language2">
                                 <option value="0" disabled>Dil Seç</option>
-                                <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
+                                <option v-if="localizations.length > 0" v-for="localization in localizations" v-bind:value="localization.id">
                                     {{ localization.title }}
                                 </option>
                             </select>
@@ -109,7 +109,7 @@
                                         <div class="col-sm-12">
                                             <select v-model="form.language" class="form-control" :class="{ 'is-invalid': form.errors.has('language') }">
                                                 <option value="0">Dil Seç</option>
-                                                <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
+                                                <option v-if="localizations.length > 0" v-for="localization in localizations" v-bind:value="localization.id">
                                                     {{ localization.title }}
                                                 </option>
                                             </select>
@@ -506,7 +506,7 @@
                 axios.get('/api/icerikler3').then(({ data})=> (this.posts=data));
             },
             loadLocalization() {
-                axios.get('/api/localizations').then(({ data})=> (this.localizations=data));
+                axios.get('/api/activelocalizations').then(({ data})=> (this.localizations=data));
             },
             loadpostsbylang(id) {
                 axios.get('/api/icerikler3bylang/'+id).then(({ data})=> (this.posts=data));

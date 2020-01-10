@@ -95,6 +95,7 @@ let routes = [
     { path: '/ourteam', component: require('./components/ourteam.vue').default },
     { path: '/isortaklari', component: require('./components/isortaklari.vue').default },
 
+    { path: '/affiliates', component: require('./components/affiliates/icerikolustur.vue').default },
     { path: '/hizmettur', component: require('./components/hizmetler/hizmettur.vue').default },
     { path: '/althizmettur', component: require('./components/hizmetler/althizmettur.vue').default },
     { path: '/icerikolustur', component: require('./components/hizmetler/icerikolustur.vue').default },

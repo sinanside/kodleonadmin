@@ -60,7 +60,7 @@ class dashboardController extends Controller
     }
     public function statscountrecent()
     {
-        return Session::whereBetween('created_at', [Carbon::now()->subHours(6), Carbon::now()])->distinct()->count('client_ip');
+        return Session::whereBetween('created_at', [Carbon::now()->subHours(1), Carbon::now()])->distinct()->count('client_ip');
         // whereBetween('created_at', [Carbon::now()->subDays(30), Carbon::now()])->
     }
     public function allusers()
@@ -131,7 +131,7 @@ class dashboardController extends Controller
     public function show()
     {
         //return Tracker::onlineUsers();
-        $sessions = Tracker::sessions(60 * 24);
+        $sessions = Tracker::sessions(60 * 1);
 
         return count($sessions);
 

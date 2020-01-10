@@ -35,7 +35,7 @@
                         <div class="card-tools px-1">
                             <select v-model="form.language2" @change="loadpostsbylang(form.language2)" class="form-control" id="language2">
                                 <option value="0" disabled>Dil Seç</option>
-                                <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
+                                <option v-if="localizations.length > 0" v-for="localization in localizations" v-bind:value="localization.id">
                                     {{ localization.title }}
                                 </option>
                             </select>
@@ -90,9 +90,10 @@
                         <ul class="nav nav-pills">
                             <li class="nav-item"><a class="nav-link active show" href="#headerinfo" data-toggle="tab">{{ $trans[lang+'.blog']['header_information'] }}</a></li>
                             <li class="nav-item"><a class="nav-link" href="#shortdescription" data-toggle="tab">{{ $trans[lang+'.pages']['short_descriptions'] }}</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#links" data-toggle="tab">Linkler</a></li>
                             <li class="nav-item"><a class="nav-link" href="#pictures" data-toggle="tab">{{ $trans[lang+'.blog']['pictures'] }}</a></li>
                             <li class="nav-item"><a class="nav-link" href="#detailed" data-toggle="tab">{{ $trans[lang+'.blog']['detailed_content'] }}</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#eslestir" data-toggle="tab">Eşleştir</a></li>
+                            <li class="nav-item" v-if="localizations && localizations.length>1"><a class="nav-link" href="#eslestir" data-toggle="tab">Eşleştir</a></li>
                         </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">
@@ -110,7 +111,7 @@
                                         <div class="col-sm-12">
                                             <select v-model="form.language" id="language" class="form-control" :class="{ 'is-invalid': form.errors.has('language') }">
                                                 <option value="0" disabled>Dil Seç</option>
-                                                <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
+                                                <option v-if="localizations.length > 0" v-for="localization in localizations" v-bind:value="localization.id">
                                                     {{ localization.title }}
                                                 </option>
                                             </select>
@@ -275,6 +276,327 @@
                                 </form>
                             </div>
                             <!-- /.tab-pane -->
+
+                            <!-- links Tab -->
+                            <div class="tab-pane" id="links">
+                                <form class="form-horizontal">
+                                    <div class="form-group">
+                                        <label
+                                            for="link1_text"
+                                            class="col-sm-2 control-label"
+                                        >Link 1 Text:</label
+                                        >
+
+                                        <div class="col-sm-12">
+                                            <input
+                                                type=""
+                                                v-model="
+                                                    form.link1_text
+                                                "
+                                                class="form-control"
+                                                id="link1_text"
+                                                :class="{
+                                                    'is-invalid': form.errors.has(
+                                                        'link1_text'
+                                                    )
+                                                }"
+                                            />
+                                            <has-error
+                                                :form="form"
+                                                field="link1_text"
+                                            ></has-error>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label
+                                            for="link1_href"
+                                            class="col-sm-2 control-label"
+                                        >Link 1 Href:</label
+                                        >
+
+                                        <div class="col-sm-12">
+                                            <input
+                                                type=""
+                                                v-model="
+                                                    form.link1_href
+                                                "
+                                                class="form-control"
+                                                id="link1_href"
+                                                :class="{
+                                                    'is-invalid': form.errors.has(
+                                                        'link1_href'
+                                                    )
+                                                }"
+                                            />
+                                            <has-error
+                                                :form="form"
+                                                field="link1_href"
+                                            ></has-error>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label
+                                            for="link2_text"
+                                            class="col-sm-2 control-label"
+                                        >Link 2 Text:</label
+                                        >
+
+                                        <div class="col-sm-12">
+                                            <input
+                                                type=""
+                                                v-model="
+                                                    form.link2_text
+                                                "
+                                                class="form-control"
+                                                id="link2_text"
+                                                :class="{
+                                                    'is-invalid': form.errors.has(
+                                                        'link2_text'
+                                                    )
+                                                }"
+                                            />
+                                            <has-error
+                                                :form="form"
+                                                field="link2_text"
+                                            ></has-error>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label
+                                            for="link2_href"
+                                            class="col-sm-2 control-label"
+                                        >Link 2 Href:</label
+                                        >
+
+                                        <div class="col-sm-12">
+                                            <input
+                                                type=""
+                                                v-model="
+                                                    form.link2_href
+                                                "
+                                                class="form-control"
+                                                id="link2_href"
+                                                :class="{
+                                                    'is-invalid': form.errors.has(
+                                                        'link2_href'
+                                                    )
+                                                }"
+                                            />
+                                            <has-error
+                                                :form="form"
+                                                field="link2_href"
+                                            ></has-error>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label
+                                            for="link3_text"
+                                            class="col-sm-2 control-label"
+                                        >Link 3 Text:</label
+                                        >
+
+                                        <div class="col-sm-12">
+                                            <input
+                                                type=""
+                                                v-model="
+                                                    form.link3_text
+                                                "
+                                                class="form-control"
+                                                id="link3_text"
+                                                :class="{
+                                                    'is-invalid': form.errors.has(
+                                                        'link3_text'
+                                                    )
+                                                }"
+                                            />
+                                            <has-error
+                                                :form="form"
+                                                field="link3_text"
+                                            ></has-error>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label
+                                            for="link3_href"
+                                            class="col-sm-2 control-label"
+                                        >Link 3 Href:</label
+                                        >
+
+                                        <div class="col-sm-12">
+                                            <input
+                                                type=""
+                                                v-model="
+                                                    form.link3_href
+                                                "
+                                                class="form-control"
+                                                id="link3_href"
+                                                :class="{
+                                                    'is-invalid': form.errors.has(
+                                                        'link3_href'
+                                                    )
+                                                }"
+                                            />
+                                            <has-error
+                                                :form="form"
+                                                field="link3_href"
+                                            ></has-error>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label
+                                            for="link4_text"
+                                            class="col-sm-2 control-label"
+                                        >Link Text 4:</label
+                                        >
+
+                                        <div class="col-sm-12">
+                                            <input
+                                                type=""
+                                                v-model="
+                                                    form.link4_text
+                                                "
+                                                class="form-control"
+                                                id="link4_text"
+                                                :class="{
+                                                    'is-invalid': form.errors.has(
+                                                        'link4_text'
+                                                    )
+                                                }"
+                                            />
+                                            <has-error
+                                                :form="form"
+                                                field="link4_text"
+                                            ></has-error>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label
+                                            for="link4_href"
+                                            class="col-sm-2 control-label"
+                                        >Link 4 Href:</label
+                                        >
+
+                                        <div class="col-sm-12">
+                                            <input
+                                                type=""
+                                                v-model="
+                                                    form.link4_href
+                                                "
+                                                class="form-control"
+                                                id="link4_href"
+                                                :class="{
+                                                    'is-invalid': form.errors.has(
+                                                        'link4_href'
+                                                    )
+                                                }"
+                                            />
+                                            <has-error
+                                                :form="form"
+                                                field="link4_href"
+                                            ></has-error>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label
+                                            for="link5_text"
+                                            class="col-sm-2 control-label"
+                                        >Link 5 Text:</label
+                                        >
+
+                                        <div class="col-sm-12">
+                                            <input
+                                                type=""
+                                                v-model="
+                                                    form.link5_text
+                                                "
+                                                class="form-control"
+                                                id="link5_text"
+                                                :class="{
+                                                    'is-invalid': form.errors.has(
+                                                        'link5_text'
+                                                    )
+                                                }"
+                                            />
+                                            <has-error
+                                                :form="form"
+                                                field="link5_text"
+                                            ></has-error>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label
+                                            for="link5_href"
+                                            class="col-sm-2 control-label"
+                                        >Link 5 Href:</label
+                                        >
+
+                                        <div class="col-sm-12">
+                                            <input
+                                                type=""
+                                                v-model="
+                                                    form.link5_href
+                                                "
+                                                class="form-control"
+                                                id="link5_href"
+                                                :class="{
+                                                    'is-invalid': form.errors.has(
+                                                        'link5_href'
+                                                    )
+                                                }"
+                                            />
+                                            <has-error
+                                                :form="form"
+                                                field="link5_href"
+                                            ></has-error>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-12">
+                                            <button
+                                                v-if="editmode"
+                                                @click.prevent="updateposts"
+                                                type="button"
+                                                class="btn btn-primary"
+                                            >
+                                                <i class="fas fa-edit"></i>
+                                                {{
+                                                $trans[lang + ".blog"][
+                                                "update"
+                                                ]
+                                                }}
+                                            </button>
+                                            <button
+                                                v-else
+                                                @click.prevent="createposts"
+                                                type="button"
+                                                class="btn btn-primary"
+                                            >
+                                                <i class="fas fa-plus"></i>
+                                                {{
+                                                $trans[lang + ".blog"][
+                                                "create"
+                                                ]
+                                                }}
+                                            </button>
+                                            <button
+                                                @click.prevent="backtolist"
+                                                type="button"
+                                                class="btn btn-warning"
+                                            >
+                                                <i class="fas fa-undo"></i>
+                                                İçerik Listesine Dön
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
 
 
                             <div class="tab-pane" id="pictures">
@@ -591,7 +913,7 @@
                                         <div class="col-sm-12">
                                             <select @change="loadpostsbylang2(form.language3)" v-model="form.language3" class="form-control" id="language3" :class="{ 'is-invalid': form.errors.has('language3') }">
                                                 <option value="0" disabled>Dil Seç</option>
-                                                <template v-if="localizations.data.length > 0" v-for="localization in localizations.data">
+                                                <template v-if="localizations.length > 0" v-for="localization in localizations">
                                                 <option v-if="localization.id!==form.language" v-bind:value="localization.id">
                                                     {{ localization.title }}
                                                 </option>
@@ -795,6 +1117,16 @@
                         short_description8: '',
                         short_description9: '',
                         short_description10: '',
+                        link1_text: "",
+                        link1_href: "",
+                        link2_text: "",
+                        link2_href: "",
+                        link3_text: "",
+                        link3_href: "",
+                        link4_text: "",
+                        link4_href: "",
+                        link5_text: "",
+                        link5_href: "",
                         picture1: '',
                         picture1_alt: '',
                         picture2: '',
@@ -1148,7 +1480,7 @@
                 axios.get('/api/icerikler2').then(({ data})=> (this.posts=data));
             },
             loadLocalization() {
-                axios.get('/api/localizations').then(({ data})=> (this.localizations=data));
+                axios.get('/api/activelocalizations').then(({ data})=> (this.localizations=data));
             },
             loadpostsbylang(id) {
                 axios.get('/api/icerikler2bylang/'+id).then(({ data})=> (this.posts=data));

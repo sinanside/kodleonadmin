@@ -7,29 +7,25 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
-class Althizmetturs extends Model implements Sortable
+class Affiliates extends Model implements Sortable
 {
     use Sluggable;
 
-    public function Althizmetturs(){
-        return $this->hasMany(althizmettur::class);
-    }
+    protected $fillable = [
+        'name', 'city', 'region', 'address', 'tel', 'short_description1', 'short_description2', 'short_description3', 'picture1', 'picture2', 'picture3', 'picture4',
+        'picture5', 'picture6', 'picture7', 'picture8', 'description1', 'special_code','language','active'
+    ];
+    protected $table = 'affiliates';
 
-    public  function hizmettur(){
-        return $this->belongsTo(Hizmetturs::class,'hiz_id');
-    }
     public  function localization(){
         return $this->belongsTo(Localizations::class,'language');
     }
-    protected $fillable = [
-        'hiz_id','title', 'short_description', 'photo',  'photo_alt','queue', 'language', 'mainpage','active'
-    ];
 
     public function sluggable()
     {
         return [
             'slug' => [
-                'source' => 'title'
+                'source' => 'name'
             ]
         ];
     }
@@ -38,12 +34,11 @@ class Althizmetturs extends Model implements Sortable
 
     public function buildSortQuery()
     {
-        return static::query()->where('hiz_id', $this->hiz_id)->where('language', $this->language);
+        return static::query()->where('language', $this->language);
     }
 
     public $sortable = [
         'order_column_name' => 'queue',
         'sort_when_creating' => true,
     ];
-
 }

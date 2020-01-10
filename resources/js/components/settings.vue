@@ -90,6 +90,18 @@
                                             {{this.form.owner}}
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td><strong>Copyright 1:</strong></td>
+                                        <td>
+                                            {{this.form.copyright1}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Copyright 2:</strong></td>
+                                        <td>
+                                            {{this.form.copyright2}}
+                                        </td>
+                                    </tr>
 
                                     </tbody></table>
 
@@ -180,6 +192,24 @@
                                             <has-error :form="form" field="owner"></has-error>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="owner" class="col-sm-2 control-label">Copyright 1</label>
+
+                                        <div class="col-sm-12">
+                                            <input type="" v-model="form.copyright1" class="form-control" id="copyright1"  :class="{ 'is-invalid': form.errors.has('copyright1') }">
+                                            <has-error :form="form" field="copyright1"></has-error>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="owner" class="col-sm-2 control-label">Copyright 2</label>
+
+                                        <div class="col-sm-12">
+                                            <input type="" v-model="form.copyright2" class="form-control" id="copyright2"  :class="{ 'is-invalid': form.errors.has('copyright2') }">
+                                            <has-error :form="form" field="copyright2"></has-error>
+                                        </div>
+                                    </div>
+
 
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-12">
@@ -233,6 +263,8 @@
                     main_keywords: '',
                     website: '',
                     owner: '',
+                    copyright1: '',
+                    copyright2: '',
                     active: '',
                 })
             }

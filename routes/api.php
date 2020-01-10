@@ -63,7 +63,8 @@ Route::apiResources([
     'comments' => 'API\commentsController',
     'konaklamas' => 'API\konaklamaController',
     'blogcomments' => 'API\BlogcommentsController',
-    'isortaklari' => 'API\isOrtaklariController'
+    'isortaklari' => 'API\isOrtaklariController',
+    'affiliates' => 'API\affiliatesController'
 
 
 ]);
@@ -186,6 +187,7 @@ Route::post('hizmetturdown', 'API\hizmetturController@down');
 Route::get('findAlthizmettur/{id}', 'API\althizmetturController@search');
 Route::get('althizmettursbylang/{id}/{hid}', 'API\althizmetturController@listbylang');
 Route::get('Allalthizmettur/{id}', 'API\althizmetturController@all');
+Route::get('Allalthizmettur2', 'API\althizmetturController@all2');
 Route::put('Althizmettur', 'API\althizmetturController@update');
 Route::post('Althizmettur_image', 'API\althizmetturController@storeimage');
 Route::post('althizmetturup', 'API\althizmetturController@up');
@@ -193,8 +195,8 @@ Route::post('althizmetturdown', 'API\althizmetturController@down');
 
 //Hizmetler
 Route::get('findIcerikler', 'API\hizmetlerController@search');
-Route::get('iceriklerbylang/{id}', 'API\hizmetlerController@listbylang');
-Route::get('iceriklerbylang2/{id}', 'API\hizmetlerController@listbylang2');
+Route::get('iceriklerbylang/{id}/{id2}', 'API\hizmetlerController@listbylang');
+Route::get('iceriklerbylang2/{id}/{id2}', 'API\hizmetlerController@listbylang2');
 Route::put('icerikler', 'API\hizmetlerController@update');
 Route::get('iceriklerbyspecialcode/{code}', 'API\hizmetlerController@searchbyspecialcode');
 Route::get('icerikleresleniksil/{id}', 'API\hizmetlerController@eslestirmesil');
@@ -262,7 +264,8 @@ Route::post('icerikler4_image_editor', 'API\bloglarController@storeimagebyeditor
 
 //Resimler
 Route::get('findResimler', 'API\galeryController@search');
-Route::get('resimlerbylang/{id}', 'API\galeryController@listbylang');
+Route::get('resimlerbyalthizmet/{id}', 'API\galeryController@listbyalthizmet');
+Route::get('resimlerbylang/{id}/{id2}', 'API\galeryController@listbylang');
 Route::put('resimler', 'API\galeryController@update');
 Route::post('resimler_image', 'API\galeryController@storeimage');
 Route::post('resimler_image1', 'API\galeryController@storeimage1');
@@ -301,6 +304,7 @@ Route::post('konaklamasdown', 'API\konaklamaController@down');
 
 //localization
 Route::get('findlocalizations', 'API\localizationController@search');
+Route::get('activelocalizations', 'API\localizationController@active');
 Route::put('localizations', 'API\localizationController@update');
 Route::post('localizationsup', 'API\localizationController@up');
 Route::post('localizationsdown', 'API\localizationController@down');
@@ -313,3 +317,21 @@ Route::post('isortaklari_image', 'API\isOrtaklariController@storeimage');
 Route::post('isortaklari_image1', 'API\isOrtaklariController@storeimage1');
 Route::post('isortaklariup', 'API\isOrtaklariController@up');
 Route::post('isortaklaridown', 'API\isOrtaklariController@down');
+
+//affiliates
+Route::get('findaffiliates', 'API\affiliatesController@search');
+Route::get('affiliatesbylang/{id}', 'API\affiliatesController@listbylang');
+Route::get('affiliatesbylang2/{id}', 'API\affiliatesController@listbylang2');
+Route::put('affiliates', 'API\affiliatesController@update');
+Route::post('affiliates_image', 'API\affiliatesController@storeimage');
+Route::post('affiliates_image1', 'API\affiliatesController@storeimage1');
+Route::post('affiliates_image2', 'API\affiliatesController@storeimage2');
+Route::post('affiliates_image3', 'API\affiliatesController@storeimage3');
+Route::post('affiliates_image4', 'API\affiliatesController@storeimage4');
+Route::post('affiliates_image5', 'API\affiliatesController@storeimage5');
+Route::post('affiliates_image6', 'API\affiliatesController@storeimage6');
+Route::post('affiliates_image7', 'API\affiliatesController@storeimage7');
+Route::post('affiliates_image8', 'API\affiliatesController@storeimage8');
+Route::post('affiliatesup', 'API\affiliatesController@up');
+Route::post('affiliatesdown', 'API\affiliatesController@down');
+Route::post('affiliates_image_editor', 'API\affiliatesController@storeimagebyeditor');

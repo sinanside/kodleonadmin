@@ -60,8 +60,8 @@
                             >
                                 <option value="0" disabled>Dil Seç</option>
                                 <option
-                                    v-if="localizations.data.length > 0"
-                                    v-for="localization in localizations.data"
+                                    v-if="localizations.length > 0"
+                                    v-for="localization in localizations"
                                     v-bind:value="localization.id"
                                 >
                                     {{ localization.title }}
@@ -82,8 +82,8 @@
                             >
                                 <option value="0" disabled>Hizmet Seç</option>
                                 <option
-                                    v-if="hizmetturs.data.length > 0"
-                                    v-for="hizmettur in hizmetturs.data"
+                                    v-if="hizmetturs.length > 0"
+                                    v-for="hizmettur in hizmetturs"
                                     v-bind:value="hizmettur.id"
                                 >
                                     {{ hizmettur.title }}
@@ -275,10 +275,10 @@
                                         )
                                     }"
                                 >
-                                    <option value="0">Dil Seç</option>
+                                    <option value="0" disabled>Dil Seç</option>
                                     <option
-                                        v-if="localizations.data.length > 0"
-                                        v-for="localization in localizations.data"
+                                        v-if="localizations.length > 0"
+                                        v-for="localization in localizations"
                                         v-bind:value="localization.id"
                                     >
                                         {{ localization.title }}
@@ -299,10 +299,10 @@
                                         'is-invalid': form.errors.has('hiz_id')
                                     }"
                                 >
-                                    <option value="0">Hizmet Seçiniz</option>
+                                    <option value="0" disabled>Hizmet Seçiniz</option>
                                     <option
-                                        v-if="hizmetturs.data.length > 0"
-                                        v-for="hizmettur in hizmetturs.data"
+                                        v-if="hizmetturs.length > 0"
+                                        v-for="hizmettur in hizmetturs"
                                         v-bind:value="hizmettur.id"
                                     >
                                         {{ hizmettur.title }}
@@ -732,7 +732,7 @@ export default {
         },
         loadHizmettur() {
             axios
-                .get("/api/hizmetturs")
+                .get("/api/Allhizmettur")
                 .then(({ data }) => (this.hizmetturs = data));
         },
         loadhizmettursbylang(id) {
@@ -747,7 +747,7 @@ export default {
         },
         loadLocalization() {
             axios
-                .get("/api/localizations")
+                .get("/api/activelocalizations")
                 .then(({ data }) => (this.localizations = data));
         }
     },

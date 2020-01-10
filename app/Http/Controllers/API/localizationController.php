@@ -18,9 +18,15 @@ class localizationController extends Controller
     }
 
     public function index()
+{
+    if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+        return Localizations::ordered()->paginate(10);
+    }
+}
+    public function active()
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
-            return Localizations::ordered()->paginate(10);
+            return Localizations::where('active','=','1')->ordered()->get();
         }
     }
     /**

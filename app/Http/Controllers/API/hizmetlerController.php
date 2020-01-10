@@ -21,7 +21,7 @@ class hizmetlerController extends Controller
     public function index()
     {
         $this->authorize('isAdmin');
-        return Hizmetcreator::with('hizmettur','althizmettur','localization')->ordered()->paginate(10);
+        return Hizmetcreator::with('hizmettur','althizmettur','localization')->orderby('hiz_id')->ordered()->paginate(10);
     }
     public function all()
     {
@@ -68,28 +68,28 @@ class hizmetlerController extends Controller
         return $pages;
     }
 
-    public function listbylang($id)
+    public function listbylang($id,$id2)
     {
         $this->authorize('isAdmin');
         if($id==0)
         {
-            return Hizmetcreator::with('hizmettur','althizmettur','localization')->ordered()->paginate(10);
+            return Hizmetcreator::with('hizmettur','althizmettur','localization')->orderby('hiz_id')->where("tur", "=", $id2)->ordered()->paginate(10);
         }
         else
         {
-        return Hizmetcreator::with('hizmettur','althizmettur','localization')->where("language", "=", $id)->ordered()->paginate(10);
+            return Hizmetcreator::with('hizmettur','althizmettur','localization')->where("language", "=", $id)->where("tur", "=", $id2)->orderby('hiz_id')->ordered()->paginate(10);
         }
     }
-    public function listbylang2($id)
+    public function listbylang2($id,$id2)
     {
         $this->authorize('isAdmin');
         if($id==0)
         {
-            return Hizmetcreator::with('hizmettur','althizmettur','localization')->ordered()->get();
+            return Hizmetcreator::with('hizmettur','althizmettur','localization')->where("tur", "=", $id2)->ordered()->get();
         }
         else
         {
-            return Hizmetcreator::with('hizmettur','althizmettur','localization')->where("language", "=", $id)->ordered()->get();
+            return Hizmetcreator::with('hizmettur','althizmettur','localization')->where("language", "=", $id)->where("tur", "=", $id2)->ordered()->get();
         }
     }
     public function listbyid(Request $request)
@@ -124,6 +124,7 @@ class hizmetlerController extends Controller
 
         $page =  Hizmetcreator::create([
             'name'=>$request['name'],
+            'tur'=>$request['tur'],
             'hiz_id'=>$request['hiz_id'],
             'althiz_id'=>$request['althiz_id'],
             'language'=>$request['language'],
@@ -140,6 +141,16 @@ class hizmetlerController extends Controller
             'short_description8'=>$request['short_description8'],
             'short_description9'=>$request['short_description9'],
             'short_description10'=>$request['short_description10'],
+            'link1_text'=>$request['link1_text'],
+            'link1_href'=>$request['link1_href'],
+            'link2_text'=>$request['link2_text'],
+            'link2_href'=>$request['link2_href'],
+            'link3_text'=>$request['link3_text'],
+            'link3_href'=>$request['link3_href'],
+            'link4_text'=>$request['link4_text'],
+            'link4_href'=>$request['link4_href'],
+            'link5_text'=>$request['link5_text'],
+            'link5_href'=>$request['link5_href'],
             'picture1'=>$request['picture1'],
             'picture2'=>$request['picture2'],
             'picture3'=>$request['picture3'],
@@ -169,7 +180,7 @@ class hizmetlerController extends Controller
 
         //$path = public_path().'/img/'.$page->slug;
         //File::isDirectory($path) or File::makeDirectory($path, 0777, true, true);
-       // File::isDirectory($path.'/thumbs') or File::makeDirectory($path.'/thumbs', 0777, true, true);
+        // File::isDirectory($path.'/thumbs') or File::makeDirectory($path.'/thumbs', 0777, true, true);
 
     }
 

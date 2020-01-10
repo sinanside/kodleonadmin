@@ -46,7 +46,7 @@
                                 <th>{{ $trans[lang+'.blog']['modify'] }}</th>
                             </tr>
 
-                            <tr v-for="posts,index in posts.data" :key="posts.id">
+                            <tr v-for="posts,index in posts" :key="posts.id">
                                 <td>{{ index+1 }}</td>
                                 <td>
                                     <img v-if="posts.image" :src="'/img/languages/thumbs/' + posts.image" >
@@ -191,7 +191,7 @@
                 //vue2-editor config ends
 
                 imguploadconfig1: {
-                    url: "/api/localizations_image",
+                    url: "/api/activelocalizations_image",
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
                     },
@@ -230,14 +230,14 @@
             },
 
             getResults(page = 1) {
-                axios.get('/api/localizations?page=' + page)
+                axios.get('/api/activelocalizations?page=' + page)
                     .then(response => {
                         this.posts = response.data;
                     });
             },
             uprecords(id) {
                 axios({
-                    url: "/api/localizationsup",
+                    url: "/api/activelocalizationsup",
                     method: "POST",
                     data: {
                         id:id
@@ -259,7 +259,7 @@
             },
             downrecords(id) {
                 axios({
-                    url: "/api/localizationsdown",
+                    url: "/api/activelocalizationsdown",
                     method: "POST",
                     data: {
                         id:id
@@ -285,7 +285,7 @@
 
                 //console.log('editing data');
 
-                this.form.put('/api/localizations/'+this.form.id)
+                this.form.put('/api/activelocalizations/'+this.form.id)
                     .then(() => {
                         toast.fire(
                             'Updated!',
@@ -303,7 +303,7 @@
             },
             createposts() {
                 this.$Progress.start();
-                this.form.post('/api/localizations')
+                this.form.post('/api/activelocalizations')
                     .then(({ data }) => {
                         // form başarılıysa buraya girecek.
                         //console.log(data);
@@ -358,7 +358,7 @@
 
                     if(result.value) {
                         // send ajax request
-                        this.form.delete('/api/localizations/'+id).then(()=>{
+                        this.form.delete('/api/activelocalizations/'+id).then(()=>{
 
                             swal.fire(
                                 'Deleted!',
@@ -376,7 +376,7 @@
 
             },
             loadLocalization() {
-                axios.get('/api/localizations').then(({ data})=> (this.posts=data));
+                axios.get('/api/activelocalizations').then(({ data})=> (this.posts=data));
             }
         },
 

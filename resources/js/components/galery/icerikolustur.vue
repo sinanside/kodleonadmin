@@ -9,12 +9,12 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Referanslar</h1>
+                        <h1 class="m-0 text-dark">Galeri</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="/dashboard">{{ $trans[lang+'.pages']['dashboard'] }}</a></li>
-                            <li class="breadcrumb-item active">Referanslar</li>
+                            <li class="breadcrumb-item active">Galeri</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -26,19 +26,48 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-success">
-                        <h3 class="card-title">Referans Listesi</h3>
+                        <h3 class="card-title">Galeri Listesi</h3>
 
                         <div class="card-tools">
                             <button class="btn btn-primary" @click="newForm">{{ $trans[lang+'.blog']['addnew'] }} <i class="fas fa-plus fa-fw"></i></button>
                         </div>
+
                         <div class="card-tools px-1">
+
+
                             <select v-model="form.language2" @change="loadpostsbylang(form.language2)" class="form-control" id="language2">
                                 <option value="0" disabled>Dil Seç</option>
-                                <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
+                                <option v-if="localizations.length > 0" v-for="localization in localizations" v-bind:value="localization.id">
                                     {{ localization.title }}
                                 </option>
                             </select>
                         </div>
+
+                        <div class="card-tools px-2">
+                            <select
+                                v-model="form.althiz2"
+                                @change="
+                                    loadpostsbylang(
+                                        form.language2,
+                                        form.althiz2
+                                    )
+                                "
+                                class="form-control"
+                                id="althizmettur2"
+                            >
+                                <option value="0" disabled>Althizmet Seç</option>
+                                <option
+                                    v-if="althizmetturs2.length > 0"
+                                    v-for="althizmettur2 in althizmetturs2"
+                                    v-bind:value="althizmettur2.id"
+                                >
+                                    {{ althizmettur2.title }}
+                                </option>
+                            </select>
+
+                        </div>
+
+
 
                     </div>
                     <!-- /.card-header -->
@@ -61,7 +90,7 @@
                                 <td><img v-if="posts.picture1" :src="'\/img\/gallery\/thumbs\/'+posts.picture1">
                                     <img v-else :src="'\/img\/nophoto.png'"></td>
                                 <td>{{ posts.hizmettur.title }}</td>
-                                <td  v-if="posts.althiz_id !== null">{{ posts.althizmettur.title }}</td>
+                                <td  v-if="posts.althizmettur">{{ posts.althizmettur.title }}</td>
                                 <td v-else>-</td>
                                 <td>{{ posts.name }}</td>
                                 <td>{{ posts.localization.title }}</td>
@@ -112,7 +141,7 @@
                                         <div class="col-sm-12">
                                             <select @change="loadhizmettursbylang(form.language)" v-model="form.language" class="form-control" id="language" :class="{ 'is-invalid': form.errors.has('language') }">
                                                 <option value="0" disabled>Dil Seç</option>
-                                                <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
+                                                <option v-if="localizations.length > 0" v-for="localization in localizations" v-bind:value="localization.id">
                                                     {{ localization.title }}
                                                 </option>
                                             </select>
@@ -121,7 +150,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">Kategori:</label>
+                                        <label class="col-sm-2 control-label">Hizmet:</label>
 
                                         <div class="col-sm-12">
                                             <select @change="loadAlthizmettur(form.hiz_id)" v-model="form.hiz_id" class="form-control" :class="{ 'is-invalid': form.errors.has('hiz_id') }">
@@ -158,11 +187,47 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="short_description1" class="col-sm-2 control-label">{{ $trans[lang+'.pages']['short_description'] }} :</label>
+                                        <label for="short_description1" class="col-sm-2 control-label">{{ $trans[lang+'.pages']['short_description'] }} 1:</label>
 
                                         <div class="col-sm-12">
                                             <input type="" v-model="form.short_description1" class="form-control" id="short_description1"  :class="{ 'is-invalid': form.errors.has('short_description1') }">
                                             <has-error :form="form" field="short_description1"></has-error>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="short_description2" class="col-sm-2 control-label">{{ $trans[lang+'.pages']['short_description'] }} 2:</label>
+
+                                        <div class="col-sm-12">
+                                            <input type="" v-model="form.short_description2" class="form-control" id="short_description2"  :class="{ 'is-invalid': form.errors.has('short_description2') }">
+                                            <has-error :form="form" field="short_description2"></has-error>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label class="col-sm-2 control-label">Detay :</label>
+
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-12">
+                                                <vue-editor
+                                                    :editorOptions="
+                                                        editorSettings
+                                                    "
+                                                    useCustomImageHandler
+                                                    @imageAdded="
+                                                        handleImageAdded
+                                                    "
+                                                    id="hizmet_editor1"
+                                                    v-model="form.description1"
+                                                >
+                                                </vue-editor>
+
+                                                <has-error
+                                                    :form="form"
+                                                    field="description1"
+                                                ></has-error>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -203,7 +268,7 @@
                                         <div class="col-sm-offset-2 col-sm-12">
                                             <button  v-if="editmode"  @click.prevent="updateposts" type="button" class="btn btn-primary"><i class="fas fa-edit"></i> {{ $trans[lang+'.blog']['update'] }}</button>
                                             <button  v-else  @click.prevent="createposts" type="button" class="btn btn-primary"><i class="fas fa-plus"></i> {{ $trans[lang+'.blog']['create'] }}</button>
-                                            <button  @click.prevent="backtolist" type="button" class="btn btn-warning"><i class="fas fa-undo"></i> Referans Listesine Dön </button>
+                                            <button  @click.prevent="backtolist" type="button" class="btn btn-warning"><i class="fas fa-undo"></i> Galeri Listesine Dön </button>
                                         </div>
                                     </div>
                                 </form>
@@ -226,7 +291,13 @@
 
 <script>
     import vueDropzone from "vue2-dropzone";
+    import { VueEditor, Quill } from "vue2-editor";
+    import { ImageDrop } from "quill-image-drop-module";
+    import ImageResize from "quill-image-resize-module";
     import axios from "axios";
+
+    Quill.register("modules/imageDrop", ImageDrop);
+    Quill.register("modules/imageResize", ImageResize);
 
     export default {
         data() {
@@ -262,18 +333,23 @@
                 addmode: false,
                 hizmetturs:{},
                 althizmetturs:{},
+                althizmetturs2:{},
                 localizations:{},
                 posts: {},
                 tmplang:'',
+                tmpalthizmet:'',
                 form: new Form(
                     {
                         id: '',
                         hiz_id:'',
                         althiz_id:'',
+                        althiz2:'0',
                         language:'',
                         language2:'1',
                         name: '',
                         short_description1: '',
+                        short_description2: '',
+                        description1: '',
                         picture1: '',
                         picture1_alt: '',
                         active: '1'
@@ -286,6 +362,37 @@
         },
         methods: {
 
+            handleImageAdded: function(
+                file,
+                Editor,
+                cursorLocation,
+                resetUploader
+            ) {
+                // An example of using FormData
+                // NOTE: Your key could be different such as:
+                // formData.append('file', file)
+
+                var formData = new FormData();
+                formData.append("file", file);
+
+                axios({
+                    url: "/api/icerikler_image_editor",
+                    method: "POST",
+                    data: formData
+                })
+                    .then(result => {
+                        let url = "/img/hizmetler/" + result.data.data; // Get url from response
+                        Editor.insertEmbed(cursorLocation, "image", url);
+                        resetUploader();
+                        console.log("Picture:" + url);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            },
+
+            // VUE2 EDITOR IMAGE UPLOAD PLUGİN ENDS
+
             picture1complete(file) {
 
                 let response = JSON.parse(file.xhr.response);
@@ -294,7 +401,7 @@
             },
 
             getResults(page = 1) {
-                axios.get('/api/resimlerbylang/'+this.form.language2+'/?page=' + page)
+                axios.get('/api/resimlerbylang/'+this.form.language2+'/'+this.form.althiz2+'?page=' + page)
                     .then(response => {
                         this.posts = response.data;
                     });
@@ -373,8 +480,10 @@
                         // form başarılıysa buraya girecek.
                         //console.log(data);
                         this.tmplang=this.form.language;
+                        this.tmpalthizmet=this.form.althiz2;
                         this.form.reset();﻿
                         this.form.language2 = this.tmplang;
+                        this.form.althiz2=this.tmpalthizmet;
                         Fire.$emit('AfterCreate');
                         $('#addNew').modal('hide');
                         toast.fire({
@@ -396,12 +505,16 @@
                 this.editmode = true;
                 this.$refs.myVueDropzone1.removeAllFiles();
                 this.tmplang=this.form.language2;
+                this.tmpalthizmet=this.form.althiz2;
                 this.form.reset();﻿
                 this.form.language = this.tmplang;
+                this.form.althiz2=this.tmpalthizmet;
                 this.form.fill(posts);
                 this.loadhizmettursbylang(this.form.language);
                 this.loadAlthizmettur(this.form.hiz_id);
                 this.form.language2=this.form.language;
+                this.form.althiz2=this.tmpalthizmet;
+
 
             },
             newForm() {
@@ -410,11 +523,14 @@
                 this.editmode = false;
                 this.$refs.myVueDropzone1.removeAllFiles();
                 this.tmplang=this.form.language2;
+                this.tmpalthizmet=this.form.althiz2;
                 this.form.reset();﻿
                 this.form.hiz_id = 0;
-                this.form.althiz_id = 0;
+                this.form.althiz_id = this.form.althiz2;
                 this.form.language = this.tmplang;
                 this.form.language2=this.form.language;
+                this.form.althiz2=this.tmpalthizmet;
+
 
             },
             backtolist() {
@@ -453,11 +569,11 @@
                 })
 
             },
-            loadposts() {
-                axios.get('/api/resimler').then(({ data})=> (this.posts=data));
+            loadposts(id) {
+                axios.get('/api/resimlerbyalthizmet/'+id).then(({ data})=> (this.posts=data));
             },
-            loadpostsbylang(id) {
-                axios.get('/api/resimlerbylang/'+id).then(({ data})=> (this.posts=data));
+            loadpostsbylang(id,id2) {
+                axios.get('/api/resimlerbylang/'+id+'/'+id2).then(({ data})=> (this.posts=data));
                 axios.get('/api/hizmettursbylang2/'+id).then(({ data})=> (this.hizmetturs=data));
             },
             loadhizmettursbylang(id) {
@@ -469,8 +585,11 @@
             loadAlthizmettur(id) {
                 axios.get('/api/Allalthizmettur/'+id).then(({ data})=> (this.althizmetturs=data));
             },
+            loadAlthizmettur2(id) {
+                axios.get('/api/Allalthizmettur2').then(({ data})=> (this.althizmetturs2=data));
+            },
             loadLocalization() {
-                axios.get('/api/localizations').then(({ data})=> (this.localizations=data));
+                axios.get('/api/activelocalizations').then(({ data})=> (this.localizations=data));
             }
         },
 
@@ -485,12 +604,13 @@
                     })
             })
 
-            this.loadposts();
+            this.loadposts(this.form.althiz2);
             this.loadHizmettur();
             this.loadLocalization();
+            this.loadAlthizmettur2();
 
             Fire.$on('AfterCreate',() => {
-                this.loadpostsbylang(this.form.language2);
+                this.loadpostsbylang(this.form.language2,this.form.althiz2);
                 this.listmode= true;
                 this.addmode= false;
                 this.editmode = false;
