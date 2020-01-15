@@ -55,6 +55,7 @@ Route::apiResources([
     'hizmetturs' => 'API\hizmetturController',
     'althizmetturs' => 'API\althizmetturController',
     'localizations' => 'API\localizationController',
+    'activelocalizations' => 'API\activelocalizationController',
     'icerikler' => 'API\hizmetlerController',
     'icerikler2' => 'API\iceriklerController',
     'icerikler3' => 'API\carusellerController',
@@ -94,6 +95,7 @@ Route::get('carouselbylang/{id}', 'API\carouselController@listbylang');
 Route::get('carouselbylang2/{id}', 'API\carouselController@listbylang2');
 Route::put('carousel', 'API\carouselController@update');
 Route::post('carousel_image', 'API\carouselController@storeimage');
+Route::post('carousel_video', 'API\carouselController@storevideo');
 Route::post('carouselup', 'API\carouselController@up');
 Route::post('carouseldown', 'API\carouselController@down');
 Route::get('findcarouselalt', 'API\carouselaltController@search');
@@ -179,6 +181,7 @@ Route::get('findHizmettur', 'API\hizmetturController@search');
 Route::get('hizmettursbylang/{id}', 'API\hizmetturController@listbylang');
 Route::get('hizmettursbylang2/{id}', 'API\hizmetturController@listbylang2');
 Route::get('Allhizmettur', 'API\hizmetturController@all');
+Route::get('Allhizmettur2/{id}', 'API\althizmetturController@all3');
 Route::put('hizmettur', 'API\hizmetturController@update');
 Route::post('hizmettur_image', 'API\hizmetturController@storeimage');
 Route::post('hizmetturup', 'API\hizmetturController@up');
@@ -186,6 +189,7 @@ Route::post('hizmetturdown', 'API\hizmetturController@down');
 
 Route::get('findAlthizmettur/{id}', 'API\althizmetturController@search');
 Route::get('althizmettursbylang/{id}/{hid}', 'API\althizmetturController@listbylang');
+Route::get('althizmettursbylang2/{id}', 'API\althizmetturController@listbylang2');
 Route::get('Allalthizmettur/{id}', 'API\althizmetturController@all');
 Route::get('Allalthizmettur2', 'API\althizmetturController@all2');
 Route::put('Althizmettur', 'API\althizmetturController@update');
@@ -304,11 +308,11 @@ Route::post('konaklamasdown', 'API\konaklamaController@down');
 
 //localization
 Route::get('findlocalizations', 'API\localizationController@search');
-Route::get('activelocalizations', 'API\localizationController@active');
-Route::put('localizations', 'API\localizationController@update');
-Route::post('localizationsup', 'API\localizationController@up');
-Route::post('localizationsdown', 'API\localizationController@down');
-Route::post('localizations_image', 'API\localizationController@storeimage');
+//Route::get('activelocalizations', 'API\localizationController@active');
+Route::post('activelocalizations_image', 'API\localizationController@storeimage');
+Route::put('activelocalizations', 'API\localizationController@update');
+Route::post('activelocalizationsup', 'API\localizationController@up');
+Route::post('activelocalizationsdown', 'API\localizationController@down');
 
 //isortaklari
 Route::get('findisortaklari/{id}', 'API\isOrtaklariController@search');

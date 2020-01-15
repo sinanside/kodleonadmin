@@ -37,7 +37,7 @@
 
                             <select v-model="form.language2" @change="loadpostsbylang(form.language2)" class="form-control" id="language2">
                                 <option value="0" disabled>Dil Seç</option>
-                                <option v-if="localizations.length > 0" v-for="localization in localizations" v-bind:value="localization.id">
+                                <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
                                     {{ localization.title }}
                                 </option>
                             </select>
@@ -141,7 +141,7 @@
                                         <div class="col-sm-12">
                                             <select @change="loadhizmettursbylang(form.language)" v-model="form.language" class="form-control" id="language" :class="{ 'is-invalid': form.errors.has('language') }">
                                                 <option value="0" disabled>Dil Seç</option>
-                                                <option v-if="localizations.length > 0" v-for="localization in localizations" v-bind:value="localization.id">
+                                                <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
                                                     {{ localization.title }}
                                                 </option>
                                             </select>
@@ -459,8 +459,8 @@
                     this.form.put('/api/resimler/'+this.form.id)
                         .then(() => {
                             toast.fire(
-                                'Updated!',
-                                'Record has been updated',
+                                'Güncellendi!',
+                                'Kayıt başarıyla güncellendi.',
                                 'success'
                             )
                             this.$Progress.finish();
@@ -468,7 +468,7 @@
                         })
                         .catch(() => {
                             this.$Progress.fail();
-                            toast.fire("Failed","There was an error","warning");
+                            toast.fire("Başarısız","Bir hata meydana geldi.","warning");
 
                         });
 
@@ -555,8 +555,8 @@
                         this.form.delete('/api/resimler/'+id).then(()=>{
 
                             swal.fire(
-                                'Deleted!',
-                                'galery picture has been deleted.',
+                                'Silindi!',
+                                'Galeri içeriği başarıyla silindi.',
                                 'success'
                             )
                             Fire.$emit('AfterCreate');

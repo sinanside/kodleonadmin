@@ -26,6 +26,8 @@ class Hizmetcreator extends Model implements Sortable
         return $this->belongsTo(Localizations::class,'language');
     }
 
+
+
     public function sluggable()
     {
         return [

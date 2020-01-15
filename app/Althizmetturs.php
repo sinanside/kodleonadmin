@@ -6,14 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
+use App\Traits\SecureDelete;
 
 class Althizmetturs extends Model implements Sortable
 {
     use Sluggable;
-
-    public function Althizmetturs(){
-        return $this->hasMany(althizmettur::class);
-    }
+    use SecureDelete;
 
     public  function hizmettur(){
         return $this->belongsTo(Hizmetturs::class,'hiz_id');
@@ -21,6 +19,13 @@ class Althizmetturs extends Model implements Sortable
     public  function localization(){
         return $this->belongsTo(Localizations::class,'language');
     }
+
+    public function hizmetcreator()
+    {
+        return $this->hasMany('App\Hizmetcreator','althiz_id');
+    }
+
+
     protected $fillable = [
         'hiz_id','title', 'short_description', 'photo',  'photo_alt','queue', 'language', 'mainpage','active'
     ];
@@ -45,5 +50,21 @@ class Althizmetturs extends Model implements Sortable
         'order_column_name' => 'queue',
         'sort_when_creating' => true,
     ];
+    /*
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($Althizmetturs) {
+            $relationMethods = ['hizmetcreator'];
+
+            foreach ($relationMethods as $relationMethod) {
+                if ($Althizmetturs->$relationMethod()->count() > 0) {
+                    return false;
+                }
+            }
+        });
+    }
+    */
 
 }

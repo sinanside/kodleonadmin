@@ -50,9 +50,8 @@
                             <select
                                 v-model="form.language2"
                                 @change="
-                                    loadalthizmettursbylang(
-                                        form.language2,
-                                        form.hizmettur2
+                                    loadalthizmettursbylang2(
+                                        form.language2
                                     )
                                 "
                                 class="form-control"
@@ -82,11 +81,11 @@
                             >
                                 <option value="0" disabled>Hizmet Seç</option>
                                 <option
-                                    v-if="hizmetturs.length > 0"
-                                    v-for="hizmettur in hizmetturs"
-                                    v-bind:value="hizmettur.id"
+                                    v-if="hizmetturs2.length > 0"
+                                    v-for="hizmettur in hizmetturs2"
+                                    v-bind:value="hizmettur.hiz_id"
                                 >
-                                    {{ hizmettur.title }}
+                                    {{ hizmettur.hizmettur.title }}
                                 </option>
                             </select>
                         </div>
@@ -125,12 +124,14 @@
                                     :key="althizmetturs.id"
                                 >
                                     <td>{{ index + 1 }}</td>
-                                    <td>{{ althizmetturs.hizmettur.title }}</td>
+                                    <td v-if="althizmetturs.hizmettur">{{ althizmetturs.hizmettur.title }}</td>
+                                    <td v-else>-</td>
                                     <td>{{ althizmetturs.title }}</td>
                                     <td>{{ althizmetturs.slug }}</td>
-                                    <td>
+                                    <td v-if="althizmetturs.localization">
                                         {{ althizmetturs.localization.title }}
                                     </td>
+                                    <td v-else>-</td>
                                     <td>
                                         <span
                                             class="badge badge-success"
@@ -547,9 +548,11 @@ export default {
 
             editmode: false,
             hizmetturs: {},
+            hizmetturs2: {},
             althizmetturs: {},
             localizations: {},
             tmplang: "",
+            tmphizmettur: "",
             form: new Form({
                 id: "",
                 hiz_id: "",
@@ -614,7 +617,7 @@ export default {
                     Fire.$emit("AfterCreate");
                 })
                 .catch(() => {
-                    toast.fire("Failed", "There was an error", "warning");
+                    toast.fire("Başarısız", "Bir hata meydana geldi.", "warning");
                 });
         },
 
@@ -642,7 +645,7 @@ export default {
                     $("#addNew").modal("hide");
                     toast.fire(
                         "Updated!",
-                        "Alt Hizmettur has been updated",
+                        "Althizmet başarıyla güncellendi.",
                         "success"
                     );
                     this.$Progress.finish();
@@ -650,7 +653,7 @@ export default {
                 })
                 .catch(() => {
                     this.$Progress.fail();
-                    toast.fire("Failed", "There was an error", "warning");
+                    toast.fire("Başarısız", "Bir hata meydana geldi.", "warning");
                 });
         },
         createAlthizmettur() {
@@ -665,7 +668,7 @@ export default {
                     $("#addNew").modal("hide");
                     toast.fire({
                         type: "success",
-                        title: "Alt Hizmettur created successfully"
+                        title: "Althizmet başarıyla oluşturuldu."
                     });
                     this.$Progress.finish();
                 })
@@ -688,20 +691,24 @@ export default {
             this.$refs.myVueDropzone.removeAllFiles();
             this.editmode = false;
             this.tmplang = this.form.language2;
+            this.tmphizmettur = this.form.hizmettur2;
             this.form.reset();
             this.form.language = this.tmplang;
             $("#addNew").modal("show");
             this.form.language2 = this.form.language;
+            this.form.hizmettur2 = this.tmphizmettur;
+            this.form.hiz_id = this.tmphizmettur;
+
         },
         deleteAlthizmettur(id) {
             swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
+                title: "Emin misiniz?",
+                text: "Alt hizmeti silmeden önce alt hizmete bağlı herhangi bir içerik olmadığından emin olunuz!!!",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonText: "Evet, silebilirsin!"
             }).then(result => {
                 if (result.value) {
                     // send ajax request
@@ -709,16 +716,16 @@ export default {
                         .delete("/api/althizmetturs/" + id)
                         .then(() => {
                             swal.fire(
-                                "Deleted!",
-                                "Alt Hizmettur has been deleted.",
+                                "Silindi!",
+                                "Hizmet türü başarıyla silindi.<br> Not: Eğer bağlı içerik varsa silme işlemi gerçekleşmez.",
                                 "success"
                             );
                             Fire.$emit("AfterCreate");
                         })
                         .catch(() => {
                             swal.fire(
-                                "Failed",
-                                "There was an error",
+                                "Başarısız",
+                                "Silme işleminde bir hata meydana geldi.<br> Bu hatanın sebeplerinden biri silmeye çalıştığınız nesneye bağlı bir içerik olmasıdır!!!",
                                 "warning"
                             );
                         });
@@ -730,25 +737,38 @@ export default {
                 .get("/api/althizmetturs")
                 .then(({ data }) => (this.althizmetturs = data));
         },
-        loadHizmettur() {
+        loadHizmettur2(id) {
             axios
-                .get("/api/Allhizmettur")
-                .then(({ data }) => (this.hizmetturs = data));
+                .get("/api/Allhizmettur2/" + id)
+                .then(({ data }) => (this.hizmetturs2 = data));
         },
         loadhizmettursbylang(id) {
             axios
                 .get("/api/hizmettursbylang2/" + id)
                 .then(({ data }) => (this.hizmetturs = data));
         },
+        loadhizmettursbylangfortop(id) {
+            axios
+                .get("/api/hizmettursbylang2/" + id)
+                .then(({ data }) => (this.hizmetturs2 = data));
+        },
         loadalthizmettursbylang(id, hid) {
             axios
                 .get("/api/althizmettursbylang/" + id + "/" + hid)
                 .then(({ data }) => (this.althizmetturs = data));
+            this.loadHizmettur2(this.form.language2);
+        },
+        loadalthizmettursbylang2(id) {
+            this.form.hizmettur2=0;
+            axios
+                .get("/api/althizmettursbylang2/" + id)
+                .then(({ data }) => (this.althizmetturs.data = data));
+            this.loadHizmettur2(this.form.language2);
         },
         loadLocalization() {
             axios
-                .get("/api/activelocalizations")
-                .then(({ data }) => (this.localizations = data));
+                .get("/api/localizations")
+                .then(({ data }) => (this.localizations = data.data));
         }
     },
     created() {
@@ -768,13 +788,15 @@ export default {
         });
 
         this.loadalthizmettursbylang(this.form.language2, this.form.hizmettur2);
-        this.loadHizmettur();
+        this.loadhizmettursbylang(this.form.language2);
+        this.loadHizmettur2(this.form.language2);
         this.loadLocalization();
         Fire.$on("AfterCreate", () => {
             this.loadalthizmettursbylang(
                 this.form.language2,
                 this.form.hizmettur2
             );
+            this.loadhizmettursbylang(this.form.language2);
         });
     }
 };

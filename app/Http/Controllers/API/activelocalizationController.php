@@ -5,10 +5,12 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Hizmetturs;
+use App\Althizmetturs;
+use App\Localizations;
 use App\Image;
 use Images;
 
-class hizmetturController extends Controller
+class activelocalizationController extends Controller
 {
     public function __construct()
     {
@@ -18,46 +20,13 @@ class hizmetturController extends Controller
     public function index()
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
-            return Hizmetturs::with('localization')->ordered()->paginate(10);
+            return Localizations::where('active','=','1')->ordered()->paginate(10);
         }
     }
-    public function all()
+    public function active()
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
-            return Hizmetturs::with('localization')->get();}
-
-
-    }
-    public function all2()
-    {
-        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
-            return Hizmetturs::with('localization')->get();}
-
-
-    }
-    public function listbylang($id)
-    {
-        $this->authorize('isAdmin');
-        if($id==0)
-        {
-            return Hizmetturs::with('localization')->ordered()->paginate(10);
-        }
-        else
-        {
-            return Hizmetturs::with('localization')->where("language", "=", $id)->ordered()->paginate(10);
-        }
-    }
-
-    public function listbylang2($id)
-    {
-        $this->authorize('isAdmin');
-        if($id==0)
-        {
-            return Hizmetturs::with('localization')->ordered()->get();
-        }
-        else
-        {
-            return Hizmetturs::with('localization')->where("language", "=", $id)->ordered()->get();
+            return Localizations::where('active','=','1')->ordered()->get();
         }
     }
     /**
@@ -74,10 +43,10 @@ class hizmetturController extends Controller
                 $image = $request->file('file');
                 $name = time() . '.' . $image->getClientOriginalExtension();
 
-                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/hizmetler/thumbs/' . $name));
+                $thumbnailImage = Images::make($image)->resize(200, 200)->save(public_path('/img/languages/thumbs/' . $name));
                 $watermark = Images::make(public_path('/img/watermark.png'));
                 //$Image = Images::make($image)->insert($watermark, 'bottom-right', 10, 10)->save(public_path('/img/hizmetler/' . $name));
-                $Image = Images::make($image)->save(public_path('/img/hizmetler/' . $name));
+                $Image = Images::make($image)->save(public_path('/img/languages/' . $name));
                 //$image->move(public_path().'/img/social/', $name);
             }
 
@@ -98,12 +67,10 @@ class hizmetturController extends Controller
                 'title' => 'required|string|max:191'
             ]);
 
-            return Hizmetturs::create([
+            return Localizations::create([
                 'title' => $request['title'],
-                'short_description' => $request['short_description'],
-                'photo' => $request['photo'],
-                'photo_alt' => $request['photo_alt'],
-                'language' => $request['language'],
+                'short_title' => $request['short_title'],
+                'image' => $request['image'],
                 'active' => $request['active']
             ]);
         }
@@ -131,14 +98,13 @@ class hizmetturController extends Controller
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor'))
         {
-            $hizmetturs = Hizmetturs::findOrFail($id);
+            $localizations = Localizations::findOrFail($id);
             $this->validate($request, [
                 'title' => 'required|string|max:191'
             ]);
-            $hizmetturs->slug = null;
-            $hizmetturs->update($request->all());
+            $localizations->update($request->all());
 
-            return ['message' => 'update hizmettur'];
+            return ['message' => 'update localization'];
         }
     }
 
@@ -151,32 +117,30 @@ class hizmetturController extends Controller
     public function destroy($id)
     {
         $this->authorize('isAdmin');
-        $sil =Hizmetturs::findorFail($id);
-        //$sil->delete();
-        return $sil->secureDelete('hizmetcreator','althizmettur');
+        $categories =Localizations::findorFail($id);
+        $categories->delete();
 
-
-        return ['message'=>'hizmettur deleted'];
+        return ['message'=>'localization deleted'];
     }
     public function up(Request $request)
     {
         $this->authorize('isAdmin');
         $id = $request->id;
-        $hizmetturs =Hizmetturs::findorFail($id);
-        $hizmetturs->moveOrderUp();
+        $althizmetturs =Localizations::findorFail($id);
+        $althizmetturs->moveOrderUp();
 
-        return ['message'=>'hizmettur reordered'];
+        return ['message'=>'localization reordered'];
     }
 
     public function down(Request $request)
     {
         $this->authorize('isAdmin');
         $id = $request->id;
-        $hizmetturs =Hizmetturs::findorFail($id);
-        $hizmetturs->moveOrderDown();
+        $localizations =Localizations::findorFail($id);
+        $localizations->moveOrderDown();
 
 
-        return ['message'=>'hizmettur reordered'];
+        return ['message'=>'localization reordered'];
     }
 
     public function search()
@@ -184,14 +148,13 @@ class hizmetturController extends Controller
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor'))
         {
             if ($search = \Request::get('q')) {
-                $hizmetturs = Hizmetturs::where(function ($query) use ($search) {
-                    $query->where('title', 'LIKE', "%$search%")
-                        ->orWhere('short_description', 'LIKE', "%$search%");
+                $localizations = Localizations::where(function ($query) use ($search) {
+                    $query->where('title', 'LIKE', "%$search%");
                 })->paginate(10);
             } else {
-                $hizmetturs = Hizmetturs::with('localization')->ordered()->paginate(10);
+                $localizations = Localizations::ordered()->paginate(10);
             }
-            return $hizmetturs;
+            return $localizations;
         }
     }
 }

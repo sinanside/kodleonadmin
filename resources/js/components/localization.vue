@@ -376,7 +376,7 @@
 
             },
             loadLocalization() {
-                axios.get('/api/activelocalizations').then(({ data})=> (this.posts=data));
+                axios.get('/api/localizations').then(({ data})=> (this.posts=data.data));
             }
         },
 

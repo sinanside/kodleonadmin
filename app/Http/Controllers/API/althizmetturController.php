@@ -36,6 +36,13 @@ class althizmetturController extends Controller
             return Althizmetturs::get();}
 
     }
+    public function all3($id)
+    {
+        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor'))
+        {
+            return Althizmetturs::with('hizmettur','localization')->where("language", "=", $id)->groupBy('hiz_id')->get();}
+
+    }
     public function listbylang($id,$hid)
     {
         $this->authorize('isAdmin');
@@ -163,10 +170,12 @@ class althizmetturController extends Controller
     public function destroy($id)
     {
         $this->authorize('isAdmin');
-        $categories =Althizmetturs::findorFail($id);
-        $categories->delete();
+        $sil =Althizmetturs::findorFail($id);
+       // $sil->delete();
 
-        return ['message'=>'althizmettur deleted'];
+        return $sil->secureDelete('hizmetcreator');
+
+        //return ['message'=>'althizmettur deleted'];
     }
     public function up(Request $request)
     {

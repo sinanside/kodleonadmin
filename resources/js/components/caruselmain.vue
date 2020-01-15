@@ -163,6 +163,17 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <vue-dropzone  ref="myVueDropzone" id="upload2" :options="videouploadconfig" @vdropzone-complete="carouselvideocomplete"></vue-dropzone>
+                                                <input v-model="form.video" id="video" type="text" name="video"
+                                                       class="form-control" :class="{ 'is-invalid': form.errors.has('video') }">
+                                                <has-error :form="form" field="video"></has-error>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <strong>{{ $trans[lang+'.carousel']['status'] }}:</strong><br>
                                         <select v-model="form.active" id="type" name="active"
                                                 class="form-control" :class="{ 'is-invalid': form.errors.has('active') }">
@@ -291,6 +302,19 @@
                     dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD IMAGE",
                     addRemoveLinks: true
                 },
+
+                videouploadconfig: {
+                    url: "/api/carousel_video",
+                    headers: {
+                        "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
+                    },
+                    maxFilesize: 10, // MB
+                    maxFiles: 1,
+                    chunking: false,
+                    dictDefaultMessage: "<i class='fas fa-upload'></i>&nbsp;&nbsp;UPLOAD VIDEO",
+                    addRemoveLinks: true
+                },
+
                 editmode: false,
                 listmode: true,
                 addmode: false,
@@ -307,6 +331,7 @@
                         carousel_title: '',
                         image: '',
                         image_alt: '',
+                        video: '',
                         image_x: '',
                         image_y: '',
                         order: '',
@@ -325,6 +350,12 @@
                 let response = JSON.parse(file.xhr.response);
                 console.log("Photo1:"+response.data);
                 this.form.image = response.data;
+            },
+            carouselvideocomplete(file) {
+
+                let response = JSON.parse(file.xhr.response);
+                console.log("Video1:"+response.data);
+                this.form.video = response.data;
             },
 
             getResults(page = 1) {

@@ -77,6 +77,31 @@ class carouselController extends Controller
         ], 200);
     }
 
+    public function storevideo(Request $request)
+    {
+        $this->authorize('isAdmin');
+        if($request->file('file'))
+        {
+            $video = $request->file('file');
+            $name = 'crslvid_'.time().'.'.$video->getClientOriginalExtension();
+
+            $video->move('video', $name);
+
+            //$thumbnailImage = Images::make($image)->resize(150, 150)->save(public_path('/img/carousel/thumbs/' . $name));
+            //$Image = Images::make($image)->save(public_path('/img/carousel/' . $name));
+
+            //$image->move(public_path().'/img/social/', $name);
+        }
+
+        $image= new Image();
+        $image->image_name = $name;
+        $image->save();
+
+        return response()->json([
+            'data' => $name
+        ], 200);
+    }
+
     public function store(Request $request)
     {
         $this->authorize('isAdmin');

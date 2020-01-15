@@ -221,7 +221,7 @@
                                         )
                                     }"
                                 >
-                                    <option value="0">Dil Seç</option>
+                                    <option value="0" disabled>Dil Seç</option>
                                     <option
                                         v-if="localizations.length > 0"
                                         v-for="localization in localizations"
@@ -443,6 +443,7 @@ export default {
 
             editmode: false,
             hizmetturs: {},
+            tmplang : "",
             localizations: {},
             form: new Form({
                 id: "",
@@ -563,19 +564,20 @@ export default {
         newModal() {
             this.$refs.myVueDropzone.removeAllFiles();
             this.editmode = false;
+            this.tmplang = this.form.language2;
             this.form.reset();
-            this.form.language = 0;
+            this.form.language= this.tmplang,
             $("#addNew").modal("show");
         },
         deleteHizmettur(id) {
             swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
+                title: "Emin misiniz?",
+                text: "Hizmeti silmeden önce hizmete bağlı herhangi bir içerik olmadığından emin olunuz!!!",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonText: "Evet, silebilirsin!"
             }).then(result => {
                 if (result.value) {
                     // send ajax request
@@ -583,8 +585,8 @@ export default {
                         .delete("/api/hizmetturs/" + id)
                         .then(() => {
                             swal.fire(
-                                "Deleted!",
-                                "Hizmettur has been deleted.",
+                                "Silindi!",
+                                "Hizmet türü başarıyla silindi.<br> Not: Eğer bağlı içerik varsa silme işlemi gerçekleşmez.",
                                 "success"
                             );
                             Fire.$emit("AfterCreate");
@@ -611,8 +613,8 @@ export default {
         },
         loadLocalization() {
             axios
-                .get("/api/activelocalizations")
-                .then(({ data }) => (this.localizations = data));
+                .get("/api/localizations")
+                .then(({ data }) => (this.localizations = data.data));
         }
     },
     created() {

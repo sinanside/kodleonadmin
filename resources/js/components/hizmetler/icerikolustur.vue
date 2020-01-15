@@ -2389,7 +2389,7 @@
             },
             loadLocalization() {
                 axios
-                    .get("/api/localizations")
+                    .get("/api/activelocalizations")
                     .then(({ data }) => (this.localizations = data));
             },
             iceriklerbyspecialcode(code) {
