@@ -35,7 +35,7 @@
                         <div class="card-tools px-1">
 
 
-                            <select v-model="form.language2" @change="loadpostsbylang(form.language2)" class="form-control" id="language2">
+                            <select v-model="form2.language2" @change="loadpostsbylang(form2.language2),loadAlthizmetturbylang2(form2.language2)" class="form-control" id="language2">
                                 <option value="0" disabled>Dil Seç</option>
                                 <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
                                     {{ localization.title }}
@@ -48,7 +48,7 @@
                                 v-model="form.althiz2"
                                 @change="
                                     loadpostsbylang(
-                                        form.language2,
+                                        form2.language2,
                                         form.althiz2
                                     )
                                 "
@@ -353,7 +353,10 @@
                         picture1: '',
                         picture1_alt: '',
                         active: '1'
-                    })
+                    }),
+                form2: new Form({
+                    language2: "1"
+                })
             }
         },
 
@@ -401,7 +404,7 @@
             },
 
             getResults(page = 1) {
-                axios.get('/api/resimlerbylang/'+this.form.language2+'/'+this.form.althiz2+'?page=' + page)
+                axios.get('/api/resimlerbylang/'+this.form2.language2+'/'+this.form.althiz2+'?page=' + page)
                     .then(response => {
                         this.posts = response.data;
                     });
@@ -482,7 +485,7 @@
                         this.tmplang=this.form.language;
                         this.tmpalthizmet=this.form.althiz2;
                         this.form.reset();﻿
-                        this.form.language2 = this.tmplang;
+                        this.form2.language2 = this.tmplang;
                         this.form.althiz2=this.tmpalthizmet;
                         Fire.$emit('AfterCreate');
                         $('#addNew').modal('hide');
@@ -504,7 +507,7 @@
                 this.addmode= true;
                 this.editmode = true;
                 this.$refs.myVueDropzone1.removeAllFiles();
-                this.tmplang=this.form.language2;
+                this.tmplang=this.form2.language2;
                 this.tmpalthizmet=this.form.althiz2;
                 this.form.reset();﻿
                 this.form.language = this.tmplang;
@@ -512,7 +515,7 @@
                 this.form.fill(posts);
                 this.loadhizmettursbylang(this.form.language);
                 this.loadAlthizmettur(this.form.hiz_id);
-                this.form.language2=this.form.language;
+                this.form2.language2=this.form.language;
                 this.form.althiz2=this.tmpalthizmet;
 
 
@@ -522,13 +525,13 @@
                 this.addmode= true;
                 this.editmode = false;
                 this.$refs.myVueDropzone1.removeAllFiles();
-                this.tmplang=this.form.language2;
+                this.tmplang=this.form2.language2;
                 this.tmpalthizmet=this.form.althiz2;
                 this.form.reset();﻿
                 this.form.hiz_id = 0;
                 this.form.althiz_id = this.form.althiz2;
                 this.form.language = this.tmplang;
-                this.form.language2=this.form.language;
+                this.form2.language2=this.form.language;
                 this.form.althiz2=this.tmpalthizmet;
 
 
@@ -563,7 +566,7 @@
 
                         }).catch(()=>{
 
-                            swal.fire("Failed","There was an error","warning");
+                            swal.fire("Başarısız","Bir hata meydana geldi","warning");
                         });
                     }
                 })
@@ -586,7 +589,10 @@
                 axios.get('/api/Allalthizmettur/'+id).then(({ data})=> (this.althizmetturs=data));
             },
             loadAlthizmettur2(id) {
-                axios.get('/api/Allalthizmettur2').then(({ data})=> (this.althizmetturs2=data));
+                axios.get('/api/Allalthizmettur2/'+id).then(({ data})=> (this.althizmetturs2=data));
+            },
+            loadAlthizmetturbylang2(id) {
+                axios.get('/api/Allalthizmettur2/'+id).then(({ data})=> (this.althizmetturs2=data));
             },
             loadLocalization() {
                 axios.get('/api/activelocalizations').then(({ data})=> (this.localizations=data));
@@ -607,10 +613,11 @@
             this.loadposts(this.form.althiz2);
             this.loadHizmettur();
             this.loadLocalization();
-            this.loadAlthizmettur2();
+            //this.loadAlthizmettur2();
+            this.loadAlthizmetturbylang2(this.form2.language2);
 
             Fire.$on('AfterCreate',() => {
-                this.loadpostsbylang(this.form.language2,this.form.althiz2);
+                this.loadpostsbylang(this.form2.language2,this.form.althiz2);
                 this.listmode= true;
                 this.addmode= false;
                 this.editmode = false;

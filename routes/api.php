@@ -65,8 +65,9 @@ Route::apiResources([
     'konaklamas' => 'API\konaklamaController',
     'blogcomments' => 'API\BlogcommentsController',
     'isortaklari' => 'API\isOrtaklariController',
-    'affiliates' => 'API\affiliatesController'
-
+    'affiliates' => 'API\affiliatesController',
+    'activitycreators' => 'API\activitycreatorsController',
+    'employees' => 'API\employeesController',
 
 ]);
 Route::put('regs', 'API\regApplicationsController@update');
@@ -192,6 +193,8 @@ Route::get('althizmettursbylang/{id}/{hid}', 'API\althizmetturController@listbyl
 Route::get('althizmettursbylang2/{id}', 'API\althizmetturController@listbylang2');
 Route::get('Allalthizmettur/{id}', 'API\althizmetturController@all');
 Route::get('Allalthizmettur2', 'API\althizmetturController@all2');
+Route::get('Allalthizmetturbylang2/{id}', 'API\althizmetturController@allbylang2');
+
 Route::put('Althizmettur', 'API\althizmetturController@update');
 Route::post('Althizmettur_image', 'API\althizmetturController@storeimage');
 Route::post('althizmetturup', 'API\althizmetturController@up');
@@ -210,6 +213,9 @@ Route::post('icerikler_image2', 'API\hizmetlerController@storeimage2');
 Route::post('icerikler_image3', 'API\hizmetlerController@storeimage3');
 Route::post('icerikler_image4', 'API\hizmetlerController@storeimage4');
 Route::post('icerikler_image5', 'API\hizmetlerController@storeimage5');
+Route::post('icerikler_image6', 'API\hizmetlerController@storeimage6');
+Route::post('icerikler_image7', 'API\hizmetlerController@storeimage7');
+Route::post('icerikler_image8', 'API\hizmetlerController@storeimage8');
 Route::post('iceriklerup', 'API\hizmetlerController@up');
 Route::post('iceriklerdown', 'API\hizmetlerController@down');
 Route::post('icerikler_image_editor', 'API\hizmetlerController@storeimagebyeditor');
@@ -265,6 +271,32 @@ Route::post('icerikler4_image5', 'API\bloglarController@storeimage5');
 Route::post('icerikler4up', 'API\bloglarController@up');
 Route::post('icerikler4down', 'API\bloglarController@down');
 Route::post('icerikler4_image_editor', 'API\bloglarController@storeimagebyeditor');
+
+//Activities
+Route::get('findactivities/{id}/{tur}', 'API\activitiesController@search');
+Route::get('activitiesbylang/{id}/{tur}', 'API\activitiesController@listbylang');
+Route::get('activitiesbylang2/{id}', 'API\activitiesController@listbylang2');
+Route::put('activities', 'API\activitiesController@update');
+Route::post('activities_image', 'API\activitiesController@storeimage');
+Route::post('activities_image1', 'API\activitiesController@storeimage1');
+Route::post('activities_image2', 'API\activitiesController@storeimage2');
+Route::post('activities_image3', 'API\activitiesController@storeimage3');
+Route::post('activities_image4', 'API\activitiesController@storeimage4');
+Route::post('activities_image5', 'API\activitiesController@storeimage5');
+Route::post('activities_image6', 'API\activitiesController@storeimage6');
+Route::post('activities_image7', 'API\activitiesController@storeimage7');
+Route::post('activities_image8', 'API\activitiesController@storeimage8');
+Route::post('activitiesup', 'API\activitiesController@up');
+Route::post('activitiesdown', 'API\activitiesController@down');
+Route::post('activities_image_editor', 'API\activitiesController@storeimagebyeditor');
+
+// Activity Creators
+Route::get('findactivitycreators/{id}/{tur}', 'API\activitycreatorsController@search');
+Route::get('activitycreatorsbylang/{id}', 'API\activitycreatorsController@listbylang');
+Route::put('activitycreators', 'API\activitycreatorsController@update');
+Route::post('activitycreators_image', 'API\activitycreatorsController@storeimage');
+Route::post('activitycreatorsup', 'API\activitycreatorsController@up');
+Route::post('activitycreatorsdown', 'API\activitycreatorsController@down');
 
 //Resimler
 Route::get('findResimler', 'API\galeryController@search');
@@ -339,3 +371,21 @@ Route::post('affiliates_image8', 'API\affiliatesController@storeimage8');
 Route::post('affiliatesup', 'API\affiliatesController@up');
 Route::post('affiliatesdown', 'API\affiliatesController@down');
 Route::post('affiliates_image_editor', 'API\affiliatesController@storeimagebyeditor');
+
+//employees
+Route::get('findEmployees', 'API\employeesController@search');
+Route::get('employeesbylang/{id}', 'API\employeesController@listbylang');
+Route::get('employeesbylang2/{id}', 'API\employeesController@listbylang2');
+Route::put('employees', 'API\employeesController@update');
+Route::post('employees_image', 'API\employeesController@storeimage');
+Route::post('employees_image1', 'API\employeesController@storeimage1');
+Route::post('employees_image2', 'API\employeesController@storeimage2');
+Route::post('employees_image3', 'API\employeesController@storeimage3');
+Route::post('employees_image4', 'API\employeesController@storeimage4');
+Route::post('employees_image5', 'API\employeesController@storeimage5');
+Route::post('employees_image6', 'API\employeesController@storeimage6');
+Route::post('employees_image7', 'API\employeesController@storeimage7');
+Route::post('employees_image8', 'API\employeesController@storeimage8');
+Route::post('employeesup', 'API\employeesController@up');
+Route::post('employeesdown', 'API\employeesController@down');
+Route::post('employees_image_editor', 'API\employeesController@storeimagebyeditor');

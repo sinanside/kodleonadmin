@@ -29,11 +29,18 @@ class althizmetturController extends Controller
             return Althizmetturs::where('hiz_id', '=', $id)->get();}
 
     }
-    public function all2()
+    public function all2($id)
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor'))
         {
-            return Althizmetturs::get();}
+            return Althizmetturs::with('hizmettur','localization')->where("language", "=", $id)->get();}
+
+    }
+    public function allbylang2($id)
+    {
+        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor'))
+        {
+            return Althizmetturs::with('hizmettur','localization')->where("language", "=", $id)->get();}
 
     }
     public function all3($id)
@@ -68,11 +75,11 @@ class althizmetturController extends Controller
         $this->authorize('isAdmin');
         if($id==0)
         {
-            return Althizmetturs::with('hizmettur','localization')->orderby('hiz_id')->ordered()->get();
+            return Althizmetturs::with('hizmettur','localization')->orderby('hiz_id')->ordered()->paginate(10);
         }
         else
         {
-            return Althizmetturs::with('hizmettur','localization')->where("language", "=", $id)->ordered()->get();
+            return Althizmetturs::with('hizmettur','localization')->where("language", "=", $id)->orderby('hiz_id')->ordered()->paginate(10);
         }
     }
     /**
@@ -198,19 +205,21 @@ class althizmetturController extends Controller
         return ['message'=>'althizmettur reordered'];
     }
 
-    public function search()
+    public function search($id)
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor'))
         {
             if ($search = \Request::get('q')) {
-                $althizmetturs = Althizmetturs::with('hizmettur','localization')->where(function ($query) use ($search) {
+                $althizmetturs = Althizmetturs::with('hizmettur','localization')
+                   ->where("language", "=", $id)
+                   ->where(function ($query) use ($search) {
                     $query->where('title', 'LIKE', "%$search%")
                         ->orwhereHas('hizmettur', function($query) use ($search) {
                         $query->where('title', 'LIKE', "%$search%");
                     });
                 })->paginate(10);
             } else {
-                $althizmetturs = Althizmetturs::with('hizmettur','localization')->ordered()->paginate(10);
+                $althizmetturs = Althizmetturs::with('hizmettur','localization')->where("language", "=", $id)->ordered()->paginate(10);
             }
             return $althizmetturs;
         }

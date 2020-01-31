@@ -1,5 +1,6 @@
 <template>
     <div class="container-fluid">
+
         <div class="row mt-6" v-if="!$gate.isAdmin()">
             <not-found></not-found>
         </div>
@@ -8,45 +9,30 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">İçerikler</h1>
-                    </div>
-                    <!-- /.col -->
+                        <h1 class="m-0 text-dark">{{ $trans[lang+'.main']['activities'] }}</h1>
+                    </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item">
-                                <a href="/dashboard">{{
-                                    $trans[lang + ".pages"]["dashboard"]
-                                    }}</a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="#">İçerikler</a>
-                            </li>
-                            <li class="breadcrumb-item active">İçerik</li>
+                            <li class="breadcrumb-item"><a href="/dashboard">{{ $trans[lang+'.pages']['dashboard'] }}</a></li>
+                            <li class="breadcrumb-item active">{{ $trans[lang+'.main']['activities'] }}</li>
                         </ol>
-                    </div>
-                    <!-- /.col -->
-                </div>
-                <!-- /.row -->
-            </div>
-            <!-- /.container-fluid -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
         </div>
 
         <div v-show="listmode" class="row mt-2 " v-if="$gate.isAdmin()">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-success">
-                        <h3 class="card-title">İçerik Listesi</h3>
-
+                        <h3 class="card-title">{{ $trans[lang+'.main']['activities'] }}</h3>
                         <div class="card-tools">
-                            <button class="btn btn-primary" @click="newForm">
-                                {{ $trans[lang + ".blog"]["addnew"] }}
-                                <i class="fas fa-plus fa-fw"></i>
-                            </button>
+                            <button class="btn btn-primary" @click="newForm">{{ $trans[lang+'.blog']['addnew'] }} <i class="fas fa-plus fa-fw"></i></button>
                         </div>
-                        <div class="card-tools px-1">
+                        <div class="card-tools">
                             <select
-                                v-model="form.language2"
-                                @change="loadpostsbylang(form.language2,form.tur2)"
+                                v-model="form2.language2"
+                                @change="loadactivitiesbylang(form2.language2,form2.tur2)"
                                 class="form-control"
                                 id="language2"
                             >
@@ -59,224 +45,243 @@
                                     {{ localization.title }}
                                 </option>
                             </select>
-
                         </div>
-                        <div class="card-tools px-1">
 
+
+                        <div class="card-tools px-1">
                             <select
-                                v-model="form.tur2"
-                                @change="loadpostsbylang(form.language2,form.tur2)"
+                                v-model="form2.tur2"
+                                @change="
+                                    loadactivitiesbylang(
+                                        form2.language2,
+                                        form2.tur2
+                                    )
+                                "
                                 class="form-control"
                                 id="tur2"
                             >
-                                <option value="0">İçerik</option>
-                                <option value="1" >Sayfa</option>
+                                <option value="0" disabled>Tür Seç</option>
+                                <option value="1">
+                                    Performans
+                                </option>
+                                <option value="2">
+                                    Konser
+                                </option>
+                                <option value="3">
+                                    Mavi akademi
+                                </option>
+                                <option value="5">
+                                    Single
+                                </option>
                             </select>
                         </div>
+
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
                         <table class="table table-hover">
-                            <tbody>
-                            <tr>
+                            <tbody><tr>
                                 <th>#</th>
-                                <th>Tanım</th>
-                                <!--<th>Dil</th>
-                                <th>Tür</th>-->
-                                <th>Hizmet</th>
-                                <th>Althizmet</th>
-                                <th>Durum</th>
-                                <th>
-                                    {{
-                                    $trans[lang + ".carousel"]["order"]
-                                    }}
-                                </th>
-                                <th>
-                                    {{ $trans[lang + ".blog"]["modify"] }}
-                                </th>
+                                <th>{{ $trans[lang+'.ourteam']['title1'] }}</th>
+                                <th>Tür</th>
+                                <th>Zaman</th>
+                                <th>{{ $trans[lang+'.ourteam']['status'] }}</th>
+                                <th>{{ $trans[lang+'.carousel']['order'] }}</th>
+                                <th>{{ $trans[lang+'.ourteam']['modify'] }}</th>
                             </tr>
 
-                            <tr
-                                v-for="(posts, index) in posts.data"
-                                :key="posts.id"
-                            >
-                                <td>{{ index + 1 }}</td>
-                                <td>{{ posts.name }}</td>
-                                <!--<td>{{ posts.localization.title }}</td>
-                                <td>
-                                     <span
-                                         class="badge badge-primary"
-                                         v-show="posts.tur == 1"
-                                     >Sayfa</span
-                                     >
-                                    <span
-                                        class="badge badge-warning"
-                                        v-show="posts.tur == 0"
-                                    >İçerik</span
-                                    >
-                                </td>-->
-                                <td v-if="posts.hizmettur">{{ posts.hizmettur.title }}</td>
+                            <tr v-for="activities,index in activities.data" :key="activities.id">
+                                <td>{{ index+1 }}</td>
+                                <td>{{ activities.title }}</td>
+                                <td v-if="activities.tur==1">Performans</td>
+                                <td v-else-if="activities.tur==2">Konser</td>
+                                <td v-else-if="activities.tur==3">Mavi Akademi</td>
+                                <td v-else-if="activities.tur==5">Single</td>
                                 <td v-else>-</td>
-                                <td v-if="posts.althizmettur">{{ posts.althizmettur.title }}</td>
-                                <td v-else>-</td>
+                                <td>{{ activities.start_date }}</td>
                                 <td>
-                                        <span
-                                            class="badge badge-success"
-                                            v-show="posts.active == 1"
-                                        >{{
-                                                $trans[lang + ".blog"]["active"]
-                                            }}</span
-                                        >
-                                    <span
-                                        class="badge badge-danger"
-                                        v-show="posts.active == 0"
-                                    >{{
-                                                $trans[lang + ".blog"][
-                                                    "passive"
-                                                ]
-                                            }}</span
-                                    >
+                                    <span class="badge badge-success" v-if="activities.active">{{ $trans[lang+'.blog']['active'] }}</span>
+                                    <span class="badge badge-danger" v-else>{{ $trans[lang+'.blog']['passive'] }}</span>
                                 </td>
                                 <td>
-                                    <a href="#" @click="uprecords(posts.id)"
-                                    ><i
-                                        class="fa fa-arrow-up orange"
-                                    ></i
-                                    ></a>
-                                    /
-                                    <a
-                                        href="#"
-                                        @click="downrecords(posts.id)"
-                                    ><i
-                                        class="fa fa-arrow-down cyan"
-                                    ></i
-                                    ></a>
+                                    <a href="#" @click="uprecords(activities.id)"><i class="fa fa-arrow-up orange"></i></a> /
+                                    <a href="#" @click="downrecords(activities.id)"><i class="fa fa-arrow-down cyan"></i></a>
                                 </td>
                                 <td>
-                                    <a href="#" @click="editForm(posts)"
-                                    ><i class="fa fa-edit blue"></i
-                                    ></a>
-                                    /
-                                    <a
-                                        href="#"
-                                        @click="deleteposts(posts.id)"
-                                    ><i class="fa fa-trash red"></i
-                                    ></a>
+                                    <a href="#" @click="editForm(activities)"><i class="fa fa-edit blue"></i></a> /
+                                    <a href="#" @click="deleteactivities(activities.id)"><i class="fa fa-trash red"></i></a>
                                 </td>
                             </tr>
-                            </tbody>
-                        </table>
+                            </tbody></table>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <pagination
-                            :data="posts"
-                            @pagination-change-page="getResults"
-                        ></pagination>
+                        <pagination :data="activities" @pagination-change-page="getResults"></pagination>
                     </div>
                 </div>
             </div>
         </div>
 
+
+
         <div v-show="addmode" class="row mt-2" v-if="$gate.isAdmin()">
-            <div
-                v-if="hizmetturs.length == 0"
-                class="col-md-12 alert alert-warning alert-dismissible"
-            >
-                <button
-                    type="button"
-                    class="close"
-                    data-dismiss="alert"
-                    aria-hidden="true"
-                >
-                    ×
-                </button>
-                <h5>
-                    <i class="icon fas fa-exclamation-triangle"></i>
-                    {{ $trans[lang + ".blog"]["alert"] }}
-                </h5>
-                {{ $trans[lang + ".blog"]["category_warning"] }}
-            </div>
 
             <div class="col-md-12">
                 <div class="card">
+
                     <div class="card-header p-2 bg-success">
                         <ul class="nav nav-pills">
-                            <li class="nav-item">
-                                <a
-                                    class="nav-link active show"
-                                    href="#headerinfo"
-                                    data-toggle="tab"
-                                >{{
-                                    $trans[lang + ".blog"][
-                                    "header_information"
-                                    ]
-                                    }}</a
-                                >
-                            </li>
-                            <li class="nav-item">
-                                <a
-                                    class="nav-link"
-                                    href="#shortdescription"
-                                    data-toggle="tab"
-                                >{{
-                                    $trans[lang + ".pages"][
-                                    "short_descriptions"
-                                    ]
-                                    }}</a
-                                >
-                            </li>
+                            <li class="nav-item"><a class="nav-link active show" href="#headerinfo" data-toggle="tab">{{ $trans[lang+'.blog']['header_information'] }}</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#shortdescription" data-toggle="tab">{{ $trans[lang+'.pages']['short_descriptions'] }}</a></li>
                             <li class="nav-item"><a class="nav-link" href="#links" data-toggle="tab">Linkler</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#pictures" data-toggle="tab">{{ $trans[lang+'.blog']['pictures'] }}</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#detailed" data-toggle="tab">{{ $trans[lang+'.blog']['detailed_content'] }}</a></li>
 
-                            <li class="nav-item">
-                                <a
-                                    class="nav-link"
-                                    href="#pictures"
-                                    data-toggle="tab"
-                                >{{ $trans[lang + ".blog"]["pictures"] }}</a
-                                >
-                            </li>
-                            <li class="nav-item">
-                                <a
-                                    class="nav-link"
-                                    href="#detailed"
-                                    data-toggle="tab"
-                                >{{
-                                    $trans[lang + ".blog"][
-                                    "detailed_content"
-                                    ]
-                                    }}</a
-                                >
-                            </li>
-                            <li v-show="this.localizations.length>1" class="nav-item">
-                                <a
-                                    class="nav-link"
-                                    href="#eslestir"
-                                    data-toggle="tab"
-                                >Eşleştir</a
-                                >
-                            </li>
                         </ul>
-                    </div>
-                    <!-- /.card-header -->
+                    </div><!-- /.card-header -->
                     <div class="card-body">
                         <div class="tab-content">
+                            <!-- Activity Tab -->
+                            <div class="tab-pane" id="summary">
+                                <h3 class="text-center">{{ $trans[lang+'.blog']['activities_info'] }}</h3>
+
+                                <div class="alert alert-info alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <strong>Model:</strong> App\Activities<br>
+                                    <strong>Usage:</strong> Activities::where('slug', '=', $slug)->firstOrFail();
+                                </div>
+
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Key</th>
+                                    <th scope="col">Value</th>
+                                    <th scope="col">Data</th>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr>
+                                        <td>1</td>
+                                        <td><strong>{{ $trans[lang+'.blog']['title1'] }}</strong></td>
+                                        <td>
+                                            {{this.form.title}}
+                                        </td>
+                                        <td>title</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><strong>{{ $trans[lang+'.blog']['slug'] }} (Slug)</strong></td>
+                                        <td>
+                                            {{this.form.slug}}
+                                        </td>
+                                        <td>slug</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td><strong>{{ $trans[lang+'.blog']['meta_title'] }}</strong></td>
+                                        <td>
+                                            {{this.form.meta_title}}
+                                        </td>
+                                        <td>meta_title</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td><strong>{{ $trans[lang+'.blog']['meta_description'] }}</strong></td>
+                                        <td>
+                                            {{this.form.meta_description}}
+                                        </td>
+                                        <td>meta_description</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td><strong>{{ $trans[lang+'.blog']['meta_keywords'] }}</strong></td>
+                                        <td>
+                                            {{this.form.meta_keywords}}
+                                        </td>
+                                        <td>meta_keywords</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td><strong>{{ $trans[lang+'.blog']['status'] }}</strong></td>
+                                        <td>
+                                            <span class="badge badge-success" v-if="this.form.active">{{ $trans[lang+'.blog']['active'] }}</span>
+                                            <span class="badge badge-danger" v-else>{{ $trans[lang+'.blog']['passive'] }}</span>
+                                        </td>
+                                        <td>active</td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td><strong>{{ $trans[lang+'.pages']['picture'] }}1</strong></td>
+                                        <td>
+                                            <img v-if="form.photo1" :src="'\/img/activities/thumbs\/'+form.photo1">
+                                            <img v-else :src="'\/img\/nophoto.png'">
+                                        </td>
+                                        <td>photo1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td><strong>{{ $trans[lang+'.pages']['picture'] }}1 Alt</strong></td>
+                                        <td>
+                                            {{this.form.photo1_alt}}
+                                        </td>
+                                        <td>photo1_alt</td>
+                                    </tr>
+                                    <tr>
+                                        <td>9</td>
+                                        <td><strong>{{ $trans[lang+'.pages']['picture'] }}2</strong></td>
+                                        <td>
+                                            <img v-if="form.photo2" :src="'\/img\/activities\/thumbs\/'+form.photo2">
+                                            <img v-else :src="'\/img\/nophoto.png'">
+                                        </td>
+                                        <td>photo2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td><strong>{{ $trans[lang+'.pages']['picture'] }}2 Alt</strong></td>
+                                        <td>
+                                            {{this.form.photo2_alt}}
+                                        </td>
+                                        <td>photo2_alt</td>
+                                    </tr>
+                                    <tr>
+                                        <td>11</td>
+                                        <td><strong>{{ $trans[lang+'.pages']['picture'] }}3</strong></td>
+                                        <td>
+                                            <img v-if="form.picture3" :src="'\/img/activities/thumbs\/'+form.picture3">
+                                            <img v-else :src="'\/img\/nophoto.png'">
+                                        </td>
+                                        <td>photo3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>12</td>
+                                        <td><strong>{{ $trans[lang+'.pages']['picture'] }}3 Alt</strong></td>
+                                        <td>
+                                            {{this.form.photo3_alt}}
+                                        </td>
+                                        <td>photo3_alt</td>
+                                    </tr>
+                                    <tr>
+                                        <td>13</td>
+                                        <td><strong>{{ $trans[lang+'.blog']['short_content'] }}:</strong></td>
+                                        <td>-</td>
+                                        <td>short_content</td>
+                                    </tr>
+                                    <tr>
+                                        <td>14</td>
+                                        <td><strong>{{ $trans[lang+'.blog']['content'] }}:</strong></td>
+                                        <td>-</td>
+                                        <td>content</td>
+                                    </tr>
+
+
+                                    </tbody></table>
+
+
+                            </div>
                             <!-- headerinfo Tab -->
                             <div class="tab-pane active show" id="headerinfo">
+
                                 <form class="form-horizontal">
-
-                                    <div class="form-group">
-                                        <label for="tur" class="col-sm-2 control-label">Tür:</label>
-
-                                        <div class="col-sm-12">
-                                            <select v-model="form.tur" id="tur" class="form-control" :class="{ 'is-invalid': form.errors.has('tur') }">
-                                                <option value="0">İçerik</option>
-                                                <option value="1">Sayfa</option>
-                                            </select>
-                                            <has-error :form="form" field="tur"></has-error>
-                                        </div>
-                                    </div>
-
                                     <div class="form-group">
                                         <label
                                             for="language"
@@ -286,11 +291,6 @@
 
                                         <div class="col-sm-12">
                                             <select
-                                                @change="
-                                                    loadhizmettursbylang(
-                                                        form.language
-                                                    )
-                                                "
                                                 v-model="form.language"
                                                 class="form-control"
                                                 id="language"
@@ -324,282 +324,124 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label"
-                                        >Hizmet:</label
+                                        <label
+                                            for="tur"
+                                            class="col-sm-2 control-label"
+                                        >Tür:</label
                                         >
 
                                         <div class="col-sm-12">
                                             <select
-                                                @change="
-                                                    loadAlthizmettur(
-                                                        form.hiz_id
-                                                    )
-                                                "
-                                                v-model="form.hiz_id"
+                                                v-model="form.tur"
                                                 class="form-control"
+                                                id="tur"
                                                 :class="{
                                                     'is-invalid': form.errors.has(
-                                                        'hiz_id'
+                                                        'tur'
                                                     )
                                                 }"
                                             >
-                                                <option value="0"
-                                                >Hizmet Seç</option
+                                                <option value="0" disabled
+                                                >Tür Seç</option
                                                 >
-                                                <option
-                                                    v-if="hizmetturs.length > 0"
-                                                    v-for="hizmettur in hizmetturs"
-                                                    v-bind:value="hizmettur.id"
-                                                >
-                                                    {{ hizmettur.title }}
+                                                <option value="1">
+                                                    Performans
+                                                </option>
+                                                <option value="2">
+                                                    Konser
+                                                </option>
+                                                <option value="3">
+                                                    Mavi akademi
+                                                </option>
+                                                <option value="5">
+                                                    Single
                                                 </option>
                                             </select>
                                             <has-error
                                                 :form="form"
-                                                field="hiz_id"
+                                                field="tur"
                                             ></has-error>
                                         </div>
                                     </div>
 
+
+
                                     <div class="form-group">
-                                        <label
-                                            for="althiz_id"
-                                            class="col-sm-2 control-label"
-                                        >Alt Hizmet:</label
-                                        >
+                                        <label for="title" class="col-sm-2 control-label">{{ $trans[lang+'.blog']['title1'] }}:</label>
 
                                         <div class="col-sm-12">
-                                            <select
-                                                v-model="form.althiz_id"
-                                                class="form-control"
-                                                id="althiz_id"
-                                                :class="{
-                                                    'is-invalid': form.errors.has(
-                                                        'althiz_id'
-                                                    )
-                                                }"
-                                            >
-                                                <option value="0"
-                                                >Alt Hizmet Seç</option
-                                                >
-                                                <option
-                                                    v-if="
-                                                        althizmetturs.length > 0
-                                                    "
-                                                    v-for="althizmettur in althizmetturs"
-                                                    v-bind:value="
-                                                        althizmettur.id
-                                                    "
-                                                >
-                                                    {{ althizmettur.title }}
-                                                </option>
+                                            <input type="" v-model="form.title" class="form-control" id="title"  :class="{ 'is-invalid': form.errors.has('title') }">
+                                            <has-error :form="form" field="title"></has-error>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Başlangıç Tarihi:</label>
+
+                                        <div class="col-sm-12">
+                                            <date-picker v-model="form.start_date" :config="options"></date-picker>                                            <has-error :form="form" field="title"></has-error>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Bitiş Tarihi:</label>
+
+                                        <div class="col-sm-12">
+                                            <date-picker v-model="form.end_date" :config="options"></date-picker>                                            <has-error :form="form" field="title"></has-error>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="meta_title" class="col-sm-2 control-label">{{ $trans[lang+'.pages']['meta_title'] }}:</label>
+
+                                        <div class="col-sm-12">
+                                            <input type="" v-model="form.meta_title" class="form-control" id="meta_title"  :class="{ 'is-invalid': form.errors.has('meta_title') }">
+                                            <has-error :form="form" field="meta_title"></has-error>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="meta_description" class="col-sm-2 control-label">{{ $trans[lang+'.pages']['meta_description'] }}:</label>
+
+                                        <div class="col-sm-12">
+                                            <input type="" v-model="form.meta_description" class="form-control" id="meta_description"  :class="{ 'is-invalid': form.errors.has('meta_description') }">
+                                            <has-error :form="form" field="meta_description"></has-error>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="meta_keywords" class="col-sm-2 control-label">{{ $trans[lang+'.pages']['meta_keywords'] }}:</label>
+
+                                        <div class="col-sm-12">
+                                            <input type="" v-model="form.meta_keywords" class="form-control" id="meta_keywords" :class="{ 'is-invalid': form.errors.has('meta_keywords') }">
+                                            <has-error :form="form" field="meta_keywords"></has-error>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="active" class="col-sm-2 control-label">{{ $trans[lang+'.blog']['status'] }}:</label>
+                                        <div class="col-sm-12">
+                                            <select v-model="form.active" id="active" name="active"
+                                                    class="form-control" :class="{ 'is-invalid': form.errors.has('active') }">
+                                                <option value="1">{{ $trans[lang+'.blog']['active'] }}</option>
+                                                <option value="0">{{ $trans[lang+'.blog']['passive'] }}</option>
                                             </select>
-                                            <has-error
-                                                :form="form"
-                                                field="althiz_id"
-                                            ></has-error>
+                                            <has-error :form="form" field="active"></has-error>
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label
-                                            for="name"
-                                            class="col-sm-2 control-label"
-                                        >{{
-                                            $trans[lang + ".blog"][
-                                            "title1"
-                                            ]
-                                            }}:</label
-                                        >
-
-                                        <div class="col-sm-12">
-                                            <input
-                                                type="text"
-                                                v-model="form.name"
-                                                class="form-control"
-                                                id="name"
-                                                :class="{
-                                                    'is-invalid': form.errors.has(
-                                                        'name'
-                                                    )
-                                                }"
-                                            />
-                                            <has-error
-                                                :form="form"
-                                                field="name"
-                                            ></has-error>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label
-                                            for="meta_title"
-                                            class="col-sm-2 control-label"
-                                        >{{
-                                            $trans[lang + ".pages"][
-                                            "meta_title"
-                                            ]
-                                            }}:</label
-                                        >
-
-                                        <div class="col-sm-12">
-                                            <input
-                                                type=""
-                                                v-model="form.meta_title"
-                                                class="form-control"
-                                                id="meta_title"
-                                                :class="{
-                                                    'is-invalid': form.errors.has(
-                                                        'meta_title'
-                                                    )
-                                                }"
-                                            />
-                                            <has-error
-                                                :form="form"
-                                                field="meta_title"
-                                            ></has-error>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label
-                                            for="meta_description"
-                                            class="col-sm-2 control-label"
-                                        >{{
-                                            $trans[lang + ".pages"][
-                                            "meta_description"
-                                            ]
-                                            }}:</label
-                                        >
-
-                                        <div class="col-sm-12">
-                                            <input
-                                                type=""
-                                                v-model="form.meta_description"
-                                                class="form-control"
-                                                id="meta_description"
-                                                :class="{
-                                                    'is-invalid': form.errors.has(
-                                                        'meta_description'
-                                                    )
-                                                }"
-                                            />
-                                            <has-error
-                                                :form="form"
-                                                field="meta_description"
-                                            ></has-error>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label
-                                            for="meta_keywords"
-                                            class="col-sm-2 control-label"
-                                        >{{
-                                            $trans[lang + ".pages"][
-                                            "meta_keywords"
-                                            ]
-                                            }}:</label
-                                        >
-
-                                        <div class="col-sm-12">
-                                            <input
-                                                type=""
-                                                v-model="form.meta_keywords"
-                                                class="form-control"
-                                                id="meta_keywords"
-                                                :class="{
-                                                    'is-invalid': form.errors.has(
-                                                        'meta_keywords'
-                                                    )
-                                                }"
-                                            />
-                                            <has-error
-                                                :form="form"
-                                                field="meta_keywords"
-                                            ></has-error>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label
-                                            for="active"
-                                            class="col-sm-2 control-label"
-                                        >{{
-                                            $trans[lang + ".blog"][
-                                            "status"
-                                            ]
-                                            }}:</label
-                                        >
-                                        <div class="col-sm-12">
-                                            <select
-                                                v-model="form.active"
-                                                id="active"
-                                                name="active"
-                                                class="form-control"
-                                                :class="{
-                                                    'is-invalid': form.errors.has(
-                                                        'active'
-                                                    )
-                                                }"
-                                            >
-                                                <option value="1">{{
-                                                    $trans[lang + ".blog"][
-                                                    "active"
-                                                    ]
-                                                    }}</option>
-                                                <option value="0">{{
-                                                    $trans[lang + ".blog"][
-                                                    "passive"
-                                                    ]
-                                                    }}</option>
-                                            </select>
-                                            <has-error
-                                                :form="form"
-                                                field="active"
-                                            ></has-error>
-                                        </div>
-                                    </div>
 
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-12">
-                                            <button
-                                                v-if="editmode"
-                                                @click.prevent="updateposts"
-                                                type="button"
-                                                class="btn btn-primary"
-                                            >
-                                                <i class="fas fa-edit"></i>
-                                                {{
-                                                $trans[lang + ".blog"][
-                                                "update"
-                                                ]
-                                                }}
-                                            </button>
-                                            <button
-                                                v-else
-                                                @click.prevent="createposts"
-                                                type="button"
-                                                class="btn btn-primary"
-                                            >
-                                                <i class="fas fa-plus"></i>
-                                                {{
-                                                $trans[lang + ".blog"][
-                                                "create"
-                                                ]
-                                                }}
-                                            </button>
-                                            <button
-                                                @click.prevent="backtolist"
-                                                type="button"
-                                                class="btn btn-warning"
-                                            >
-                                                <i class="fas fa-undo"></i>
-                                                İçerik Listesine Dön
-                                            </button>
+                                            <button  v-if="editmode"  @click.prevent="updateactivities" type="button" class="btn btn-primary"><i class="fas fa-edit"></i> {{ $trans[lang+'.blog']['update'] }}</button>
+                                            <button  v-else  @click.prevent="createactivities" type="button" class="btn btn-primary"><i class="fas fa-plus"></i> {{ $trans[lang+'.blog']['create'] }}</button>
+                                            <button  @click.prevent="backtolist" type="button" class="btn btn-warning"><i class="fas fa-undo"></i> Faaliyetler Listesine Dön </button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <!-- /.tab-pane -->
+
 
                             <!-- shortdescriptions Tab -->
                             <div class="tab-pane" id="shortdescription">
@@ -939,40 +781,9 @@
 
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-12">
-                                            <button
-                                                v-if="editmode"
-                                                @click.prevent="updateposts"
-                                                type="button"
-                                                class="btn btn-primary"
-                                            >
-                                                <i class="fas fa-edit"></i>
-                                                {{
-                                                $trans[lang + ".blog"][
-                                                "update"
-                                                ]
-                                                }}
-                                            </button>
-                                            <button
-                                                v-else
-                                                @click.prevent="createposts"
-                                                type="button"
-                                                class="btn btn-primary"
-                                            >
-                                                <i class="fas fa-plus"></i>
-                                                {{
-                                                $trans[lang + ".blog"][
-                                                "create"
-                                                ]
-                                                }}
-                                            </button>
-                                            <button
-                                                @click.prevent="backtolist"
-                                                type="button"
-                                                class="btn btn-warning"
-                                            >
-                                                <i class="fas fa-undo"></i>
-                                                İçerik Listesine Dön
-                                            </button>
+                                            <button  v-if="editmode"  @click.prevent="updateactivities" type="button" class="btn btn-primary"><i class="fas fa-edit"></i> {{ $trans[lang+'.blog']['update'] }}</button>
+                                            <button  v-else  @click.prevent="createactivities" type="button" class="btn btn-primary"><i class="fas fa-plus"></i> {{ $trans[lang+'.blog']['create'] }}</button>
+                                            <button  @click.prevent="backtolist" type="button" class="btn btn-warning"><i class="fas fa-undo"></i> Faaliyetler Listesine Dön </button>
                                         </div>
                                     </div>
                                 </form>
@@ -1322,50 +1133,13 @@
 
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-12">
-                                            <button
-                                                v-if="editmode"
-                                                @click.prevent="updateposts"
-                                                type="button"
-                                                class="btn btn-primary"
-                                            >
-                                                <i class="fas fa-edit"></i>
-                                                {{
-                                                $trans[lang + ".blog"][
-                                                "update"
-                                                ]
-                                                }}
-                                            </button>
-                                            <button
-                                                v-else
-                                                @click.prevent="createposts"
-                                                type="button"
-                                                class="btn btn-primary"
-                                            >
-                                                <i class="fas fa-plus"></i>
-                                                {{
-                                                $trans[lang + ".blog"][
-                                                "create"
-                                                ]
-                                                }}
-                                            </button>
-                                            <button
-                                                @click.prevent="backtolist"
-                                                type="button"
-                                                class="btn btn-warning"
-                                            >
-                                                <i class="fas fa-undo"></i>
-                                                İçerik Listesine Dön
-                                            </button>
+                                            <button  v-if="editmode"  @click.prevent="updateactivities" type="button" class="btn btn-primary"><i class="fas fa-edit"></i> {{ $trans[lang+'.blog']['update'] }}</button>
+                                            <button  v-else  @click.prevent="createactivities" type="button" class="btn btn-primary"><i class="fas fa-plus"></i> {{ $trans[lang+'.blog']['create'] }}</button>
+                                            <button  @click.prevent="backtolist" type="button" class="btn btn-warning"><i class="fas fa-undo"></i> Faaliyetler Listesine Dön </button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-
-
-
-
-
-
 
 
                             <div class="tab-pane" id="pictures">
@@ -1411,7 +1185,7 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-3 text-center">
-                                                <img class="img-thumbnail" v-if="form.picture1" :src="'\/img\/hizmetler\/thumbs\/'+form.picture1">
+                                                <img class="img-thumbnail" v-if="form.picture1" :src="'\/img\/activities\/thumbs\/'+form.picture1">
                                                 <img class="img-thumbnail" v-else :src="'\/img\/nophoto200.png'">
                                                 <input v-model="form.picture1" id="picture1" type="text" name="picture1"
                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('picture1') }">
@@ -1419,7 +1193,7 @@
                                                 <has-error :form="form" field="picture1_alt"></has-error>
                                             </div>
                                             <div class="col-3 text-center">
-                                                <img class="img-thumbnail" v-if="form.picture2" :src="'\/img\/hizmetler\/thumbs\/'+form.picture2">
+                                                <img class="img-thumbnail" v-if="form.picture2" :src="'\/img\/activities\/thumbs\/'+form.picture2">
                                                 <img class="img-thumbnail" v-else :src="'\/img\/nophoto200.png'">
                                                 <input v-model="form.picture2" id="picture2" type="text" name="picture2"
                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('picture2') }">
@@ -1427,7 +1201,7 @@
                                                 <has-error :form="form" field="picture2_alt"></has-error>
                                             </div>
                                             <div class="col-3 text-center">
-                                                <img class="img-thumbnail" v-if="form.picture3" :src="'\/img\/hizmetler\/thumbs\/'+form.picture3">
+                                                <img class="img-thumbnail" v-if="form.picture3" :src="'\/img\/activities\/thumbs\/'+form.picture3">
                                                 <img class="img-thumbnail" v-else :src="'\/img\/nophoto200.png'">
                                                 <input v-model="form.picture3" id="picture3" type="text" name="picture3"
                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('picture3') }">
@@ -1435,7 +1209,7 @@
                                                 <has-error :form="form" field="picture3_alt"></has-error>
                                             </div>
                                             <div class="col-3 text-center">
-                                                <img class="img-thumbnail" v-if="form.picture4" :src="'\/img\/hizmetler\/thumbs\/'+form.picture4">
+                                                <img class="img-thumbnail" v-if="form.picture4" :src="'\/img\/activities\/thumbs\/'+form.picture4">
                                                 <img class="img-thumbnail" v-else :src="'\/img\/nophoto200.png'">
                                                 <input v-model="form.picture4" id="picture4" type="text" name="picture4"
                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('picture4') }">
@@ -1445,7 +1219,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-3 text-center">
-                                                <img class="img-thumbnail" v-if="form.picture5" :src="'\/img\/hizmetler\/thumbs\/'+form.picture5">
+                                                <img class="img-thumbnail" v-if="form.picture5" :src="'\/img\/activities\/thumbs\/'+form.picture5">
                                                 <img class="img-thumbnail" v-else :src="'\/img\/nophoto200.png'">
                                                 <input v-model="form.picture5" id="picture5" type="text" name="picture5"
                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('picture5') }">
@@ -1453,7 +1227,7 @@
                                                 <has-error :form="form" field="picture5_alt"></has-error>
                                             </div>
                                             <div class="col-3 text-center">
-                                                <img class="img-thumbnail" v-if="form.picture6" :src="'\/img\/hizmetler\/thumbs\/'+form.picture6">
+                                                <img class="img-thumbnail" v-if="form.picture6" :src="'\/img\/activities\/thumbs\/'+form.picture6">
                                                 <img class="img-thumbnail" v-else :src="'\/img\/nophoto200.png'">
                                                 <input v-model="form.picture6" id="picture6" type="text" name="picture6"
                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('picture6') }">
@@ -1461,7 +1235,7 @@
                                                 <has-error :form="form" field="picture6_alt"></has-error>
                                             </div>
                                             <div class="col-3 text-center">
-                                                <img class="img-thumbnail" v-if="form.picture7" :src="'\/img\/hizmetler\/thumbs\/'+form.picture7">
+                                                <img class="img-thumbnail" v-if="form.picture7" :src="'\/img\/activities\/thumbs\/'+form.picture7">
                                                 <img class="img-thumbnail" v-else :src="'\/img\/nophoto200.png'">
                                                 <input v-model="form.picture7" id="picture7" type="text" name="picture7"
                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('picture7') }">
@@ -1469,7 +1243,7 @@
                                                 <has-error :form="form" field="picture7_alt"></has-error>
                                             </div>
                                             <div class="col-3 text-center">
-                                                <img class="img-thumbnail" v-if="form.picture8" :src="'\/img\/hizmetler\/thumbs\/'+form.picture8">
+                                                <img class="img-thumbnail" v-if="form.picture8" :src="'\/img\/activities\/thumbs\/'+form.picture8">
                                                 <img class="img-thumbnail" v-else :src="'\/img\/nophoto200.png'">
                                                 <input v-model="form.picture8" id="picture8" type="text" name="picture8"
                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('picture8') }">
@@ -1481,13 +1255,15 @@
 
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-12">
-                                            <button  v-if="editmode"  @click.prevent="updateposts" type="button" class="btn btn-primary"><i class="fas fa-edit"></i> {{ $trans[lang+'.blog']['update'] }}</button>
-                                            <button  v-else  @click.prevent="createposts" type="button" class="btn btn-primary"><i class="fas fa-plus"></i> {{ $trans[lang+'.blog']['create'] }}</button>
-                                            <button  @click.prevent="backtolist" type="button" class="btn btn-warning"><i class="fas fa-undo"></i> İçerik Listesine Dön </button>   </div>
+                                            <button  v-if="editmode"  @click.prevent="updateactivities" type="button" class="btn btn-primary"><i class="fas fa-edit"></i> {{ $trans[lang+'.blog']['update'] }}</button>
+                                            <button  v-else  @click.prevent="createactivities" type="button" class="btn btn-primary"><i class="fas fa-plus"></i> {{ $trans[lang+'.blog']['create'] }}</button>
+                                            <button  @click.prevent="backtolist" type="button" class="btn btn-warning"><i class="fas fa-undo"></i> Faaliyetler Listesine Dön </button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
                             <!-- /.tab-pane -->
+
 
                             <!-- headerinfo Tab -->
                             <div class="tab-pane" id="detailed">
@@ -1503,7 +1279,7 @@
                                                     @imageAdded="
                                                         handleImageAdded
                                                     "
-                                                    id="hizmet_editor1"
+                                                    id="activities_editor1"
                                                     v-model="form.description1"
                                                 >
                                                 </vue-editor>
@@ -1527,7 +1303,7 @@
                                                     @imageAdded="
                                                         handleImageAdded
                                                     "
-                                                    id="hizmet_editor2"
+                                                    id="activities_editor2"
                                                     v-model="form.description2"
                                                 >
                                                 </vue-editor>
@@ -1551,7 +1327,7 @@
                                                     @imageAdded="
                                                         handleImageAdded
                                                     "
-                                                    id="hizmet_editor3"
+                                                    id="activities_editor3"
                                                     v-model="form.description3"
                                                 >
                                                 </vue-editor>
@@ -1575,7 +1351,7 @@
                                                     @imageAdded="
                                                         handleImageAdded
                                                     "
-                                                    id="hizmet_editor4"
+                                                    id="activities_editor4"
                                                     v-model="form.description4"
                                                 >
                                                 </vue-editor>
@@ -1599,7 +1375,7 @@
                                                     @imageAdded="
                                                         handleImageAdded
                                                     "
-                                                    id="hizmet_editor5"
+                                                    id="activities_editor5"
                                                     v-model="form.description5"
                                                 >
                                                 </vue-editor>
@@ -1623,7 +1399,7 @@
                                                     @imageAdded="
                                                         handleImageAdded
                                                     "
-                                                    id="hizmet_editor6"
+                                                    id="activities_editor6"
                                                     v-model="form.description6"
                                                 >
                                                 </vue-editor>
@@ -1647,7 +1423,7 @@
                                                     @imageAdded="
                                                         handleImageAdded
                                                     "
-                                                    id="hizmet_editor7"
+                                                    id="activities_editor7"
                                                     v-model="form.description7"
                                                 >
                                                 </vue-editor>
@@ -1671,7 +1447,7 @@
                                                     @imageAdded="
                                                         handleImageAdded
                                                     "
-                                                    id="hizmet_editor8"
+                                                    id="activities_editor8"
                                                     v-model="form.description8"
                                                 >
                                                 </vue-editor>
@@ -1686,237 +1462,27 @@
 
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-12">
-                                            <button
-                                                v-if="editmode"
-                                                @click.prevent="updateposts"
-                                                type="button"
-                                                class="btn btn-primary"
-                                            >
-                                                <i class="fas fa-edit"></i>
-                                                {{
-                                                $trans[lang + ".blog"][
-                                                "update"
-                                                ]
-                                                }}
-                                            </button>
-                                            <button
-                                                v-else
-                                                @click.prevent="createposts"
-                                                type="button"
-                                                class="btn btn-primary"
-                                            >
-                                                <i class="fas fa-plus"></i>
-                                                {{
-                                                $trans[lang + ".blog"][
-                                                "create"
-                                                ]
-                                                }}
-                                            </button>
-                                            <button
-                                                @click.prevent="backtolist"
-                                                type="button"
-                                                class="btn btn-warning"
-                                            >
-                                                <i class="fas fa-undo"></i>
-                                                İçerik Listesine Dön
-                                            </button>
+                                            <button  v-if="editmode"  @click.prevent="updateactivities" type="button" class="btn btn-primary"><i class="fas fa-edit"></i> {{ $trans[lang+'.blog']['update'] }}</button>
+                                            <button  v-else  @click.prevent="createactivities" type="button" class="btn btn-primary"><i class="fas fa-plus"></i> {{ $trans[lang+'.blog']['create'] }}</button>
+                                            <button  @click.prevent="backtolist" type="button" class="btn btn-warning"><i class="fas fa-undo"></i> Faaliyetler Listesine Dön </button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <!-- /.tab-pane -->
 
-                            <!-- shortdescriptions Tab -->
-                            <div class="tab-pane" id="eslestir">
-                                <div class="alert alert-info" role="alert">
-                                    Farklı dillerdeki aynı içerikleri
-                                    eşleştirmek amacıyla kullanılır. Daha önce
-                                    yaptığınız eşleştirmeler aşağıda
-                                    görülmektedir. Yeni eşleştirme yapmak için
-                                    eşleştireceğiniz içeriği seçip eşleştir
-                                    butonuna basın.
-                                </div>
 
-                                <table class="table table-hover">
-                                    <tbody>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Dil</th>
-                                        <th>İçerik</th>
-                                        <th>
-                                            {{
-                                            $trans[lang + ".blog"][
-                                            "modify"
-                                            ]
-                                            }}
-                                        </th>
-                                    </tr>
-                                    <template
-                                        v-if="eslenikler.data.length > 0"
-                                        v-for="(eslenik,
-                                            index) in eslenikler.data"
-                                    >
-                                        <tr
-                                            :key="eslenik.id"
-                                            v-bind:class="{
-                                                    'bg-info':
-                                                        eslenik.name ===
-                                                        form.name
-                                                }"
-                                        >
-                                            <td>{{ index + 1 }}</td>
-                                            <td>
-                                                {{
-                                                eslenik.localization
-                                                .title
-                                                }}
-                                            </td>
-                                            <td>{{ eslenik.name }}</td>
-                                            <td
-                                                v-if="
-                                                        eslenik.name !==
-                                                            form.name
-                                                    "
-                                            >
-                                                <a
-                                                    href="#"
-                                                    @click="
-                                                            deleteeslenik(
-                                                                eslenik.id
-                                                            )
-                                                        "
-                                                ><i
-                                                    class="fa fa-trash red"
-                                                ></i
-                                                ></a>
-                                            </td>
-                                            <td v-else>-</td>
-                                        </tr>
-                                    </template>
-                                    </tbody>
-                                </table>
 
-                                <h3>Yeni eşleştirme yap</h3>
 
-                                <form class="form-horizontal">
-                                    <div class="form-group">
-                                        <label
-                                            for="language3"
-                                            class="col-sm-2 control-label"
-                                        >Dil:</label
-                                        >
-
-                                        <div class="col-sm-12">
-                                            <select
-                                                @change="
-                                                    loadpostsbylang2(
-                                                        form.language3
-                                                    )
-                                                "
-                                                v-model="form.language3"
-                                                class="form-control"
-                                                id="language3"
-                                                :class="{
-                                                    'is-invalid': form.errors.has(
-                                                        'language3'
-                                                    )
-                                                }"
-                                            >
-                                                <option value="0" disabled
-                                                >Dil Seç</option
-                                                >
-                                                <template
-                                                    v-if="
-                                                        localizations.data
-                                                            .length > 0
-                                                    "
-                                                    v-for="localization in localizations.data"
-                                                >
-                                                    <option
-                                                        v-if="
-                                                            localization.id !==
-                                                                form.language
-                                                        "
-                                                        v-bind:value="
-                                                            localization.id
-                                                        "
-                                                    >
-                                                        {{ localization.title }}
-                                                    </option>
-                                                </template>
-                                            </select>
-                                            <has-error
-                                                :form="form"
-                                                field="language3"
-                                            ></has-error>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label"
-                                        >İçerik:</label
-                                        >
-
-                                        <div class="col-sm-12">
-                                            <select
-                                                v-model="form.icerik2"
-                                                class="form-control"
-                                                :class="{
-                                                    'is-invalid': form.errors.has(
-                                                        'icerik2'
-                                                    )
-                                                }"
-                                            >
-                                                <option value="0"
-                                                >İçerik Seç</option
-                                                >
-                                                <option
-                                                    v-if="posts2.length > 0"
-                                                    v-for="post2 in posts2"
-                                                    v-bind:value="post2.id"
-                                                >
-                                                    {{ post2.name }}
-                                                </option>
-                                            </select>
-                                            <has-error
-                                                :form="form"
-                                                field="icerik2"
-                                            ></has-error>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-12">
-                                            <button
-                                                @click.prevent="eslestirmeyap"
-                                                type="button"
-                                                class="btn btn-dark"
-                                            >
-                                                <i
-                                                    class="fas fa-check-double"
-                                                ></i>
-                                                Eşleştir
-                                            </button>
-                                            <button
-                                                @click.prevent="backtolist"
-                                                type="button"
-                                                class="btn btn-warning"
-                                            >
-                                                <i class="fas fa-undo"></i>
-                                                İçerik Listesine Dön
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <!-- /.tab-pane -->
                         </div>
                         <!-- /.tab-content -->
-                    </div>
-                    <!-- /.card-body -->
+                    </div><!-- /.card-body -->
                 </div>
                 <!-- /.nav-tabs-custom -->
             </div>
             <!-- end tabs -->
         </div>
+
     </div>
 </template>
 
@@ -1926,6 +1492,7 @@
     import { ImageDrop } from "quill-image-drop-module";
     import ImageResize from "quill-image-resize-module";
     import axios from "axios";
+    import moment from 'moment'
 
     Quill.register("modules/imageDrop", ImageDrop);
     Quill.register("modules/imageResize", ImageResize);
@@ -1934,13 +1501,21 @@
         data() {
             return {
                 lang: this.$lang,
+                date: new Date(),
+
+                options: {
+                    format: 'YYYY-MM-DD HH:mm',
+                    useCurrent: true,
+                    minDate: moment(),
+                    showClose:true
+                },
 
                 //vue2-editor config begins
                 editorSettings: {
                     modules: {
                         imageDrop: true,
                         imageResize: {
-                            modules: ["Resize", "DisplaySize", "Toolbar"]
+                            modules: [ 'Resize', 'DisplaySize', 'Toolbar' ]
                         }
                     }
                 },
@@ -1948,119 +1523,119 @@
                 //vue2-editor config ends
 
                 imguploadconfig1: {
-                    url: "/api/icerikler_image1",
+                url: "/api/activities_image1",
                     headers: {
-                        "X-CSRF-TOKEN": document.head.querySelector(
-                            "[name=csrf-token]"
-                        ).content
-                    },
-                    maxFilesize: 10, // MB
-                    maxFiles: 1,
-                    chunking: false,
-                    thumbnailWidth: 60,
-                    thumbnailHeight: 60,
-                    dictDefaultMessage:
-                        "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 1",
-                    addRemoveLinks: true
+                    "X-CSRF-TOKEN": document.head.querySelector(
+                        "[name=csrf-token]"
+                    ).content
                 },
-                imguploadconfig2: {
-                    url: "/api/icerikler_image2",
-                    headers: {
-                        "X-CSRF-TOKEN": document.head.querySelector(
-                            "[name=csrf-token]"
-                        ).content
-                    },
-                    maxFilesize: 10, // MB
+                maxFilesize: 10, // MB
                     maxFiles: 1,
                     chunking: false,
                     thumbnailWidth: 60,
                     thumbnailHeight: 60,
                     dictDefaultMessage:
-                        "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 2",
+                "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 1",
                     addRemoveLinks: true
-                },
-                imguploadconfig3: {
-                    url: "/api/icerikler_image3",
+            },
+            imguploadconfig2: {
+                url: "/api/activities_image2",
                     headers: {
-                        "X-CSRF-TOKEN": document.head.querySelector(
-                            "[name=csrf-token]"
-                        ).content
-                    },
-                    maxFilesize: 10, // MB
+                    "X-CSRF-TOKEN": document.head.querySelector(
+                        "[name=csrf-token]"
+                    ).content
+                },
+                maxFilesize: 10, // MB
                     maxFiles: 1,
                     chunking: false,
                     thumbnailWidth: 60,
                     thumbnailHeight: 60,
                     dictDefaultMessage:
-                        "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 3",
+                "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 2",
                     addRemoveLinks: true
-                },
-                imguploadconfig4: {
-                    url: "/api/icerikler_image4",
+            },
+            imguploadconfig3: {
+                url: "/api/activities_image3",
                     headers: {
-                        "X-CSRF-TOKEN": document.head.querySelector(
-                            "[name=csrf-token]"
-                        ).content
-                    },
-                    maxFilesize: 10, // MB
+                    "X-CSRF-TOKEN": document.head.querySelector(
+                        "[name=csrf-token]"
+                    ).content
+                },
+                maxFilesize: 10, // MB
                     maxFiles: 1,
                     chunking: false,
                     thumbnailWidth: 60,
                     thumbnailHeight: 60,
                     dictDefaultMessage:
-                        "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 4",
+                "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 3",
                     addRemoveLinks: true
-                },
-                imguploadconfig5: {
-                    url: "/api/icerikler_image5",
+            },
+            imguploadconfig4: {
+                url: "/api/activities_image4",
                     headers: {
-                        "X-CSRF-TOKEN": document.head.querySelector(
-                            "[name=csrf-token]"
-                        ).content
-                    },
-                    maxFilesize: 10, // MB
+                    "X-CSRF-TOKEN": document.head.querySelector(
+                        "[name=csrf-token]"
+                    ).content
+                },
+                maxFilesize: 10, // MB
                     maxFiles: 1,
                     chunking: false,
                     thumbnailWidth: 60,
                     thumbnailHeight: 60,
                     dictDefaultMessage:
-                        "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 5",
+                "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 4",
                     addRemoveLinks: true
-                },
-                imguploadconfig6: {
-                    url: "/api/icerikler_image6",
+            },
+            imguploadconfig5: {
+                url: "/api/activities_image5",
                     headers: {
-                        "X-CSRF-TOKEN": document.head.querySelector(
-                            "[name=csrf-token]"
-                        ).content
-                    },
-                    maxFilesize: 10, // MB
+                    "X-CSRF-TOKEN": document.head.querySelector(
+                        "[name=csrf-token]"
+                    ).content
+                },
+                maxFilesize: 10, // MB
                     maxFiles: 1,
                     chunking: false,
                     thumbnailWidth: 60,
                     thumbnailHeight: 60,
                     dictDefaultMessage:
-                        "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 6",
+                "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 5",
+                    addRemoveLinks: true
+            },
+            imguploadconfig6: {
+                url: "/api/activities_image6",
+                    headers: {
+                    "X-CSRF-TOKEN": document.head.querySelector(
+                        "[name=csrf-token]"
+                    ).content
+                },
+                maxFilesize: 10, // MB
+                    maxFiles: 1,
+                    chunking: false,
+                    thumbnailWidth: 60,
+                    thumbnailHeight: 60,
+                    dictDefaultMessage:
+                "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 6",
                     addRemoveLinks: false
-                },
-                imguploadconfig7: {
-                    url: "/api/icerikler_image7",
+            },
+            imguploadconfig7: {
+                url: "/api/activities_image7",
                     headers: {
-                        "X-CSRF-TOKEN": document.head.querySelector(
-                            "[name=csrf-token]"
-                        ).content
-                    },
-                    maxFilesize: 10, // MB
+                    "X-CSRF-TOKEN": document.head.querySelector(
+                        "[name=csrf-token]"
+                    ).content
+                },
+                maxFilesize: 10, // MB
                     maxFiles: 1,
                     chunking: false,
                     thumbnailWidth: 60,
                     thumbnailHeight: 60,
                     dictDefaultMessage:
-                        "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 7",
+                "<i class='fas fa-upload'></i>&nbsp;&nbsp;RESİM 7",
                     addRemoveLinks: true
-                },
+            },
                 imguploadconfig8: {
-                    url: "/api/icerikler_image8",
+                    url: "/api/activities_image8",
                     headers: {
                         "X-CSRF-TOKEN": document.head.querySelector(
                             "[name=csrf-token]"
@@ -2079,93 +1654,89 @@
                 editmode: false,
                 listmode: true,
                 addmode: false,
-                hizmetturs: {},
-                althizmetturs: {},
+                activities: {},
                 localizations: {},
-                posts: {},
-                posts2: {},
-                eslenikler: {},
-                tmplang: "",
-                tmptur: "",
-                form: new Form({
-                    id: "",
-                    tur: "",
-                    tur2: "1",
-                    hizmt2: "",
-                    hiz_id: "",
-                    althiz_id: "",
-                    language: "",
+                form: new Form(
+                    {
+                        id: '',
+                        tur: '1',
+                        title: '',
+                        start_date:'',
+                        end_date:'',
+                        slug: '',
+                        type: '1',
+                        meta_title: '',
+                        meta_description: '',
+                        meta_keywords: '',
+                        short_description1: "",
+                        short_description2: "",
+                        short_description3: "",
+                        short_description4: "",
+                        short_description5: "",
+                        short_description6: "",
+                        short_description7: "",
+                        short_description8: "",
+                        short_description9: "",
+                        short_description10: "",
+                        link1_text: "",
+                        link1_href: "",
+                        link2_text: "",
+                        link2_href: "",
+                        link3_text: "",
+                        link3_href: "",
+                        link4_text: "",
+                        link4_href: "",
+                        link5_text: "",
+                        link5_href: "",
+                        link6_text: "",
+                        link6_href: "",
+                        photo1: '',
+                        picture1: "",
+                        picture1_alt: "",
+                        picture2: "",
+                        picture2_alt: "",
+                        picture3: "",
+                        picture3_alt: "",
+                        picture4: "",
+                        picture4_alt: "",
+                        picture5: "",
+                        picture5_alt: "",
+                        picture6: "",
+                        picture6_alt: "",
+                        picture7: "",
+                        picture7_alt: "",
+                        picture8: "",
+                        picture8_alt: "",
+                        description1: "",
+                        description2: "",
+                        description3: "",
+                        description4: "",
+                        description5: "",
+                        description6: "",
+                        description7: "",
+                        description8: "",
+                        special_code: "",
+                        queue: '',
+                        language: "",
+                        language2: "1",
+                        language3: "0",
+                        active: '1'
+                    }),
+                form2: new Form({
                     language2: "1",
-                    language3: "0",
-                    name: "",
-                    meta_title: "",
-                    meta_description: "",
-                    meta_keywords: "",
-                    short_description1: "",
-                    short_description2: "",
-                    short_description3: "",
-                    short_description4: "",
-                    short_description5: "",
-                    short_description6: "",
-                    short_description7: "",
-                    short_description8: "",
-                    short_description9: "",
-                    short_description10: "",
-                    link1_text: "",
-                    link1_href: "",
-                    link2_text: "",
-                    link2_href: "",
-                    link3_text: "",
-                    link3_href: "",
-                    link4_text: "",
-                    link4_href: "",
-                    link5_text: "",
-                    link5_href: "",
-                    link6_text: "",
-                    link6_href: "",
-                    picture1: "",
-                    picture1_alt: "",
-                    picture2: "",
-                    picture2_alt: "",
-                    picture3: "",
-                    picture3_alt: "",
-                    picture4: "",
-                    picture4_alt: "",
-                    picture5: "",
-                    picture5_alt: "",
-                    picture6: "",
-                    picture6_alt: "",
-                    picture7: "",
-                    picture7_alt: "",
-                    picture8: "",
-                    picture8_alt: "",
-                    description1: "",
-                    description2: "",
-                    description3: "",
-                    description4: "",
-                    description5: "",
-                    description6: "",
-                    description7: "",
-                    description8: "",
-                    special_code: "",
-                    active: "1"
+                    tur2: "1"
                 })
-            };
+            }
         },
 
         components: {
-            vueDropzone,
-            VueEditor
+            vueDropzone,VueEditor
         },
         methods: {
+
             // VUE2 EDITOR IMAGE UPLOAD PLUGİN BEGINS
 
-            handleImageAdded: function(
-                file,
-                Editor,
-                cursorLocation,
-                resetUploader
-            ) {
+            handleImageAdded: function(file, Editor, cursorLocation, resetUploader) {
                 // An example of using FormData
                 // NOTE: Your key could be different such as:
                 // formData.append('file', file)
@@ -2174,15 +1745,15 @@
                 formData.append("file", file);
 
                 axios({
-                    url: "/api/icerikler_image_editor",
+                    url: "/api/activities_image_editor",
                     method: "POST",
                     data: formData
                 })
                     .then(result => {
-                        let url = "/img/hizmetler/" + result.data.data; // Get url from response
+                        let url = "/img/activities/thumbs/"+result.data.data; // Get url from response
                         Editor.insertEmbed(cursorLocation, "image", url);
                         resetUploader();
-                        console.log("Picture:" + url);
+                        console.log("Picture:"+url);
                     })
                     .catch(err => {
                         console.log(err);
@@ -2233,268 +1804,204 @@
             },
 
             getResults(page = 1) {
-                axios
-                    .get(
-                        "/api/iceriklerbylang/" +
-                        this.form.language2 + "/" +
-                        this.form.tur2 +
-                        "/?page=" +
-                        page
-                    )
+                axios.get('/api/activities?page=' + page)
                     .then(response => {
                         this.posts = response.data;
                     });
             },
             uprecords(id) {
                 axios({
-                    url: "/api/iceriklerup",
+                    url: "/api/activitiesup/",
                     method: "POST",
                     data: {
-                        id: id
+                        id:id
                     }
                 })
                     .then(() => {
-                        toast.fire("Updated!", "Post order updated", "success");
-                        Fire.$emit("AfterCreate");
+                        toast.fire(
+                            'Updated!',
+                            'activities order updated',
+                            'success'
+                        )
+                        Fire.$emit('AfterCreate');
                     })
                     .catch(() => {
-                        toast.fire("Failed", "There was an error", "warning");
+                        toast.fire("Failed","There was an error","warning");
+
                     });
+
             },
             downrecords(id) {
                 axios({
-                    url: "/api/iceriklerdown",
+                    url: "/api/activitiesdown/",
                     method: "POST",
                     data: {
-                        id: id
+                        id:id
                     }
                 })
                     .then(() => {
-                        toast.fire("Updated!", "Order updated", "success");
-                        Fire.$emit("AfterCreate");
+                        toast.fire(
+                            'Updated!',
+                            'activities order updated',
+                            'success'
+                        )
+                        Fire.$emit('AfterCreate');
                     })
                     .catch(() => {
-                        toast.fire("Failed", "There was an error", "warning");
+                        toast.fire("Failed","There was an error","warning");
+
                     });
+
             },
 
-            updateposts() {
+            updateactivities() {
                 this.$Progress.start();
 
                 //console.log('editing data');
-                    this.form
-                        .put("/api/icerikler/" + this.form.id)
-                        .then(() => {
-                            toast.fire(
-                                "Updated!",
-                                "Record has been updated",
-                                "success"
-                            );
-                            this.$Progress.finish();
-                            Fire.$emit("AfterCreate");
-                        })
-                        .catch(() => {
-                            this.$Progress.fail();
-                            toast.fire("Failed", "There was an error", "warning");
-                        });
+
+                this.form.put('/api/activities/'+this.form.id)
+                    .then(() => {
+                        toast.fire(
+                            'Updated!',
+                            'activities has been updated',
+                            'success'
+                        )
+                        this.$Progress.finish();
+                        Fire.$emit('AfterCreate');
+                    })
+                    .catch(() => {
+                        this.$Progress.fail();
+                        swal.fire("Failed","There was an error","warning");
+
+                    });
             },
-            eslestirmeyap() {
+            createactivities() {
                 this.$Progress.start();
-                this.form
-                    .post("/api/eslestir")
+                this.form.post('/api/activities')
                     .then(({ data }) => {
                         // form başarılıysa buraya girecek.
                         //console.log(data);
-                        this.tmplang = this.form.language;
-                        this.form.reset();
-                        this.form.language2 = this.tmplang;
-                        Fire.$emit("AfterCreate");
-                        $("#addNew").modal("hide");
+                        this.form.reset();﻿
+                        Fire.$emit('AfterCreate');
+                        $('#addNew').modal('hide');
                         toast.fire({
-                            type: "success",
-                            title: "Record paired successfully"
+                            type: 'success',
+                            title: 'activities created successfully'
                         });
                         this.$Progress.finish();
+
                     })
-                    .catch(() => {
+                    .catch(()=> {
                         // formda hata varsa buraya girecek.
                         this.$Progress.fail();
-                    });
-            },
-            createposts() {
-                this.$Progress.start();
-                this.form
-                    .post("/api/icerikler")
-                    .then(({ data }) => {
-                        // form başarılıysa buraya girecek.
-                        //console.log(data);
-                        this.tmplang = this.form.language;
-                        this.form.reset();
-                        this.form.language2 = this.tmplang;
-                        Fire.$emit("AfterCreate");
-                        $("#addNew").modal("hide");
-                        toast.fire({
-                            type: "success",
-                            title: "Record created successfully"
-                        });
-                        this.$Progress.finish();
                     })
-                    .catch(() => {
-                        // formda hata varsa buraya girecek.
-                        this.$Progress.fail();
-                    });
+
             },
-            editForm(posts) {
-                this.listmode = false;
-                this.addmode = true;
+            editForm(activities) {
+                this.listmode= false;
+                this.addmode= true;
                 this.editmode = true;
                 this.$refs.myVueDropzone1.removeAllFiles();
                 this.$refs.myVueDropzone2.removeAllFiles();
                 this.$refs.myVueDropzone3.removeAllFiles();
                 this.$refs.myVueDropzone4.removeAllFiles();
-                this.$refs.myVueDropzone5.removeAllFiles();
-                this.$refs.myVueDropzone6.removeAllFiles();
-                this.$refs.myVueDropzone7.removeAllFiles();
-                this.$refs.myVueDropzone8.removeAllFiles();
-                this.tmplang = this.form.language2;
-                this.tmptur = this.form.tur2;
+                this.tmplang = this.form2.language2;
                 this.form.reset();
                 this.form.language = this.tmplang;
-                this.form.tur = this.tmptur;
-                this.form.fill(posts);
-                this.loadhizmettursbylang(this.form.language);
-                this.loadAlthizmettur(this.form.hiz_id);
-                this.form.language2 = this.form.language;
-                this.form.tur2 = this.form.tur;
-                this.eslenikler.data = this.iceriklerbyspecialcode(
-                    this.form.special_code
-                );
+                this.form.fill(activities);
+                this.form2.language2 = this.form.language;
+
             },
             newForm() {
-                this.listmode = false;
-                this.addmode = true;
+                this.listmode= false;
+                this.addmode= true;
                 this.editmode = false;
                 this.$refs.myVueDropzone1.removeAllFiles();
                 this.$refs.myVueDropzone2.removeAllFiles();
                 this.$refs.myVueDropzone3.removeAllFiles();
                 this.$refs.myVueDropzone4.removeAllFiles();
-                this.$refs.myVueDropzone5.removeAllFiles();
-                this.$refs.myVueDropzone6.removeAllFiles();
-                this.$refs.myVueDropzone7.removeAllFiles();
-                this.$refs.myVueDropzone8.removeAllFiles();
 
-                this.tmplang = this.form.language2;
+                this.tmplang = this.form2.language2;
                 this.tmptur = this.form.tur2;
                 this.form.reset();
-                this.form.hiz_id = 0;
-                this.form.althiz_id = 0;
                 this.form.language = this.tmplang;
-                this.form.language2 = this.form.language;
-                this.form.tur = this.tmptur;
-                this.form.tur2 = this.form.tur;
+                this.form2.language2 = this.form.language;
             },
             backtolist() {
-                this.listmode = true;
-                this.addmode = false;
+                this.listmode= true;
+                this.addmode= false;
                 this.editmode = false;
             },
-            deleteposts(id) {
+            deleteactivities(id) {
+
                 swal.fire({
-                    title: "Are you sure?",
+                    title: 'Are you sure?',
                     text: "You won't be able to revert this!",
-                    type: "warning",
+                    type: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
-                }).then(result => {
-                    if (result.value) {
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+
+                    if(result.value) {
                         // send ajax request
-                        this.form
-                            .delete("/api/icerikler/" + id)
-                            .then(() => {
-                                swal.fire(
-                                    "Deleted!",
-                                    "posts has been deleted.",
-                                    "success"
-                                );
-                                Fire.$emit("AfterCreate");
-                            })
-                            .catch(() => {
-                                swal.fire(
-                                    "Failed",
-                                    "There was an error",
-                                    "warning"
-                                );
-                            });
+                        this.form.delete('/api/activities/'+id).then(()=>{
+
+                            swal.fire(
+                                'Deleted!',
+                                'activities has been deleted.',
+                                'success'
+                            )
+                            Fire.$emit('AfterCreate');
+
+                        }).catch(()=>{
+
+                            swal.fire("Failed","There was an error","warning");
+                        });
                     }
-                });
+                })
+
             },
-            loadposts() {
-                axios.get("/api/icerikler").then(({ data }) => (this.posts = data));
+            loadactivities() {
+                axios.get('/api/activities').then(({ data})=> (this.activities=data));
             },
-            loadpostsbylang(id,id2) {
-                axios
-                    .get("/api/iceriklerbylang/" + id + "/" + id2)
-                    .then(({ data }) => (this.posts = data));
-                axios
-                    .get("/api/hizmettursbylang2/" + id)
-                    .then(({ data }) => (this.hizmetturs = data));
-            },
-            loadpostsbylang2(id,id2) {
-                axios
-                    .get("/api/iceriklerbylang2/" + id + "/" + id2)
-                    .then(({ data }) => (this.posts2 = data));
-            },
-            loadhizmettursbylang(id) {
-                axios
-                    .get("/api/hizmettursbylang2/" + id)
-                    .then(({ data }) => (this.hizmetturs = data));
-            },
-            loadAlthizmettur(id) {
-                axios
-                    .get("/api/Allalthizmettur/" + id)
-                    .then(({ data }) => (this.althizmetturs = data));
-            },
-            loadHizmettur() {
-                axios
-                    .get("/api/Allhizmettur")
-                    .then(({ data }) => (this.hizmetturs = data));
+            loadactivitiesbylang(id,tur) {
+                axios.get('/api/activitiesbylang/'+id + "/" + tur).then(({ data})=> (this.activities=data));
             },
             loadLocalization() {
                 axios
                     .get("/api/activelocalizations")
                     .then(({ data }) => (this.localizations = data));
-            },
-            iceriklerbyspecialcode(code) {
-                axios
-                    .get("/api/iceriklerbyspecialcode/" + code)
-                    .then(({ data }) => (this.eslenikler = data));
             }
         },
-
         created() {
-            Fire.$on("searching", () => {
+            Fire.$on('searching',() => {
                 let query = this.$parent.search;
                 axios
-                    .get("/api/findIcerikler?q=" + query)
-                    .then(data => {
-                        this.posts = data.data;
+                    .get(
+                        "/api/findactivities/" +
+                        this.form2.language2 + "/" +
+                        this.form2.tur2 +
+                        "/?q=" +
+                        query
+                    )
+                    .then((data) => {
+                        this.activities = data.data
                     })
-                    .catch(() => {});
-            });
+                    .catch(() => {
+                    })
+            })
 
-            this.loadpostsbylang(this.form.language2,this.form.tur2);
-            //this.loadAlthizmettur();
-            this.loadHizmettur();
+            this.loadactivitiesbylang(this.form2.language2, this.form2.tur2);
             this.loadLocalization();
 
-            Fire.$on("AfterCreate", () => {
-                this.loadpostsbylang(this.form.language2,this.form.tur2);
+            Fire.$on('AfterCreate',() => {
+                this.loadactivitiesbylang(this.form2.language2, this.form2.tur2);
                 this.listmode = true;
                 this.addmode = false;
                 this.editmode = false;
-            });
+            })
         }
-    };
+    }
 </script>

@@ -34,7 +34,7 @@
                         <div class="card-tools px-1">
                             <select v-model="form.language2" @change="loadcarouselbylang(form.language2)" class="form-control" id="language2">
                                 <option value="0" disabled>Dil Seç</option>
-                                <option v-if="localizations.length > 0" v-for="localization in localizations" v-bind:value="localization.id">
+                                <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
                                     {{ localization.title }}
                                 </option>
                             </select>
@@ -118,7 +118,7 @@
 
                                             <select v-model="form.language" id="language" class="form-control" :class="{ 'is-invalid': form.errors.has('language') }">
                                                 <option value="0" disabled>Dil Seç</option>
-                                                <option v-if="localizations.length > 0" v-for="localization in localizations" v-bind:value="localization.id">
+                                                <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
                                                     {{ localization.title }}
                                                 </option>
                                             </select>

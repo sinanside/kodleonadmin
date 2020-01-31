@@ -47,8 +47,8 @@
                         </div>
                         <div class="card-tools px-1">
                             <select
-                                v-model="form.language2"
-                                @change="loadhizmettursbylang(form.language2)"
+                                v-model="form2.language2"
+                                @change="loadhizmettursbylang(form2.language2)"
                                 class="form-control"
                                 id="language2"
                             >
@@ -97,7 +97,8 @@
                                     <td>{{ index + 1 }}</td>
                                     <td>{{ hizmetturs.title }}</td>
                                     <td>{{ hizmetturs.slug }}</td>
-                                    <td>{{ hizmetturs.localization.title }}</td>
+                                    <td v-if="hizmetturs.localization">{{ hizmetturs.localization.title }}</td>
+                                    <td v-else>-</td>
                                     <td>
                                         <span
                                             class="badge badge-success"
@@ -237,6 +238,28 @@
                             </div>
 
                             <div class="form-group">
+                                <strong>Tür</strong><br />
+
+                                <select
+                                    v-model="form.type"
+                                    class="form-control"
+                                    id="type"
+                                    :class="{
+                                        'is-invalid': form.errors.has(
+                                            'type'
+                                        )
+                                    }"
+                                >
+                                    <option value="0" disabled>Tür Seç</option>
+                                    <option v-bind:value="1">Hizmetler</option>
+                                </select>
+                                <has-error
+                                    :form="form"
+                                    field="type"
+                                ></has-error>
+                            </div>
+
+                            <div class="form-group">
                                 <strong
                                     >{{
                                         $trans[lang + ".blog"]["title1"]
@@ -360,7 +383,7 @@
                                         ><br />
                                         <select
                                             v-model="form.active"
-                                            id="type"
+                                            id="active"
                                             name="active"
                                             class="form-control"
                                             :class="{
@@ -447,6 +470,7 @@ export default {
             localizations: {},
             form: new Form({
                 id: "",
+                type: "1",
                 title: "",
                 slug: "",
                 short_description: "",
@@ -455,6 +479,9 @@ export default {
                 language: "",
                 language2: "1",
                 active: "1"
+            }),
+            form2: new Form({
+                language2: "1"
             })
         };
     },
@@ -557,16 +584,18 @@ export default {
         editModal(hizmetturs) {
             this.$refs.myVueDropzone.removeAllFiles();
             this.editmode = true;
+            //this.tmplang = this.form2.language2;
             this.form.reset();
-            $("#addNew").modal("show");
+            //this.form.language= this.tmplang,
+                $("#addNew").modal("show");
             this.form.fill(hizmetturs);
         },
         newModal() {
             this.$refs.myVueDropzone.removeAllFiles();
             this.editmode = false;
-            this.tmplang = this.form.language2;
+            //this.tmplang = this.form2.language2;
             this.form.reset();
-            this.form.language= this.tmplang,
+            this.form.language= this.form2.language2;
             $("#addNew").modal("show");
         },
         deleteHizmettur(id) {
@@ -613,7 +642,7 @@ export default {
         },
         loadLocalization() {
             axios
-                .get("/api/localizations")
+                .get("/api/activelocalizations")
                 .then(({ data }) => (this.localizations = data.data));
         }
     },
@@ -628,10 +657,10 @@ export default {
                 .catch(() => {});
         });
 
-        this.loadhizmettursbylang(this.form.language2);
+        this.loadhizmettursbylang(this.form2.language2);
         this.loadLocalization();
         Fire.$on("AfterCreate", () => {
-            this.loadhizmettursbylang(this.form.language2);
+            this.loadhizmettursbylang(this.form2.language2);
         });
     }
 };

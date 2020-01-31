@@ -1,9 +1,5 @@
 
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -127,7 +123,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         <!-- MENÜ - KAYITLAR  -->
 
-                        <li class="nav-item has-treeview">
+                        <!--<li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-user-clock yellow"></i>
                                 <p>
@@ -145,7 +141,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                             </ul>
 
-                        </li>
+                        </li>-->
 
                         <!-- MENÜ - KAYITLAR BİTİŞ  -->
 
@@ -169,7 +165,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         </li>-->
 
-                        <li class="nav-item has-treeview">
+                       <!-- <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-cogs red"></i>
                                 <p>
@@ -187,7 +183,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                             </ul>
 
-                        </li>
+                        </li>-->
 
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
@@ -216,7 +212,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         </li>
 
-                        <li class="nav-item has-treeview">
+                       <!-- <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-question teal"></i>
                                 <p>
@@ -235,7 +231,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </router-link>
                                 </li>
                             </ul>
-                        </li>
+                        </li>-->
 
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
@@ -256,6 +252,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <router-link to="/makaleyorumlari" class="nav-link">
                                         <i class="fas fa-folder-plus nav-icon blue"></i>
                                         <p>Makale Yorumları</p>
+                                    </router-link>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-bell yellow"></i>
+                                <p>
+                                    Aktivite Yönetimi
+                                    <i class="right fa fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <router-link to="/activities" class="nav-link">
+                                        <i class="fas fa-folder-plus nav-icon green"></i>
+                                        <p>Aktiviteler</p>
+                                    </router-link>
+                                </li>
+                                <li class="nav-item">
+                                    <router-link to="/activitycreator" class="nav-link">
+                                        <i class="fas fa-folder-plus nav-icon blue"></i>
+                                        <p>İçerikler</p>
                                     </router-link>
                                 </li>
                             </ul>
@@ -283,19 +304,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <router-link to="/ourteam" class="nav-link">
                                 <i class="nav-icon fas fa-users green"></i>
                                 <p>
-                                    Takım
+                                    Grup Üyeleri
                                 </p>
                             </router-link>
                         </li>
 
-                        <li class="nav-item">
+                       <!-- <li class="nav-item">
                             <router-link to="/isortaklari" class="nav-link">
                                 <i class="nav-icon fa fa-cubes lightblue"></i>
                                 <p>
                                     İş Ortakları
                                 </p>
                             </router-link>
-                        </li>
+                        </li>-->
 
                     <li class="nav-item">
                         <router-link to="/contactinfo" class="nav-link">

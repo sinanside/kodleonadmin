@@ -73,7 +73,7 @@ class hizmetlerController extends Controller
         $this->authorize('isAdmin');
         if($id==0)
         {
-            return Hizmetcreator::with('hizmettur','althizmettur','localization')->orderby('hiz_id')->where("tur", "=", $id2)->ordered()->paginate(10);
+            return Hizmetcreator::with('hizmettur','althizmettur','localization')->where("tur", "=", $id2)->orderby('hiz_id')->ordered()->paginate(10);
         }
         else
         {
@@ -114,8 +114,6 @@ class hizmetlerController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:191',
             'language' => 'required|numeric|min:0|not_in:0',
-            'hiz_id' => 'required|numeric|min:0|not_in:0',
-            'althiz_id' => 'required|numeric|min:0|not_in:0',
             'meta_title' => 'nullable|string|max:191',
             'meta_description' => 'nullable|string|max:191',
             'meta_keywords' => 'nullable|string|max:191'
@@ -151,6 +149,8 @@ class hizmetlerController extends Controller
             'link4_href'=>$request['link4_href'],
             'link5_text'=>$request['link5_text'],
             'link5_href'=>$request['link5_href'],
+            'link6_text'=>$request['link6_text'],
+            'link6_href'=>$request['link6_href'],
             'picture1'=>$request['picture1'],
             'picture2'=>$request['picture2'],
             'picture3'=>$request['picture3'],

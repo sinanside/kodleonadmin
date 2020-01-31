@@ -22,24 +22,29 @@ class employeesController extends Controller
     public function index()
     {
         $this->authorize('isAdmin');
-        return Pagecreator::with('localization')->ordered()->paginate(10);
+        return Employees::with('localization')->ordered()->paginate(10);
     }
     public function all()
     {
         $this->authorize('isAdmin');
-        return Pagecreator::with('localization')->ordered()->get();
+        return Employees::with('localization')->ordered()->get();
     }
+    public function listbylang($id)
+        {
+            return Employees::with('localization')->where("language", "=", $id)->ordered()->paginate(10);
+
+        }
 
     public function listbylang2($id)
     {
         $this->authorize('isAdmin');
         if($id==0)
         {
-            return Pagecreator::with('localization')->ordered()->get();
+            return Employees::with('localization')->ordered()->get();
         }
         else
         {
-            return Pagecreator::with('localization')->where("language", "=", $id)->ordered()->get();
+            return Employees::with('localization')->where("language", "=", $id)->ordered()->get();
         }
     }
 
@@ -60,7 +65,7 @@ class employeesController extends Controller
 
         ]);
 
-        $page =  Pagecreator::create([
+        $page =  Employees::create([
             'name'=>$request['name'],
             'hiz_id'=>$request['hiz_id'],
             'althiz_id'=>$request['althiz_id'],
@@ -355,14 +360,14 @@ class employeesController extends Controller
     public function show($id)
     {
         $this->authorize('isAdmin');
-        return Pagecreator::with('localization')->findOrFail($id);
+        return Employees::with('localization')->findOrFail($id);
     }
 
     public function up(Request $request)
     {
         $this->authorize('isAdmin');
         $id = $request->id;
-        $pages =Pagecreator::findorFail($id);
+        $pages =Employees::findorFail($id);
         $pages->moveOrderUp();
 
         return ['message'=>'pages reordered'];
@@ -372,7 +377,7 @@ class employeesController extends Controller
     {
         $this->authorize('isAdmin');
         $id = $request->id;
-        $pages =Pagecreator::findorFail($id);
+        $pages =Employees::findorFail($id);
         $pages->moveOrderDown();
 
 
@@ -381,7 +386,7 @@ class employeesController extends Controller
 
     public function update(Request $request, $id)
     {
-        $page = Pagecreator::with('localization')->findOrFail($id);
+        $page = Employees::with('localization')->findOrFail($id);
 
         $this->validate($request, [
             'name' => 'required|string|max:191',
@@ -393,13 +398,13 @@ class employeesController extends Controller
 
         $page -> update($request -> all());
 
-        return ['message' => 'update the pagecreator info'];
+        return ['message' => 'update the Employees info'];
     }
 
     public function destroy($id)
     {
         $this->authorize('isAdmin');
-        $pages =Pagecreator::with('localization')->findorFail($id);
+        $pages =Employees::with('localization')->findorFail($id);
 
         $pages->delete();
 
@@ -409,11 +414,11 @@ class employeesController extends Controller
     public function search(){
         $this->authorize('isAdmin');
         if ($search = \Request::get('q')) {
-            $pages = Pagecreator::with('localization')->where(function($query) use ($search){
+            $pages = Employees::with('localization')->where(function($query) use ($search){
                 $query->where('name','LIKE',"%$search%");
             })->paginate(10);
         }else{
-            $pages = Pagecreator::with('localization')->ordered()->paginate(10);
+            $pages = Employees::with('localization')->ordered()->paginate(10);
         }
         return $pages;
     }

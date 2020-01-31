@@ -48,10 +48,10 @@
 
                         <div class="card-tools px-1">
                             <select
-                                v-model="form.language2"
+                                v-model="form2.language2"
                                 @change="
                                     loadalthizmettursbylang2(
-                                        form.language2
+                                        form2.language2
                                     )
                                 "
                                 class="form-control"
@@ -69,11 +69,11 @@
                         </div>
                         <div class="card-tools px-1">
                             <select
-                                v-model="form.hizmettur2"
+                                v-model="form2.hizmettur2"
                                 @change="
                                     loadalthizmettursbylang(
-                                        form.language2,
-                                        form.hizmettur2
+                                        form2.language2,
+                                        form2.hizmettur2
                                     )
                                 "
                                 class="form-control"
@@ -566,6 +566,10 @@ export default {
                 hizmettur2: "0",
                 mainpage: "0",
                 active: "1"
+            }),
+            form2: new Form({
+                language2: "1",
+                hizmettur2: "0"
             })
         };
     },
@@ -625,8 +629,8 @@ export default {
             axios
                 .get(
                     "/api/althizmettursbylang/" +
-                        this.form.language2 + "/" +
-                        this.form.hizmettur2 +
+                        this.form2.language2 + "/" +
+                        this.form2.hizmettur2 +
                         "/?page=" +
                         page
                 )
@@ -680,23 +684,23 @@ export default {
         editModal(althizmetturs) {
             this.$refs.myVueDropzone.removeAllFiles();
             this.editmode = true;
-            this.tmplang = this.form.language2;
+            this.tmplang = this.form2.language2;
             this.form.reset();
             $("#addNew").modal("show");
             this.form.language = this.tmplang;
             this.form.fill(althizmetturs);
-            this.form.language2 = this.form.language;
+            this.form2.language2 = this.form.language;
         },
         newModal() {
             this.$refs.myVueDropzone.removeAllFiles();
             this.editmode = false;
-            this.tmplang = this.form.language2;
-            this.tmphizmettur = this.form.hizmettur2;
+            this.tmplang = this.form2.language2;
+            this.tmphizmettur = this.form2.hizmettur2;
             this.form.reset();
             this.form.language = this.tmplang;
             $("#addNew").modal("show");
-            this.form.language2 = this.form.language;
-            this.form.hizmettur2 = this.tmphizmettur;
+            this.form2.language2 = this.form.language;
+            this.form2.hizmettur2 = this.tmphizmettur;
             this.form.hiz_id = this.tmphizmettur;
 
         },
@@ -756,18 +760,18 @@ export default {
             axios
                 .get("/api/althizmettursbylang/" + id + "/" + hid)
                 .then(({ data }) => (this.althizmetturs = data));
-            this.loadHizmettur2(this.form.language2);
+            this.loadHizmettur2(this.form2.language2);
         },
         loadalthizmettursbylang2(id) {
-            this.form.hizmettur2=0;
+            this.form2.hizmettur2=0;
             axios
                 .get("/api/althizmettursbylang2/" + id)
-                .then(({ data }) => (this.althizmetturs.data = data));
-            this.loadHizmettur2(this.form.language2);
+                .then(({ data }) => (this.althizmetturs = data));
+            this.loadHizmettur2(this.form2.language2);
         },
         loadLocalization() {
             axios
-                .get("/api/localizations")
+                .get("/api/activelocalizations")
                 .then(({ data }) => (this.localizations = data.data));
         }
     },
@@ -777,7 +781,7 @@ export default {
             axios
                 .get(
                     "/api/findAlthizmettur/" +
-                        this.form.language2 +
+                        this.form2.language2 +
                         "/?q=" +
                         query
                 )
@@ -787,16 +791,16 @@ export default {
                 .catch(() => {});
         });
 
-        this.loadalthizmettursbylang(this.form.language2, this.form.hizmettur2);
-        this.loadhizmettursbylang(this.form.language2);
-        this.loadHizmettur2(this.form.language2);
+        this.loadalthizmettursbylang(this.form2.language2, this.form2.hizmettur2);
+        this.loadhizmettursbylang(this.form2.language2);
+        this.loadHizmettur2(this.form2.language2);
         this.loadLocalization();
         Fire.$on("AfterCreate", () => {
             this.loadalthizmettursbylang(
-                this.form.language2,
-                this.form.hizmettur2
+                this.form2.language2,
+                this.form2.hizmettur2
             );
-            this.loadhizmettursbylang(this.form.language2);
+            this.loadhizmettursbylang(this.form2.language2);
         });
     }
 };

@@ -3,7 +3,15 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="14c4c6de-aaa9-43e9-a3de-58fafc3be1e5" name="ceneviztur" url="http://ceneviztur.com">
-        <fileTransfer host="ceneviztur.com" port="21" rootFolder="/laravel/admin.turkishdental">
+        <fileTransfer host="ceneviztur.com" port="21" rootFolder="/laravel/maviakustik">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+      <webServer id="99aa82fd-8a65-466c-b202-5b4af52acb1c" name="Veridyen" url="http://aspar.veridyen.com">
+        <fileTransfer host="aspar.veridyen.com" port="21">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

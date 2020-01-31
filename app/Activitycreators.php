@@ -2,43 +2,33 @@
 
 namespace App;
 
-use App\Traits\SecureDelete;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
-class Hizmetturs extends Model implements Sortable
+class Activitycreators extends Model implements Sortable
 {
     use Sluggable;
-    use SecureDelete;
 
     protected $fillable = [
-        'type', 'title', 'short_description', 'photo',  'photo_alt','queue', 'language', 'active'
+        'tur', 'activity_id', 'name', 'short_description1', 'short_description2', 'youtube_link', 'video_link', 'picture_link', 'language', 'active'
     ];
 
-    public function hizmetcreator()
-    {
-        return $this->hasMany('App\Hizmetcreator','hiz_id');
+    public  function activity(){
+        return $this->belongsTo(Activities::class,'activity_id');
     }
-
-    public function althizmettur()
-    {
-        return $this->hasMany('App\Althizmettur','hiz_id');
-    }
-
     public  function localization(){
         return $this->belongsTo(Localizations::class,'language');
     }
-    public  function Hizmetkategorileri(){
-        return $this->belongsTo(Localizations::class,'tur');
-    }
+
+
 
     public function sluggable()
     {
         return [
             'slug' => [
-                'source' => 'title'
+                'source' => 'name'
             ]
         ];
     }
@@ -47,12 +37,11 @@ class Hizmetturs extends Model implements Sortable
 
     public function buildSortQuery()
     {
-        return static::query()->where('language', $this->language);
+        return static::query()->where('activity_id', $this->activity_id);
     }
 
     public $sortable = [
         'order_column_name' => 'queue',
         'sort_when_creating' => true,
     ];
-
 }

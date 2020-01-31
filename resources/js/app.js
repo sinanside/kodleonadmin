@@ -58,6 +58,25 @@ Vue.use(VueRouter)
 //uyarı mesajlarının yönetimi için
 import VueProgressBar from 'vue-progressbar'
 
+//datetimepicker
+import datePicker from 'vue-bootstrap-datetimepicker';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
+Vue.use(datePicker);
+jQuery.extend(true, jQuery.fn.datetimepicker.defaults, {
+    icons: {
+        time: 'far fa-clock',
+        date: 'far fa-calendar',
+        up: 'fas fa-arrow-up',
+        down: 'fas fa-arrow-down',
+        previous: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+        today: 'fas fa-calendar-check',
+        clear: 'far fa-trash-alt',
+        close: 'far fa-times-circle'
+    }
+});
+
 Vue.use(VueProgressBar, {
     color: 'blue',
     failedColor: 'red',
@@ -93,7 +112,9 @@ let routes = [
     { path: '/pages', component: require('./components/pages.vue').default },
     { path: '/regs', component: require('./components/regapplications.vue').default },
     { path: '/ourteam', component: require('./components/ourteam.vue').default },
-    { path: '/isortaklari', component: require('./components/isortaklari.vue').default },
+    { path: '/activities', component: require('./components/activities/icerikolustur.vue').default },
+    { path: '/activitycreator', component: require('./components/activities/creator.vue').default },
+    { path: '/employees', component: require('./components/employees/creator.vue').default },
 
     { path: '/affiliates', component: require('./components/affiliates/icerikolustur.vue').default },
     { path: '/hizmettur', component: require('./components/hizmetler/hizmettur.vue').default },

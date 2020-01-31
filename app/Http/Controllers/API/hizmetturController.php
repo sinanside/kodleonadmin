@@ -18,20 +18,20 @@ class hizmetturController extends Controller
     public function index()
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
-            return Hizmetturs::with('localization')->ordered()->paginate(10);
+            return Hizmetturs::with('localization','Hizmetkategorileri')->ordered()->paginate(10);
         }
     }
     public function all()
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
-            return Hizmetturs::with('localization')->get();}
+            return Hizmetturs::with('localization','Hizmetkategorileri')->get();}
 
 
     }
     public function all2()
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
-            return Hizmetturs::with('localization')->get();}
+            return Hizmetturs::with('localization','Hizmetkategorileri')->get();}
 
 
     }
@@ -40,11 +40,11 @@ class hizmetturController extends Controller
         $this->authorize('isAdmin');
         if($id==0)
         {
-            return Hizmetturs::with('localization')->ordered()->paginate(10);
+            return Hizmetturs::with('localization','Hizmetkategorileri')->ordered()->paginate(10);
         }
         else
         {
-            return Hizmetturs::with('localization')->where("language", "=", $id)->ordered()->paginate(10);
+            return Hizmetturs::with('localization','Hizmetkategorileri')->where("language", "=", $id)->ordered()->paginate(10);
         }
     }
 
@@ -53,11 +53,11 @@ class hizmetturController extends Controller
         $this->authorize('isAdmin');
         if($id==0)
         {
-            return Hizmetturs::with('localization')->ordered()->get();
+            return Hizmetturs::with('localization','Hizmetkategorileri')->ordered()->get();
         }
         else
         {
-            return Hizmetturs::with('localization')->where("language", "=", $id)->ordered()->get();
+            return Hizmetturs::with('localization','Hizmetkategorileri')->where("language", "=", $id)->ordered()->get();
         }
     }
     /**
@@ -99,6 +99,7 @@ class hizmetturController extends Controller
             ]);
 
             return Hizmetturs::create([
+                'type' => $request['type'],
                 'title' => $request['title'],
                 'short_description' => $request['short_description'],
                 'photo' => $request['photo'],
@@ -184,12 +185,12 @@ class hizmetturController extends Controller
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor'))
         {
             if ($search = \Request::get('q')) {
-                $hizmetturs = Hizmetturs::where(function ($query) use ($search) {
+                $hizmetturs = Hizmetturs::with('localization','Hizmetkategorileri')->where(function ($query) use ($search) {
                     $query->where('title', 'LIKE', "%$search%")
                         ->orWhere('short_description', 'LIKE', "%$search%");
                 })->paginate(10);
             } else {
-                $hizmetturs = Hizmetturs::with('localization')->ordered()->paginate(10);
+                $hizmetturs = Hizmetturs::with('localization','Hizmetkategorileri')->ordered()->paginate(10);
             }
             return $hizmetturs;
         }

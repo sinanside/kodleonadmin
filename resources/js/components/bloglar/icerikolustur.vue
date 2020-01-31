@@ -35,7 +35,7 @@
                         <div class="card-tools px-1">
                             <select v-model="form.language2" @change="loadpostsbylang(form.language2)" class="form-control" id="language2">
                                 <option value="0">Dil Seç</option>
-                                <option v-if="localizations.length > 0" v-for="localization in localizations" v-bind:value="localization.id">
+                                <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
                                     {{ localization.title }}
                                 </option>
                             </select>
@@ -58,13 +58,13 @@
 
                             <tr v-for="posts,index in posts.data" :key="posts.id">
                                 <td>{{ index+1 }}</td>
-                                <td v-if="posts.hiz_id !== null && posts.hiz_id !==0">{{ posts.hizmettur.title }}</td>
+                                <td v-if="posts.hizmettur">{{ posts.hizmettur.title }}</td>
                                 <td v-else>-</td>
-                                <td  v-if="posts.althiz_id !== null && posts.althiz_id !==0">{{ posts.althizmettur.title }}</td>
+                                <td  v-if="posts.althizmettur">{{ posts.althizmettur.title }}</td>
                                 <td v-else>-</td>
 
                                 <td>{{ posts.name }}</td>
-                                <td>{{ posts.localization.title }}</td>
+                                <td v-if="posts.localization">{{ posts.localization.title }}</td>
                                 <td>
                                     <span class="badge badge-success" v-show="posts.active==1">{{ $trans[lang+'.blog']['active'] }}</span>
                                     <span class="badge badge-danger" v-show="posts.active==0">{{ $trans[lang+'.blog']['passive'] }}</span>
@@ -114,7 +114,7 @@
                                         <div class="col-sm-12">
                                             <select v-model="form.language" class="form-control" :class="{ 'is-invalid': form.errors.has('language') }">
                                                 <option value="0">Dil Seç</option>
-                                                <option v-if="localizations.length > 0" v-for="localization in localizations" v-bind:value="localization.id">
+                                                <option v-if="localizations.data.length > 0" v-for="localization in localizations.data" v-bind:value="localization.id">
                                                     {{ localization.title }}
                                                 </option>
                                             </select>
